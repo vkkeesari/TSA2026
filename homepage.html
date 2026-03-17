@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weddington-Waxhaw Community Resource Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        maroon: '#800000',
+                        navy: '#B0C4DE',
+                        cream: '#F5F5DC'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: #800000; }
+        body { font-family: 'Inter', sans-serif; color: #333; }
+    </style>
+</head>
+<body class="bg-gray-200">
+    <!-- Sticky Header -->
+    <header class="sticky top-0 z-50 bg-cream shadow-md">
+        <nav class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-maroon">Weddington-Waxhaw Community Hub</h1>
+            <div class="flex gap-6">
+                <a href="#directory" class="text-navy hover:text-maroon">Directory</a>
+                <a href="#spotlight" class="text-navy hover:text-maroon">Spotlight</a>
+                <a href="#form" class="text-navy hover:text-maroon">Add Resource</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-maroon text-white py-16 text-center">
+        <img src="https://via.placeholder.com/1200x400?text=Historic+Bridge+or+Town+Hall" alt="Historic Bridge or Town Hall" class="w-full h-64 object-cover mb-8">
+        <h2 class="text-4xl font-bold mb-4 text-white">Bridging our past with our future</h2>
+        <p class="text-xl max-w-2xl mx-auto">by connecting residents to local support, history, and culture.</p>
+    </section>
+
+    <!-- Spotlight Section -->
+    <section id="spotlight" class="max-w-6xl mx-auto px-4 py-12">
+        <h2 class="text-3xl font-bold mb-8 text-center">Featured Organizations</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-cream p-6 rounded-lg shadow-lg border-t-4 border-maroon">
+                <h3 class="text-xl font-bold mb-2">Common Heart</h3>
+                <p class="mb-4">Focusing on hunger eradication and kindness.</p>
+                <button onclick="window.open('https://commonheart.org', '_blank')" class="px-4 py-2 bg-maroon text-white rounded hover:bg-red-900">Visit Website</button>
+            </div>
+            <div class="bg-cream p-6 rounded-lg shadow-lg border-t-4 border-maroon">
+                <h3 class="text-xl font-bold mb-2">Museum of the Waxhaws</h3>
+                <p class="mb-4">Highlighting local history and heritage.</p>
+                <button onclick="window.open('https://museumofthewaxhaws.org', '_blank')" class="px-4 py-2 bg-maroon text-white rounded hover:bg-red-900">Visit Website</button>
+            </div>
+            <div class="bg-cream p-6 rounded-lg shadow-lg border-t-4 border-maroon">
+                <h3 class="text-xl font-bold mb-2">JAARS</h3>
+                <p class="mb-4">Focusing on aviation and educational outreach.</p>
+                <button onclick="window.open('https://jaars.org', '_blank')" class="px-4 py-2 bg-maroon text-white rounded hover:bg-red-900">Visit Website</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Directory -->
+    <section id="directory" class="max-w-6xl mx-auto px-4 py-12">
+        <h2 class="text-3xl font-bold mb-6">Community Directory</h2>
+        <input type="text" id="searchInput" placeholder="Search resources..." class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg mb-6">
+        
+        <div class="flex flex-wrap gap-3 mb-6">
+            <button onclick="filterResources('all')" class="px-4 py-2 bg-maroon text-white rounded-lg hover:bg-red-900">All</button>
+            <button onclick="filterResources('human')" class="px-4 py-2 bg-navy text-white rounded-lg hover:bg-blue-900">Human Services</button>
+            <button onclick="filterResources('health')" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Health</button>
+            <button onclick="filterResources('arts')" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">Arts/History</button>
+            <button onclick="filterResources('recreation')" class="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700">Recreation</button>
+            <button onclick="filterResources('education')" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Education</button>
+        </div>
+
+        <div id="resourceGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Cards will be generated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Modal for Resource Details -->
+    <div id="resourceModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-start mb-4">
+                <h3 id="modalTitle" class="text-2xl font-bold text-maroon"></h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <p id="modalCategory" class="text-sm text-gray-600 mb-4"></p>
+            <p id="modalDescription" class="mb-4"></p>
+            <div class="mb-4">
+                <h4 class="font-bold text-lg mb-2">Detailed Info</h4>
+                <p id="modalDetailedInfo"></p>
+            </div>
+            <div class="mb-4">
+                <h4 class="font-bold text-lg mb-2">Key Programs</h4>
+                <p id="modalKeyPrograms"></p>
+            </div>
+            <div class="mb-4">
+                <h4 class="font-bold text-lg mb-2">How to Help</h4>
+                <p id="modalHowToHelp"></p>
+            </div>
+            <div class="mb-4">
+                <h4 class="font-bold text-lg mb-2">Contact</h4>
+                <p id="modalContact"></p>
+            </div>
+            <button id="modalWebsiteBtn" class="px-6 py-2 bg-maroon text-white rounded-lg hover:bg-red-900">Link to Website</button>
+        </div>
+    </div>
+
+    <!-- Community Calendar -->
+    <section class="max-w-6xl mx-auto px-4 py-12">
+        <h2 class="text-3xl font-bold mb-8 text-center">Community Calendar</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-cream p-6 rounded-lg shadow-lg">
+                <h3 class="text-xl font-bold mb-2">Autumn Treasures</h3>
+                <p class="mb-2">Date: October 15, 2026</p>
+                <p>A fall festival celebrating local arts and crafts.</p>
+            </div>
+            <div class="bg-cream p-6 rounded-lg shadow-lg">
+                <h3 class="text-xl font-bold mb-2">Christmas Parade</h3>
+                <p class="mb-2">Date: December 5, 2026</p>
+                <p>Annual holiday parade through downtown Waxhaw.</p>
+            </div>
+            <div class="bg-cream p-6 rounded-lg shadow-lg">
+                <h3 class="text-xl font-bold mb-2">Jammin' by the Tracks</h3>
+                <p class="mb-2">Date: June 20, 2026</p>
+                <p>Music festival featuring local bands and performers.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resource Submission Form -->
+    <section id="form" class="bg-cream py-12">
+        <div class="max-w-2xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-6">Add a Resource</h2>
+            <form id="resourceForm" class="bg-white p-6 rounded-lg shadow-lg">
+                <input type="text" placeholder="Resource Name" required class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg mb-4" aria-label="Resource Name">
+                <select required class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg mb-4" aria-label="Category">
+                    <option>Select Category</option>
+                    <option>Human Services</option>
+                    <option>Health</option>
+                    <option>Arts/History</option>
+                    <option>Recreation</option>
+                    <option>Education</option>
+                </select>
+                <input type="email" placeholder="Contact Email" required class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg mb-4" aria-label="Contact Email">
+                <textarea placeholder="Description" required class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg mb-4" aria-label="Description"></textarea>
+                <button type="submit" class="w-full px-4 py-2 bg-maroon text-white font-bold rounded-lg hover:bg-red-900">Submit for Review</button>
+            </form>
+            <div id="successMessage" class="hidden text-forest text-center mt-4 font-bold" role="alert">✓ Resource submitted successfully!</div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-maroon text-white py-8 text-center">
+        <p class="mb-2">Created for the 2026 TSA National Conference</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
