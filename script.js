@@ -128,11 +128,11 @@ function renderResources(filteredResources) {
     grid.innerHTML = '';
     filteredResources.forEach((resource, index) => {
         const card = document.createElement('div');
-        card.className = 'bg-white p-6 rounded-lg shadow-lg border-t-4 border-maroon cursor-pointer hover:shadow-xl transition-shadow';
+        card.className = 'bg-primary p-6 rounded-lg shadow-lg border-t-4 border-accent cursor-pointer hover:shadow-xl transition-shadow text-secondary';
         card.onclick = () => openModal(resource);
         card.innerHTML = `
             <h3 class="text-xl font-bold mb-2">${resource.name}</h3>
-            <p class="text-sm text-gray-600 mb-2">${resource.category}</p>
+            <p class="text-sm text-secondary mb-2">${resource.category}</p>
             <p class="mb-4">${resource.description}</p>
             <p class="text-sm"><strong>Contact:</strong> ${resource.contact}</p>
         `;
@@ -172,34 +172,8 @@ function filterResources(category) {
     renderResources(filtered);
 }
 
-// Form validation and submission
-document.getElementById('resourceForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const form = e.target;
-    const name = form[0].value.trim();
-    const category = form[1].value;
-    const email = form[2].value.trim();
-    const description = form[3].value.trim();
-
-    if (!name || category === 'Select Category' || !email || !description) {
-        alert('Please fill in all fields.');
-        return;
-    }
-
-    // Simple email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        alert('Please enter a valid email address.');
-        return;
-    }
-
-    // Show success message
-    document.getElementById('successMessage').classList.remove('hidden');
-    form.reset();
-    setTimeout(() => {
-        document.getElementById('successMessage').classList.add('hidden');
-    }, 3000);
-});
+// Form validation and submission - handled by Formspree
+// Removed local validation to allow Formspree submission
 
 // Modal functions
 function openModal(resource) {
