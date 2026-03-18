@@ -206,3 +206,64 @@ document.addEventListener('keydown', function(e) {
         closeModal();
     }
 });
+
+// Chatbot functions
+function toggleChat() {
+    const window = document.getElementById('chatbot-window');
+    window.classList.toggle('hidden');
+}
+
+function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const message = input.value.trim();
+    if (!message) return;
+    addMessage('user', message);
+    input.value = '';
+    const response = getBotResponse(message);
+    setTimeout(() => addMessage('bot', response), 500);
+}
+
+function addMessage(sender, text) {
+    const messages = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = 'mb-2';
+    if (sender === 'user') {
+        div.innerHTML = `<p class="bg-accent text-primary p-2 rounded ml-8">${text}</p>`;
+    } else {
+        div.innerHTML = `<p class="bg-gray-200 p-2 rounded mr-8">${text}</p>`;
+    }
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+function getBotResponse(message) {
+    const lower = message.toLowerCase();
+    if (lower.includes('food') || lower.includes('hunger') || lower.includes('pantry')) {
+        return "For food assistance, check out Common Heart: They have mobile food pantries and 'The Cupboard' food pantry. Visit commonheart.org for more info.";
+    }
+    if (lower.includes('history') || lower.includes('museum')) {
+        return "Learn about local history at the Museum of the Waxhaws, featuring exhibits on Andrew Jackson and Scotch-Irish settlement. Website: museumofthewaxhaws.org";
+    }
+    if (lower.includes('theatre') || lower.includes('arts')) {
+        return "Enjoy theatrical performances at Waxhaw Community Theatre. They have seasonal productions and youth workshops. Check waxhawcommunitytheatre.com";
+    }
+    if (lower.includes('health') || lower.includes('mental')) {
+        return "For health services, consider Turning Point for domestic violence support, HealthQuest for prescriptions, or Thrive Counseling for mental health. See the directory for contacts.";
+    }
+    if (lower.includes('park') || lower.includes('outdoor')) {
+        return "Visit Cane Creek Park for hiking, boating, and camping. It's a great spot for outdoor activities. More at unioncountync.gov/canecreek";
+    }
+    if (lower.includes('education') || lower.includes('school')) {
+        return "For education, JAARS offers STEM programs and tours, and SPCC provides career coaching and GED programs. Visit jaars.org or spcc.edu";
+    }
+    if (lower.includes('day out') || lower.includes('plan') || lower.includes('event')) {
+        return "For planning a day out, check the Community Calendar: Autumn Treasures festival on Oct 15, Christmas Parade on Dec 5, or Jammin' by the Tracks on June 20. Also, visit Cane Creek Park for outdoor fun!";
+    }
+    if (lower.includes('animal') || lower.includes('pet')) {
+        return "For animal services, the Humane Society offers adoptions and low-cost vet care. Website: hsuc.org";
+    }
+    if (lower.includes('human services') || lower.includes('help')) {
+        return "Human services include Common Heart for food, Heart for Monroe for family support, and SPCC for child protection. See the directory for more.";
+    }
+    return "I'm here to help with community resources and planning. Try asking about food, health, parks, events, or specific categories!";
+}

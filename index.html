@@ -165,6 +165,25 @@
         <p class="mb-2">Created for the 2026 TSA National Conference</p>
     </footer>
 
+    <!-- Chatbot -->
+    <div id="chatbot-button" class="fixed bottom-4 right-4 bg-accent text-primary p-4 rounded-full shadow-lg cursor-pointer z-50" onclick="toggleChat()">
+        💬
+    </div>
+    <div id="chatbot-window" class="fixed bottom-16 right-4 w-80 h-96 bg-white border border-gray-300 rounded-lg shadow-lg z-50 hidden flex flex-col">
+        <div class="bg-accent text-primary p-4 rounded-t-lg">
+            <h3 class="font-bold">Community Chatbot</h3>
+        </div>
+        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto">
+            <div class="mb-2">
+                <p class="bg-gray-200 p-2 rounded">Hi! I'm here to help with questions about our community resources and planning your day out. What can I assist you with?</p>
+            </div>
+        </div>
+        <div class="p-4 border-t">
+            <input id="chat-input" type="text" placeholder="Type your message..." class="w-full px-2 py-1 border rounded">
+            <button onclick="sendMessage()" class="mt-2 w-full bg-accent text-primary py-1 rounded">Send</button>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
