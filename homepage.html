@@ -1,169 +1,315 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weddington-Waxhaw Community Resource Hub</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        charcoal: '#121212',
-                        slate: '#1F2937',
-                        electric: '#3B82F6',
-                        offwhite: '#F3F4F6'
-                    }
-                }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weddington/Waxhaw Community Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Cormorant+Garamond:wght@500;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --brick: #8B0000;
+            --cream: #F5F5DC;
+            --forest: #228B22;
+            --ink: #361414;
+            --ring-size: 250px;
+            --header-height: 88px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            background: var(--cream);
+            color: var(--ink);
+            font-family: "Space Grotesk", sans-serif;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-image: radial-gradient(circle at 25% 20%, rgba(139, 0, 0, 0.08), transparent 40%),
+                              radial-gradient(circle at 75% 70%, rgba(139, 0, 0, 0.05), transparent 45%);
+        }
+
+        .site-header {
+            position: fixed;
+            inset: 0 0 auto 0;
+            height: var(--header-height);
+            z-index: 20;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.8rem;
+            align-content: center;
+            padding: 0.8rem 1.2rem;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            background: linear-gradient(to bottom, rgba(245, 245, 220, 0.92), rgba(245, 245, 220, 0.55));
+        }
+
+        .brand {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            width: min(1100px, 100%);
+            margin: 0 auto;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(1.5rem, 3.4vw, 2.35rem);
+            letter-spacing: 0.03em;
+            color: var(--brick);
+            line-height: 1;
+        }
+
+        .brand p {
+            margin: 0;
+            font-size: clamp(0.72rem, 1.35vw, 0.93rem);
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            opacity: 0.8;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.6rem 1rem;
+            width: min(1200px, 100%);
+            margin: 0 auto;
+        }
+
+        .filter-btn {
+            appearance: none;
+            border: none;
+            background: transparent;
+            padding: 0.1rem;
+            color: rgba(54, 20, 20, 0.62);
+            font-size: clamp(0.68rem, 1.45vw, 0.92rem);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: color 220ms ease, transform 220ms ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            color: var(--brick);
+            transform: translateY(-2px);
+        }
+
+        .map-scroller {
+            position: relative;
+            width: 100%;
+        }
+
+        .map-viewport {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .topography-layer,
+        .pulse-layer {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .pulse-layer {
+            opacity: 0;
+        }
+
+        .map-track {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 340vh;
+        }
+
+        .resource-label {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            line-height: 1.18;
+            color: rgba(58, 18, 18, 0.9);
+            transition: opacity 280ms ease, color 260ms ease;
+            will-change: transform, opacity;
+            pointer-events: auto;
+        }
+
+        .resource-label a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .resource-name {
+            margin: 0;
+            font-size: clamp(0.9rem, 1.8vw, 1.4rem);
+            letter-spacing: 0.03em;
+            text-shadow: 0 0 12px rgba(245, 245, 220, 0.82);
+        }
+
+        .resource-meta {
+            margin: 0.22rem 0 0;
+            min-height: 1.2rem;
+            font-size: clamp(0.6rem, 1.28vw, 0.82rem);
+            letter-spacing: 0.05em;
+            opacity: 0;
+            color: #3f2020;
+        }
+
+        .resource-label.in-focus .resource-name {
+            color: var(--forest);
+        }
+
+        .resource-label.dimmed {
+            opacity: 0.18;
+        }
+
+        .resource-label.matching .resource-name {
+            animation: namePulse 1.7s ease-in-out infinite;
+        }
+
+        .focus-ring {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: var(--ring-size);
+            aspect-ratio: 1 / 1;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 18;
+            pointer-events: none;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: radial-gradient(circle, rgba(245, 245, 220, 0.03), rgba(245, 245, 220, 0.16));
+            box-shadow: 0 0 0 1px rgba(139, 0, 0, 0.42), 0 0 32px rgba(139, 0, 0, 0.24);
+        }
+
+        .focus-caption {
+            position: fixed;
+            top: calc(50% + (var(--ring-size) / 2) + 0.85rem);
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.66rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: rgba(139, 0, 0, 0.68);
+            z-index: 19;
+            pointer-events: none;
+        }
+
+        .scroll-space {
+            position: relative;
+            height: 560vh;
+        }
+
+        .scroll-hint {
+            position: fixed;
+            right: 1.3rem;
+            bottom: 1.2rem;
+            z-index: 20;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            color: rgba(139, 0, 0, 0.63);
+            animation: hintFloat 2.4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes namePulse {
+            0%,
+            100% { text-shadow: 0 0 4px rgba(34, 139, 34, 0.2); }
+            50% { text-shadow: 0 0 18px rgba(34, 139, 34, 0.78); }
+        }
+
+        @keyframes hintFloat {
+            0%,
+            100% { transform: translateY(0); opacity: 0.56; }
+            50% { transform: translateY(-8px); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --ring-size: 185px;
+                --header-height: 116px;
+            }
+
+            .site-header {
+                padding: 0.65rem 0.8rem;
+                gap: 0.55rem;
+            }
+
+            .brand {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.22rem;
+            }
+
+            .filters {
+                justify-content: flex-start;
+            }
+
+            .resource-name {
+                font-size: clamp(0.85rem, 3.4vw, 1.1rem);
+            }
+
+            .resource-meta {
+                font-size: clamp(0.54rem, 2.1vw, 0.72rem);
+            }
+
+            .scroll-hint {
+                right: 0.7rem;
+                bottom: 0.8rem;
+                letter-spacing: 0.14em;
             }
         }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        h1, h2, h3 { font-family: 'Playfair Display', serif; color: #F3F4F6; }
-        body { font-family: 'Inter', sans-serif; color: #F3F4F6; }
     </style>
 </head>
-<body class="bg-charcoal text-offwhite">
-    <!-- Sticky Header -->
-    <header class="sticky top-0 z-50 bg-slate shadow-md">
-        <nav class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-offwhite">Weddington-Waxhaw Community Hub</h1>
-            <div class="flex gap-6">
-                <a href="#directory" class="text-electric hover:text-offwhite">Directory</a>
-                <a href="#spotlight" class="text-electric hover:text-offwhite">Spotlight</a>
-                <a href="#form" class="text-electric hover:text-offwhite">Add Resource</a>
-            </div>
+<body>
+    <header class="site-header">
+        <div class="brand">
+            <h1>Weddington / Waxhaw</h1>
+            <p>Community Atlas</p>
+        </div>
+        <nav class="filters" id="filters" aria-label="Resource filters">
+            <button class="filter-btn" type="button" data-filter="Human Services">Human Services</button>
+            <button class="filter-btn" type="button" data-filter="Health">Health</button>
+            <button class="filter-btn" type="button" data-filter="Arts/History">Arts/History</button>
+            <button class="filter-btn" type="button" data-filter="Recreation">Recreation</button>
+            <button class="filter-btn" type="button" data-filter="Education">Education</button>
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section class="bg-electric text-offwhite py-16 text-center">
-        <img src="https://via.placeholder.com/1200x400?text=Historic+Bridge+or+Town+Hall" alt="Historic Bridge or Town Hall" class="w-full h-64 object-cover mb-8">
-        <h2 class="text-4xl font-bold mb-4 text-offwhite">Bridging our past with our future</h2>
-        <p class="text-xl max-w-2xl mx-auto">by connecting residents to local support, history, and culture.</p>
-    </section>
-
-    <!-- Spotlight Section -->
-    <section id="spotlight" class="max-w-6xl mx-auto px-4 py-12">
-        <h2 class="text-3xl font-bold mb-8 text-center">Featured Organizations</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-slate p-6 rounded-lg shadow-lg border-t-4 border-electric">
-                <h3 class="text-xl font-bold mb-2 text-offwhite">Common Heart</h3>
-                <p class="mb-4 text-offwhite">Focusing on hunger eradication and kindness.</p>
-                <button onclick="window.open('https://commonheart.org', '_blank')" class="px-4 py-2 bg-electric text-offwhite rounded hover:bg-blue-700">Visit Website</button>
-            </div>
-            <div class="bg-slate p-6 rounded-lg shadow-lg border-t-4 border-electric">
-                <h3 class="text-xl font-bold mb-2 text-offwhite">Museum of the Waxhaws</h3>
-                <p class="mb-4 text-offwhite">Highlighting local history and heritage.</p>
-                <button onclick="window.open('https://museumofthewaxhaws.org', '_blank')" class="px-4 py-2 bg-electric text-offwhite rounded hover:bg-blue-700">Visit Website</button>
-            </div>
-            <div class="bg-slate p-6 rounded-lg shadow-lg border-t-4 border-electric">
-                <h3 class="text-xl font-bold mb-2 text-offwhite">JAARS</h3>
-                <p class="mb-4 text-offwhite">Focusing on aviation and educational outreach.</p>
-                <button onclick="window.open('https://jaars.org', '_blank')" class="px-4 py-2 bg-electric text-offwhite rounded hover:bg-blue-700">Visit Website</button>
-            </div>
+    <main class="map-scroller">
+        <div class="map-viewport" id="mapViewport">
+            <svg class="topography-layer" id="topography" aria-hidden="true"></svg>
+            <svg class="pulse-layer" id="topographyPulse" aria-hidden="true"></svg>
+            <div class="map-track" id="mapTrack" aria-live="polite"></div>
+            <div class="focus-ring" aria-hidden="true"></div>
+            <div class="focus-caption">Focus Ring</div>
         </div>
-    </section>
+        <div class="scroll-space" id="scrollSpace"></div>
+        <div class="scroll-hint" aria-hidden="true">Scroll the map</div>
+    </main>
 
-    <!-- Interactive Directory -->
-    <section id="directory" class="max-w-6xl mx-auto px-4 py-12">
-        <h2 class="text-3xl font-bold mb-6">Community Directory</h2>
-        <input type="text" id="searchInput" placeholder="Search resources..." class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg mb-6">
-        
-        <div class="flex flex-wrap gap-3 mb-6">
-            <button onclick="filterResources('all')" class="px-4 py-2 bg-electric text-offwhite rounded-lg hover:bg-blue-700">All</button>
-            <button onclick="filterResources('human')" class="px-4 py-2 bg-electric text-offwhite rounded-lg hover:bg-blue-700">Human Services</button>
-            <button onclick="filterResources('health')" class="px-4 py-2 bg-electric text-offwhite rounded-lg hover:bg-blue-700">Health</button>
-            <button onclick="filterResources('arts')" class="px-4 py-2 bg-electric text-offwhite rounded-lg hover:bg-blue-700">Arts/History</button>
-            <button onclick="filterResources('recreation')" class="px-4 py-2 bg-electric text-offwhite rounded-lg hover:bg-blue-700">Recreation</button>
-            <button onclick="filterResources('education')" class="px-4 py-2 bg-electric text-offwhite rounded-lg hover:bg-blue-700">Education</button>
-        </div>
-
-        <div id="resourceGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Cards will be generated by JavaScript -->
-        </div>
-    </section>
-
-    <!-- Modal for Resource Details -->
-    <div id="resourceModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-        <div class="bg-charcoal p-8 rounded-lg shadow-lg max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-start mb-4">
-                <h3 id="modalTitle" class="text-2xl font-bold text-electric"></h3>
-                <button onclick="closeModal()" class="text-offwhite hover:text-electric text-2xl">&times;</button>
-            </div>
-            <p id="modalCategory" class="text-sm text-offwhite mb-4"></p>
-            <p id="modalDescription" class="mb-4 text-offwhite"></p>
-            <div class="mb-4">
-                <h4 class="font-bold text-lg mb-2 text-electric">Detailed Info</h4>
-                <p id="modalDetailedInfo" class="text-offwhite"></p>
-            </div>
-            <div class="mb-4">
-                <h4 class="font-bold text-lg mb-2 text-electric">Key Programs</h4>
-                <p id="modalKeyPrograms" class="text-offwhite"></p>
-            </div>
-            <div class="mb-4">
-                <h4 class="font-bold text-lg mb-2 text-electric">How to Help</h4>
-                <p id="modalHowToHelp" class="text-offwhite"></p>
-            </div>
-            <div class="mb-4">
-                <h4 class="font-bold text-lg mb-2 text-electric">Contact</h4>
-                <p id="modalContact" class="text-offwhite"></p>
-            </div>
-            <button id="modalWebsiteBtn" class="px-6 py-2 bg-electric text-offwhite rounded-lg hover:bg-blue-700">Link to Website</button>
-        </div>
-    </div>
-
-    <!-- Community Calendar -->
-    <section class="max-w-6xl mx-auto px-4 py-12">
-        <h2 class="text-3xl font-bold mb-8 text-center text-offwhite">Community Calendar</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-slate p-6 rounded-lg shadow-lg">
-                <h3 class="text-xl font-bold mb-2 text-offwhite">Autumn Treasures</h3>
-                <p class="mb-2 text-offwhite">Date: October 15, 2026</p>
-                <p class="text-offwhite">A fall festival celebrating local arts and crafts.</p>
-            </div>
-            <div class="bg-slate p-6 rounded-lg shadow-lg">
-                <h3 class="text-xl font-bold mb-2 text-offwhite">Christmas Parade</h3>
-                <p class="mb-2 text-offwhite">Date: December 5, 2026</p>
-                <p class="text-offwhite">Annual holiday parade through downtown Waxhaw.</p>
-            </div>
-            <div class="bg-slate p-6 rounded-lg shadow-lg">
-                <h3 class="text-xl font-bold mb-2 text-offwhite">Jammin' by the Tracks</h3>
-                <p class="mb-2 text-offwhite">Date: June 20, 2026</p>
-                <p class="text-offwhite">Music festival featuring local bands and performers.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Resource Submission Form -->
-    <section id="form" class="bg-slate py-12">
-        <div class="max-w-2xl mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-6 text-offwhite">Add a Resource</h2>
-            <form id="resourceForm" class="bg-charcoal p-6 rounded-lg shadow-lg">
-                <input type="text" placeholder="Resource Name" required class="w-full px-4 py-2 border-2 border-slate rounded-lg mb-4 bg-slate text-offwhite" aria-label="Resource Name">
-                <select required class="w-full px-4 py-2 border-2 border-slate rounded-lg mb-4 bg-slate text-offwhite" aria-label="Category">
-                    <option>Select Category</option>
-                    <option>Human Services</option>
-                    <option>Health</option>
-                    <option>Arts/History</option>
-                    <option>Recreation</option>
-                    <option>Education</option>
-                </select>
-                <input type="email" placeholder="Contact Email" required class="w-full px-4 py-2 border-2 border-slate rounded-lg mb-4 bg-slate text-offwhite" aria-label="Contact Email">
-                <textarea placeholder="Description" required class="w-full px-4 py-2 border-2 border-slate rounded-lg mb-4 bg-slate text-offwhite" aria-label="Description"></textarea>
-                <button type="submit" class="w-full px-4 py-2 bg-electric text-offwhite font-bold rounded-lg hover:bg-blue-700">Submit for Review</button>
-            </form>
-            <div id="successMessage" class="hidden text-electric text-center mt-4 font-bold" role="alert">✓ Resource submitted successfully!</div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-slate text-offwhite py-8 text-center">
-        <p class="mb-2">Created for the 2026 TSA National Conference</p>
-    </footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

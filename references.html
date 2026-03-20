@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Credits & References | Weddington + Waxhaw Resource Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brick: "#8B0000",
+                        forest: "#228B22",
+                        cream: "#F5F5DC"
+                    }
+                }
+            }
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background:
+                radial-gradient(circle at 20% 15%, rgba(139, 0, 0, 0.13), transparent 38%),
+                radial-gradient(circle at 84% 82%, rgba(34, 139, 34, 0.14), transparent 42%),
+                #F5F5DC;
+        }
+
+        h1,
+        h2,
+        h3,
+        .display {
+            font-family: "Playfair Display", serif;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border-bottom: 1px solid rgba(139, 0, 0, 0.25);
+            padding: 0.85rem 0.65rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #8B0000;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-brick/20">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            <div>
+                <h1 class="display text-3xl md:text-5xl text-brick leading-none">Site Credits &amp; References</h1>
+                <p class="text-xs md:text-sm tracking-[0.22em] uppercase text-brick/85 mt-1">Documentation Ledger</p>
+            </div>
+            <nav class="flex flex-wrap gap-2 text-xs uppercase tracking-[0.14em]">
+                <a href="index.html" class="px-3 py-2 bg-brick/10 text-brick hover:bg-brick hover:text-cream transition-colors">Hub</a>
+                <a href="navigator.html" class="px-3 py-2 bg-brick/10 text-brick hover:bg-brick hover:text-cream transition-colors">Local Navigator</a>
+                <a href="references.html" class="px-3 py-2 bg-brick text-cream">References</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl mx-auto px-4 py-10 md:py-14 w-full">
+        <section>
+            <h2 class="display text-2xl md:text-4xl text-brick">Source Table</h2>
+            <div class="mt-6 overflow-x-auto bg-cream/60">
+                <table aria-label="References table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Item</th>
+                            <th>Credit / Source</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr><td>Photo</td><td>Town Hall Hero</td><td>Local project asset</td><td>N/A (workspace image)</td></tr>
+                        <tr><td>Photo</td><td>Community Texture</td><td>Local project asset</td><td>N/A (workspace image)</td></tr>
+                        <tr><td>Organization</td><td>Common Heart</td><td>Official organization site</td><td>https://commonheart.org</td></tr>
+                        <tr><td>Organization</td><td>Museum of the Waxhaws</td><td>Official organization site</td><td>https://museumofthewaxhaws.org</td></tr>
+                        <tr><td>Organization</td><td>Waxhaw Community Theatre</td><td>Official organization site</td><td>https://waxhawcommunitytheatre.com</td></tr>
+                        <tr><td>Organization</td><td>Heart for Monroe</td><td>Official organization site</td><td>https://heartformonroe.com</td></tr>
+                        <tr><td>Organization</td><td>Turning Point</td><td>Official organization site</td><td>https://turningpointnc.org</td></tr>
+                        <tr><td>Organization</td><td>HealthQuest</td><td>Official organization site</td><td>https://healthquestuc.org</td></tr>
+                        <tr><td>Organization</td><td>Thrive Counseling</td><td>Official organization site</td><td>https://thrivewellnesstherapy.com</td></tr>
+                        <tr><td>Organization</td><td>Cane Creek Park</td><td>Union County Parks</td><td>https://unioncountync.gov/canecreek</td></tr>
+                        <tr><td>Organization</td><td>WCWAA</td><td>Official organization site</td><td>https://wcwaa.org</td></tr>
+                        <tr><td>Organization</td><td>JAARS</td><td>Official organization site</td><td>https://jaars.org</td></tr>
+                        <tr><td>Organization</td><td>SPCC</td><td>Official organization site</td><td>https://spcc.edu</td></tr>
+                        <tr><td>Organization</td><td>Humane Society</td><td>Official organization site</td><td>https://hsuc.org</td></tr>
+                        <tr><td>Planning Research</td><td>Weddington Study Area Context</td><td>Union County Planning and Zoning</td><td>https://www.unioncountync.gov/government/departments-r-z/planning-and-zoning</td></tr>
+                        <tr><td>Developer Tool</td><td>Visual Studio Code</td><td>Primary IDE</td><td>https://code.visualstudio.com</td></tr>
+                        <tr><td>Developer Tool</td><td>Tailwind CSS</td><td>Utility-first CSS framework</td><td>https://tailwindcss.com</td></tr>
+                        <tr><td>Developer Tool</td><td>GSAP</td><td>Animation engine</td><td>https://gsap.com</td></tr>
+                        <tr><td>Developer Tool</td><td>AI Tools</td><td>Assistant-supported drafting and iteration</td><td>Project workflow notes</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-brick text-cream">
+        <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-sm">
+            <p>Created by Weddington Waxhaw TSA Chapter - 2026 National TSA Conference Exception Rule.</p>
+            <a href="index.html" class="underline underline-offset-4 hover:text-white">Back to Hub</a>
+        </div>
+    </footer>
+</body>
+</html>

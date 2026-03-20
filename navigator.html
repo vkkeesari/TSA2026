@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Local Navigator | Weddington + Waxhaw</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brick: "#8B0000",
+                        forest: "#228B22",
+                        cream: "#F5F5DC"
+                    }
+                }
+            }
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background:
+                radial-gradient(circle at 80% 10%, rgba(34, 139, 34, 0.16), transparent 40%),
+                radial-gradient(circle at 12% 85%, rgba(139, 0, 0, 0.15), transparent 40%),
+                #F5F5DC;
+        }
+
+        h1,
+        h2,
+        h3,
+        .display {
+            font-family: "Playfair Display", serif;
+        }
+
+        .vibe-plane {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-brick/20">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            <div>
+                <h1 class="display text-3xl md:text-5xl text-brick leading-none">Local Navigator</h1>
+                <p class="text-xs md:text-sm tracking-[0.22em] uppercase text-brick/85 mt-1">Quick Start for New and Returning Residents</p>
+            </div>
+            <nav class="flex flex-wrap gap-2 text-xs uppercase tracking-[0.14em]">
+                <a href="index.html" class="px-3 py-2 bg-brick/10 text-brick hover:bg-brick hover:text-cream transition-colors">Hub</a>
+                <a href="navigator.html" class="px-3 py-2 bg-brick text-cream">Local Navigator</a>
+                <a href="references.html" class="px-3 py-2 bg-brick/10 text-brick hover:bg-brick hover:text-cream transition-colors">References</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl mx-auto px-4 py-10 md:py-14 w-full">
+        <section>
+            <h2 class="display text-2xl md:text-4xl text-brick">Weddington vs. Waxhaw Vibes</h2>
+            <p class="mt-2 text-brick/80 max-w-3xl">Two neighboring identities, one connected community ecosystem.</p>
+
+            <div class="mt-8 grid md:grid-cols-2 gap-6">
+                <article class="vibe-plane rounded-[2rem] p-6 md:p-8 bg-brick/12">
+                    <h3 class="display text-2xl text-brick">Weddington</h3>
+                    <ul class="mt-4 space-y-3 text-sm md:text-base">
+                        <li>Quiet residential rhythm with estate-scale neighborhoods.</li>
+                        <li>Strong school-centered routines and family programming.</li>
+                        <li>Preference for preserved green corridors and low-density planning.</li>
+                    </ul>
+                </article>
+
+                <article class="vibe-plane rounded-[2rem] p-6 md:p-8 bg-forest/14">
+                    <h3 class="display text-2xl text-forest">Waxhaw</h3>
+                    <ul class="mt-4 space-y-3 text-sm md:text-base">
+                        <li>Historic downtown energy with events and arts-forward culture.</li>
+                        <li>Walkable social core anchored by local business clusters.</li>
+                        <li>Blend of heritage architecture and modern growth corridors.</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="mt-14">
+            <h2 class="display text-2xl md:text-4xl text-brick">Emergency &amp; Utility Quick Dial</h2>
+            <p class="mt-2 text-brick/80">Tap to call directly from mobile devices.</p>
+
+            <div class="mt-7 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <a href="tel:+17042861817" class="px-5 py-5 bg-brick text-cream hover:bg-forest transition-colors uppercase tracking-[0.12em] text-sm">
+                    Union County Sheriff
+                </a>
+                <a href="tel:+17042893000" class="px-5 py-5 bg-brick/85 text-cream hover:bg-forest transition-colors uppercase tracking-[0.12em] text-sm">
+                    Water Services
+                </a>
+                <a href="tel:+18007777000" class="px-5 py-5 bg-forest text-cream hover:bg-brick transition-colors uppercase tracking-[0.12em] text-sm">
+                    Power Outage
+                </a>
+                <a href="tel:+17048434586" class="px-5 py-5 bg-forest/85 text-cream hover:bg-brick transition-colors uppercase tracking-[0.12em] text-sm">
+                    Fire Department
+                </a>
+            </div>
+        </section>
+
+        <section class="mt-14">
+            <h2 class="display text-2xl md:text-4xl text-brick">Quick Start Steps</h2>
+            <ol class="mt-5 grid md:grid-cols-3 gap-4 text-sm md:text-base">
+                <li class="p-4 bg-cream/50">1. Explore the map slices on the hub to identify service domains.</li>
+                <li class="p-4 bg-cream/50">2. Prioritize health and human services contacts in your phone.</li>
+                <li class="p-4 bg-cream/50">3. Save utility lines and review local event calendars monthly.</li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="bg-brick text-cream">
+        <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-sm">
+            <p>Created by Weddington Waxhaw TSA Chapter - 2026 National TSA Conference Exception Rule.</p>
+            <a href="references.html" class="underline underline-offset-4 hover:text-white">Reference</a>
+        </div>
+    </footer>
+</body>
+</html>

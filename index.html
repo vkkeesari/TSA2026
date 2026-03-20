@@ -1,189 +1,387 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weddington-Waxhaw Community Resource Hub</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community Resource Hub | Weddington + Waxhaw</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#F5F5DC',
-                        secondary: '#1E293B',
-                        accent: '#800000',
-                        success: '#10B981'
+                        brick: "#8B0000",
+                        forest: "#228B22",
+                        cream: "#F5F5DC"
                     }
                 }
             }
-        }
+        };
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
-        h1, h2, h3 { font-family: 'Playfair Display', serif; color: #800000; }
-        body { font-family: 'Inter', sans-serif; color: #1E293B; }
+        :root {
+            --brick: #8B0000;
+            --forest: #228B22;
+            --cream: #F5F5DC;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background:
+                radial-gradient(circle at 18% 10%, rgba(139, 0, 0, 0.16), transparent 44%),
+                radial-gradient(circle at 88% 85%, rgba(34, 139, 34, 0.14), transparent 44%),
+                #F5F5DC;
+        }
+
+        h1,
+        h2,
+        h3,
+        .display {
+            font-family: "Playfair Display", serif;
+        }
+
+        .hub-stage {
+            position: relative;
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+            align-items: center;
+            gap: 2rem;
+            min-height: 580px;
+        }
+
+        .map-shell {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            transition: transform 420ms ease;
+        }
+
+        #studyMap {
+            width: 80vw;
+            max-width: 760px;
+            height: auto;
+            display: block;
+            overflow: visible;
+            filter: drop-shadow(0 18px 26px rgba(49, 18, 18, 0.22));
+        }
+
+        .slice-group {
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        .slice {
+            cursor: pointer;
+            transform-box: fill-box;
+            transform-origin: center;
+            transition: filter 180ms ease, opacity 220ms ease;
+            stroke: rgba(245, 245, 220, 0.92);
+            stroke-width: 2;
+            stroke-linejoin: round;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .slice:hover,
+        .slice.hovering {
+            filter: brightness(1.16) drop-shadow(0 0 3px rgba(34, 139, 34, 0.9));
+        }
+
+        .slice.is-active {
+            filter: brightness(1.2) drop-shadow(0 0 4px rgba(34, 139, 34, 0.95));
+        }
+
+        .slice-label {
+            fill: rgba(245, 245, 220, 0.95);
+            font-size: 3.3px;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            pointer-events: none;
+            font-family: "Inter", sans-serif;
+            font-weight: 700;
+        }
+
+        .base-layer {
+            opacity: 0.96;
+        }
+
+        .resource-panel {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(32px);
+            transition: opacity 320ms ease, transform 420ms ease;
+        }
+
+        .hub-stage.is-active .map-shell {
+            transform: translateX(-25%);
+        }
+
+        .hub-stage.is-active .resource-panel {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0);
+        }
+
+        .resource-node {
+            position: relative;
+            display: grid;
+            grid-template-columns: 16px 1fr;
+            align-items: start;
+            gap: 0.9rem;
+            text-align: left;
+            line-height: 1.22;
+            color: rgba(50, 15, 15, 0.95);
+            text-shadow: 0 0 14px rgba(245, 245, 220, 0.85);
+            pointer-events: auto;
+            opacity: 0;
+            transform-origin: center;
+            margin-bottom: 1.15rem;
+        }
+
+        .resource-node a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .resource-node .bullet {
+            width: 10px;
+            height: 10px;
+            margin-top: 0.4rem;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(34, 139, 34, 1) 0%, rgba(34, 139, 34, 0.76) 45%, rgba(34, 139, 34, 0) 100%);
+            box-shadow: 0 0 14px rgba(34, 139, 34, 0.85);
+        }
+
+        .resource-node .name {
+            font-size: clamp(0.72rem, 1.5vw, 1rem);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .resource-node .meta {
+            font-size: clamp(0.55rem, 1vw, 0.72rem);
+            letter-spacing: 0.06em;
+            opacity: 0.78;
+        }
+
+        .spotlight-flow {
+            position: relative;
+            overflow: hidden;
+            border-radius: 999px;
+            min-height: 320px;
+        }
+
+        .glass-ribbon {
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            background: linear-gradient(140deg, rgba(245, 245, 220, 0.22), rgba(245, 245, 220, 0.1));
+            box-shadow: 0 14px 30px rgba(59, 22, 22, 0.16);
+        }
+
+        .pulse-link {
+            animation: pulseLink 2.1s ease-in-out infinite;
+        }
+
+        .resource-panel-shell {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: linear-gradient(160deg, rgba(245, 245, 220, 0.46), rgba(245, 245, 220, 0.18));
+            box-shadow: 0 18px 34px rgba(59, 22, 22, 0.12);
+        }
+
+        #nodeLayer {
+            min-height: 220px;
+        }
+
+        @keyframes pulseLink {
+            0%,
+            100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+
+        @media (max-width: 1024px) {
+            .hub-stage {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                min-height: unset;
+            }
+
+            .hub-stage.is-active .map-shell {
+                transform: translateX(0);
+            }
+
+            #studyMap {
+                width: 92vw;
+            }
+        }
     </style>
 </head>
-<body class="bg-primary text-secondary">
-
-    <header class="sticky top-0 z-50 bg-secondary shadow-md">
-        <nav class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-white">Weddington-Waxhaw Community Hub</h1>
-            <div class="flex gap-6">
-                <a href="#directory" class="text-white hover:text-primary">Directory</a>
-                <a href="#spotlight" class="text-white hover:text-primary">Spotlight</a>
-                <a href="#form" class="text-white hover:text-primary">Add Resource</a>
+<body class="min-h-screen flex flex-col">
+    <header class="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-brick/20">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            <div>
+                <h1 class="display text-3xl md:text-5xl text-brick leading-none">Community Resource Hub</h1>
+                <p class="text-xs md:text-sm tracking-[0.22em] uppercase text-brick/85 mt-1">Weddington + Waxhaw, North Carolina</p>
             </div>
-        </nav>
+            <nav class="flex flex-wrap gap-2 text-xs uppercase tracking-[0.14em]">
+                <a href="index.html" class="px-3 py-2 bg-brick text-cream">Hub</a>
+                <a href="navigator.html" class="px-3 py-2 bg-brick/10 text-brick hover:bg-brick hover:text-cream transition-colors">Local Navigator</a>
+                <a href="references.html" class="px-3 py-2 bg-brick/10 text-brick hover:bg-brick hover:text-cream transition-colors">References</a>
+            </nav>
+        </div>
     </header>
 
-
-    <section class="bg-accent text-primary py-40 text-left flex items-center" style="background-image: url('th.jpg'); background-size: cover; background-position: center; min-height: 80vh;">
-        <div class="ml-8 bg-white bg-opacity-80 p-6 rounded-lg shadow-lg max-w-lg">
-            <h2 class="text-4xl font-bold mb-4 text-secondary" style="font-family: 'Playfair Display', serif;">Bridging our past with our future</h2>
-            <p class="text-xl text-secondary">By connecting residents to local support, history, and culture.</p>
-        </div>
-    </section>
-
-
-    <section id="spotlight" class="max-w-6xl mx-auto px-4 py-12">
-        <h2 class="text-3xl font-bold mb-8 text-center text-secondary">Featured Organizations</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-primary p-6 rounded-lg shadow-lg border-t-4 border-accent">
-                <h3 class="text-xl font-bold mb-2 text-secondary">Common Heart</h3>
-                <p class="mb-4 text-secondary">Focusing on hunger eradication and kindness.</p>
-                <button onclick="window.open('https://commonheart.org', '_blank')" class="px-4 py-2 bg-accent text-primary rounded hover:bg-blue-700">Visit Website</button>
+    <main class="flex-1">
+        <section class="max-w-7xl mx-auto px-4 pt-8 md:pt-12 pb-8">
+            <div class="max-w-3xl">
+                <h2 class="display text-2xl md:text-4xl text-brick">Interactive Study Area Filter</h2>
+                <p class="mt-2 text-sm md:text-base text-brick/85">
+                    Click a fragment of the Weddington Study Area silhouette to reveal resources as animated nodes rooted in place.
+                </p>
             </div>
-            <div class="bg-primary p-6 rounded-lg shadow-lg border-t-4 border-accent">
-                <h3 class="text-xl font-bold mb-2 text-secondary">Museum of the Waxhaws</h3>
-                <p class="mb-4 text-secondary">Highlighting local history and heritage.</p>
-                <button onclick="window.open('https://museumofthewaxhaws.org', '_blank')" class="px-4 py-2 bg-accent text-primary rounded hover:bg-blue-700">Visit Website</button>
-            </div>
-            <div class="bg-primary p-6 rounded-lg shadow-lg border-t-4 border-accent">
-                <h3 class="text-xl font-bold mb-2 text-secondary">JAARS</h3>
-                <p class="mb-4 text-secondary">Focusing on aviation and educational outreach.</p>
-                <button onclick="window.open('https://jaars.org', '_blank')" class="px-4 py-2 bg-accent text-primary rounded hover:bg-blue-700">Visit Website</button>
-            </div>
-        </div>
-    </section>
 
+            <div id="hubStage" class="mt-8 hub-stage">
+                <div class="map-shell">
+                    <svg id="studyMap" viewBox="0 0 100 100" aria-labelledby="mapTitle mapDesc">
+                        <title id="mapTitle">Weddington Study Area map navigation</title>
+                        <desc id="mapDesc">Five map slices represent Human Services, Health, Arts and History, Recreation, and Education.</desc>
+                        <defs>
+                            <linearGradient id="baseGradient" x1="10%" y1="10%" x2="90%" y2="90%">
+                                <stop offset="0%" stop-color="#5E4E4A"></stop>
+                                <stop offset="100%" stop-color="#4F5F4B"></stop>
+                            </linearGradient>
+                            <path id="weddingtonShape" d="M52,2 L68,5 L78,12 L88,18 L85,35 L88,45 L81,55 L82,65 L76,78 L65,88 L50,98 L35,94 L22,88 L12,84 L6,65 L4,48 L7,32 L15,22 L28,12 L42,5 Z" />
+                            <clipPath id="shapeClip">
+                                <use href="#weddingtonShape"></use>
+                            </clipPath>
+                        </defs>
 
-    <section id="directory" class="max-w-6xl mx-auto px-4 py-12">
-        <h2 class="text-3xl font-bold mb-6 text-secondary">Community Directory</h2>
-        <input type="text" id="searchInput" placeholder="Search resources..." class="w-full px-4 py-2 border-2 border-secondary rounded-lg mb-6 bg-primary text-secondary">
-        
-        <div class="flex flex-wrap gap-3 mb-6">
-            <button onclick="filterResources('all')" class="px-4 py-2 bg-accent text-primary rounded-lg hover:bg-blue-700">All</button>
-            <button onclick="filterResources('human')" class="px-4 py-2 bg-accent text-primary rounded-lg hover:bg-blue-700">Human Services</button>
-            <button onclick="filterResources('health')" class="px-4 py-2 bg-accent text-primary rounded-lg hover:bg-blue-700">Health</button>
-            <button onclick="filterResources('arts')" class="px-4 py-2 bg-accent text-primary rounded-lg hover:bg-blue-700">Arts/History</button>
-            <button onclick="filterResources('recreation')" class="px-4 py-2 bg-accent text-primary rounded-lg hover:bg-blue-700">Recreation</button>
-            <button onclick="filterResources('education')" class="px-4 py-2 bg-accent text-primary rounded-lg hover:bg-blue-700">Education</button>
-        </div>
+                        <g class="base-layer" transform="translate(0 5)" aria-hidden="true">
+                            <use href="#weddingtonShape" fill="url(#baseGradient)"></use>
+                        </g>
 
-        <div id="resourceGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <g id="group-human" class="slice-group" data-category="Human Services">
+                            <path class="slice" id="slice-human" data-category="Human Services" d="M48,50 L65,88 L50,98 L35,94 L22,88 Z" clip-path="url(#shapeClip)" fill="#7A1010" tabindex="0" role="button" aria-label="Filter Human Services" onkeydown="return true"></path>
+                            <text class="slice-label" x="36" y="88">Human Services</text>
+                        </g>
 
-        </div>
-    </section>
+                        <g id="group-edu" class="slice-group" data-category="Education">
+                            <path class="slice" id="slice-edu" data-category="Education" d="M48,50 L22,88 L12,84 L6,65 L4,48 L7,32 L15,22 L28,12 L42,5 Z" clip-path="url(#shapeClip)" fill="#2A9B2A" tabindex="0" role="button" aria-label="Filter Education" onkeydown="return true"></path>
+                            <text class="slice-label" x="13" y="48">Education</text>
+                        </g>
 
+                        <g id="group-arts" class="slice-group" data-category="Arts/History">
+                            <path class="slice" id="slice-arts" data-category="Arts/History" d="M48,50 L42,5 L52,2 L68,5 L78,12 L88,18 L85,35 Z" clip-path="url(#shapeClip)" fill="#8B0000" tabindex="0" role="button" aria-label="Filter Arts and History" onkeydown="return true"></path>
+                            <text class="slice-label" x="47" y="20">Arts</text>
+                        </g>
 
-    <div id="resourceModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-        <div class="bg-primary p-8 rounded-lg shadow-lg max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-start mb-4">
-                <h3 id="modalTitle" class="text-2xl font-bold text-accent"></h3>
-                <button onclick="closeModal()" class="text-secondary hover:text-accent text-2xl">&times;</button>
+                        <g id="group-rec" class="slice-group" data-category="Recreation">
+                            <path class="slice" id="slice-rec" data-category="Recreation" d="M48,50 L81,55 L82,65 L76,78 L65,88 Z" clip-path="url(#shapeClip)" fill="#1E7C1E" tabindex="0" role="button" aria-label="Filter Recreation" onkeydown="return true"></path>
+                            <text class="slice-label" x="67" y="72">Recreation</text>
+                        </g>
+
+                        <g id="group-health" class="slice-group" data-category="Health">
+                            <path class="slice" id="slice-health" data-category="Health" d="M48,50 L85,35 L88,45 L81,55 Z" clip-path="url(#shapeClip)" fill="#B73A3A" tabindex="0" role="button" aria-label="Filter Health" onkeydown="return true"></path>
+                            <text class="slice-label" x="74" y="47">Health</text>
+                        </g>
+
+                        <use href="#weddingtonShape" fill="none" stroke="#F5F5DC" stroke-width="1.35"></use>
+
+                        <g aria-hidden="true">
+                            <path d="M52,2 L68,5 L78,12 L88,18 L85,35 L88,45 L81,55 L82,65 L76,78 L65,88 L50,98 L35,94 L22,88 L12,84 L6,65 L4,48 L7,32 L15,22 L28,12 L42,5 Z" fill="none" stroke="rgba(245,245,220,0.35)" stroke-width="0.5" transform="translate(0 5)"></path>
+                        </g>
+                    </svg>
+                </div>
+
+                <aside id="resourcePanel" class="resource-panel" aria-live="polite" aria-hidden="true">
+                    <div class="resource-panel-shell rounded-[2rem] p-6 md:p-8">
+                        <p class="text-[0.68rem] uppercase tracking-[0.22em] text-brick/70">Active Filter</p>
+                        <h3 id="panelTitle" class="display mt-2 text-2xl md:text-3xl text-brick">Choose a map fragment</h3>
+                        <p id="panelIntro" class="mt-2 text-sm text-brick/80">The resource list will unfold here as a field of linked local nodes.</p>
+                        <div id="nodeLayer" class="mt-6"></div>
+                    </div>
+                </aside>
             </div>
-            <p id="modalCategory" class="text-sm text-secondary mb-4"></p>
-            <p id="modalDescription" class="mb-4 text-secondary"></p>
-            <div class="mb-4">
-                <h4 class="font-bold text-lg mb-2 text-accent">Detailed Info</h4>
-                <p id="modalDetailedInfo" class="text-secondary"></p>
-            </div>
-            <div class="mb-4">
-                <h4 class="font-bold text-lg mb-2 text-accent">Key Programs</h4>
-                <p id="modalKeyPrograms" class="text-secondary"></p>
-            </div>
-            <div class="mb-4">
-                <h4 class="font-bold text-lg mb-2 text-accent">How to Help</h4>
-                <p id="modalHowToHelp" class="text-secondary"></p>
-            </div>
-            <div class="mb-4">
-                <h4 class="font-bold text-lg mb-2 text-accent">Contact</h4>
-                <p id="modalContact" class="text-secondary"></p>
-            </div>
-            <button id="modalWebsiteBtn" class="px-6 py-2 bg-accent text-primary rounded-lg hover:bg-blue-700">Link to Website</button>
-        </div>
-    </div>
 
-
-    <section class="max-w-6xl mx-auto px-4 py-12">
-        <h2 class="text-3xl font-bold mb-8 text-center text-secondary">Community Calendar</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-primary p-6 rounded-lg shadow-lg">
-                <h3 class="text-xl font-bold mb-2 text-secondary">Autumn Treasures</h3>
-                <p class="mb-2 text-secondary">Date: October 15, 2026</p>
-                <p class="text-secondary">A fall festival celebrating local arts and crafts.</p>
+            <div class="mt-8 flex flex-wrap gap-2 text-xs uppercase tracking-[0.13em]">
+                <button id="resetMapBtn" class="px-4 py-2 bg-brick text-cream hover:bg-forest transition-colors">Reset Map</button>
+                <a href="navigator.html" class="pulse-link px-4 py-2 bg-forest text-cream hover:bg-brick transition-colors">
+                    Explore the Local Navigator &amp; Utility Map
+                </a>
             </div>
-            <div class="bg-primary p-6 rounded-lg shadow-lg">
-                <h3 class="text-xl font-bold mb-2 text-secondary">Christmas Parade</h3>
-                <p class="mb-2 text-secondary">Date: December 5, 2026</p>
-                <p class="text-secondary">Annual holiday parade through downtown Waxhaw.</p>
-            </div>
-            <div class="bg-primary p-6 rounded-lg shadow-lg">
-                <h3 class="text-xl font-bold mb-2 text-secondary">Jammin' by the Tracks</h3>
-                <p class="mb-2 text-secondary">Date: June 20, 2026</p>
-                <p class="text-secondary">Music festival featuring local bands and performers.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
+        <section class="max-w-7xl mx-auto px-4 py-10 md:py-14">
+            <h2 class="display text-2xl md:text-4xl text-brick mb-5">Featured Spotlight</h2>
+            <div class="spotlight-flow bg-[url('th.jpg')] bg-cover bg-center p-6 md:p-10">
+                <div class="absolute inset-0 bg-gradient-to-r from-brick/35 via-transparent to-forest/25"></div>
+                <div class="relative z-10 grid md:grid-cols-3 gap-5 text-cream">
+                    <article class="glass-ribbon rounded-[2rem] p-5 md:p-6">
+                        <h3 class="display text-xl">Common Heart</h3>
+                        <p class="mt-2 text-sm">Hunger relief, dignity-first pantry access, and county-wide kindness initiatives.</p>
+                    </article>
+                    <article class="glass-ribbon rounded-[2rem] p-5 md:p-6">
+                        <h3 class="display text-xl">Museum of the Waxhaws</h3>
+                        <p class="mt-2 text-sm">Regional heritage, living history events, and educational storytelling across generations.</p>
+                    </article>
+                    <article class="glass-ribbon rounded-[2rem] p-5 md:p-6">
+                        <h3 class="display text-xl">JAARS</h3>
+                        <p class="mt-2 text-sm">Aviation and language access innovation rooted in Waxhaw with global humanitarian impact.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-    <section id="form" class="bg-primary py-12">
-        <div class="max-w-2xl mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-6 text-secondary">Add a Resource</h2>
-            <form id="resourceForm" action="https://formspree.io/f/mpqyoedk" method="POST" class="bg-primary p-6 rounded-lg shadow-lg">
-                <input type="text" name="resource_name" placeholder="Resource Name" required class="w-full px-4 py-2 border-2 border-secondary rounded-lg mb-4 bg-primary text-secondary" aria-label="Resource Name">
-                <select name="category" required class="w-full px-4 py-2 border-2 border-secondary rounded-lg mb-4 bg-primary text-secondary" aria-label="Category">
-                    <option>Select Category</option>
-                    <option>Human Services</option>
-                    <option>Health</option>
-                    <option>Arts/History</option>
-                    <option>Recreation</option>
-                    <option>Education</option>
-                </select>
-                <input type="email" name="email" placeholder="Contact Email" required class="w-full px-4 py-2 border-2 border-secondary rounded-lg mb-4 bg-primary text-secondary" aria-label="Contact Email">
-                <textarea name="description" placeholder="Description" required class="w-full px-4 py-2 border-2 border-secondary rounded-lg mb-4 bg-primary text-secondary" aria-label="Description"></textarea>
-                <button type="submit" class="w-full px-4 py-2 bg-success text-primary font-bold rounded-lg hover:bg-green-700">Submit for Review</button>
+        <section class="max-w-5xl mx-auto px-4 pb-14 md:pb-20">
+            <h2 class="display text-2xl md:text-4xl text-brick">Suggest a New Resource</h2>
+            <p class="mt-2 text-sm md:text-base text-brick/80">Help us keep this map living and local.</p>
+
+            <form class="mt-8 grid md:grid-cols-2 gap-6" action="#" method="post" aria-label="Resource suggestion form">
+                <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-brick/75">
+                    Organization Name
+                    <input class="bg-transparent border-0 border-b-2 border-brick/35 focus:border-forest focus:ring-0 px-1 py-2" type="text" name="organization" required />
+                </label>
+
+                <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-brick/75">
+                    Category
+                    <select class="bg-transparent border-0 border-b-2 border-brick/35 focus:border-forest focus:ring-0 px-1 py-2" name="category" required>
+                        <option value="">Select</option>
+                        <option>Human Services</option>
+                        <option>Health</option>
+                        <option>Arts/History</option>
+                        <option>Recreation</option>
+                        <option>Education</option>
+                    </select>
+                </label>
+
+                <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-brick/75 md:col-span-2">
+                    Contact Info
+                    <input class="bg-transparent border-0 border-b-2 border-brick/35 focus:border-forest focus:ring-0 px-1 py-2" type="text" name="contact" required />
+                </label>
+
+                <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-brick/75 md:col-span-2">
+                    Why it matters
+                    <textarea class="bg-transparent border-0 border-b-2 border-brick/35 focus:border-forest focus:ring-0 px-1 py-2 min-h-24" name="description" required></textarea>
+                </label>
+
+                <div class="md:col-span-2">
+                    <button type="submit" class="px-6 py-3 uppercase tracking-[0.14em] text-cream bg-brick hover:bg-forest transition-colors">Submit Suggestion</button>
+                </div>
             </form>
-            <div id="successMessage" class="hidden text-success text-center mt-4 font-bold" role="alert">✓ Resource submitted successfully!</div>
+        </section>
+    </main>
+
+    <footer class="bg-brick text-cream">
+        <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-sm">
+            <p>Created by Weddington Waxhaw TSA Chapter - 2026 National TSA Conference Exception Rule.</p>
+            <a href="references.html" class="underline underline-offset-4 hover:text-white">Reference</a>
         </div>
-    </section>
-
-
-    <footer class="bg-secondary text-primary py-8 text-center">
-        <p class="mb-2">Created for the 2026 TSA National Conference</p>
     </footer>
 
-    <!-- Chatbot -->
-    <div id="chatbot-button" class="fixed bottom-4 right-4 bg-accent text-primary p-4 rounded-full shadow-lg cursor-pointer z-50" onclick="toggleChat()">
-        💬
-    </div>
-    <div id="chatbot-window" class="fixed bottom-16 right-4 w-80 h-96 bg-white border border-gray-300 rounded-lg shadow-lg z-50 hidden flex flex-col">
-        <div class="bg-accent text-primary p-4 rounded-t-lg">
-            <h3 class="font-bold">Community Chatbot</h3>
-        </div>
-        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto">
-            <div class="mb-2">
-                <p class="bg-gray-200 p-2 rounded">Hi! I'm here to help with questions about our community resources and planning your day out. What can I assist you with?</p>
-            </div>
-        </div>
-        <div class="p-4 border-t">
-            <input id="chat-input" type="text" placeholder="Type your message..." class="w-full px-2 py-1 border rounded">
-            <button onclick="sendMessage()" class="mt-2 w-full bg-accent text-primary py-1 rounded">Send</button>
-        </div>
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
