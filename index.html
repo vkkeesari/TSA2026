@@ -339,10 +339,19 @@
             <h2 class="display text-2xl md:text-4xl text-brick">Suggest a New Resource</h2>
             <p class="mt-2 text-sm md:text-base text-brick/80">Help us keep this map living and local.</p>
 
-            <form class="mt-8 grid md:grid-cols-2 gap-6" action="#" method="post" aria-label="Resource suggestion form">
+            <form
+                id="resourceSuggestionForm"
+                class="mt-8 grid md:grid-cols-2 gap-6"
+                action="https://formspree.io/f/mpqyoedk"
+                method="post"
+                aria-label="Resource suggestion form"
+            >
+                <input type="hidden" name="_subject" value="New Community Resource Suggestion" />
+                <input type="hidden" name="_captcha" value="false" />
+
                 <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-brick/75">
                     Organization Name
-                    <input class="bg-transparent border-0 border-b-2 border-brick/35 focus:border-forest focus:ring-0 px-1 py-2" type="text" name="organization" required />
+                    <input class="bg-transparent border-0 border-b-2 border-brick/35 focus:border-forest focus:ring-0 px-1 py-2" type="text" name="organization_name" required />
                 </label>
 
                 <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-brick/75">
@@ -359,7 +368,7 @@
 
                 <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-brick/75 md:col-span-2">
                     Contact Info
-                    <input class="bg-transparent border-0 border-b-2 border-brick/35 focus:border-forest focus:ring-0 px-1 py-2" type="text" name="contact" required />
+                    <input class="bg-transparent border-0 border-b-2 border-brick/35 focus:border-forest focus:ring-0 px-1 py-2" type="text" name="contact_info" required />
                 </label>
 
                 <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-brick/75 md:col-span-2">
@@ -370,6 +379,8 @@
                 <div class="md:col-span-2">
                     <button type="submit" class="px-6 py-3 uppercase tracking-[0.14em] text-cream bg-brick hover:bg-forest transition-colors">Submit Suggestion</button>
                 </div>
+
+                <output id="formStatusMessage" class="md:col-span-2 text-sm text-brick/85" aria-live="polite"></output>
             </form>
         </section>
     </main>

@@ -23,6 +23,8 @@ const panelIntro = document.getElementById("panelIntro");
 const mapShell = document.querySelector(".map-shell");
 const sliceGroups = Array.from(document.querySelectorAll(".slice-group"));
 const studyMap = document.getElementById("studyMap");
+const resourceSuggestionForm = document.getElementById("resourceSuggestionForm");
+const formStatusMessage = document.getElementById("formStatusMessage");
 
 if (slices.length > 0 && nodeLayer && resetMapBtn && hubStage && resourcePanel && panelTitle && panelIntro && mapShell && studyMap && globalThis.gsap) {
     const state = {
@@ -35,6 +37,39 @@ if (slices.length > 0 && nodeLayer && resetMapBtn && hubStage && resourcePanel &
         order.forEach((id) => {
             const group = document.getElementById(id);
             if (group) {
+
+    if (resourceSuggestionForm && formStatusMessage) {
+        resourceSuggestionForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const endpoint = resourceSuggestionForm.getAttribute("action") || "";
+            if (endpoint.includes("REPLACE_WITH_YOUR_ACTION_CODE")) {
+                formStatusMessage.textContent = "Replace the Formspree action code first, then submit again.";
+                return;
+            }
+
+            formStatusMessage.textContent = "Sending...";
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    body: new FormData(resourceSuggestionForm),
+                    headers: {
+                        Accept: "application/json"
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error("Form submission failed");
+                }
+
+                resourceSuggestionForm.reset();
+                formStatusMessage.textContent = "Thanks! Your resource suggestion was sent.";
+            } catch {
+                formStatusMessage.textContent = "Unable to send right now. Please try again in a moment.";
+            }
+        });
+    }
                 studyMap.appendChild(group);
             }
         });
