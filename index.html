@@ -124,6 +124,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      padding-left: clamp(1.5rem, 5vw, 5rem);
     }
 
     .map-wrap {
@@ -321,6 +322,15 @@
       pointer-events: auto;
     }
 
+    .resource-panel-shell.showing-spotlight .resource-list-pane,
+    .resource-panel-shell.showing-spotlight .resource-detail-pane {
+      filter: blur(8px);
+      transform: scale(0.985);
+      opacity: 0.16;
+      pointer-events: none;
+      transition: filter 240ms ease, opacity 240ms ease, transform 280ms ease;
+    }
+
     .node-rail {
       position: absolute;
       left: 1.15rem;
@@ -417,6 +427,176 @@
     .detail-website:hover {
       transform: translateY(-1px);
       background: var(--ember);
+    }
+
+    .featured-search-grid {
+      margin-top: 1.75rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    .featured-search-grid > .resource-search-shell {
+      margin-top: 0;
+    }
+
+    .featured-card {
+      border-radius: 1.25rem;
+      border: 1px solid rgba(23,58,46,0.1);
+      background: rgba(255,255,255,0.62);
+      padding: 1rem 1.1rem;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .featured-card:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 14px 32px rgba(15,23,42,0.09);
+    }
+
+    @media (max-width: 900px) {
+      .featured-search-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .resource-search-shell {
+      position: relative;
+      margin-top: 1.75rem;
+      border: 1px solid rgba(23,58,46,0.12);
+      border-radius: 1.5rem;
+      background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.56));
+      padding: 1rem;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);
+    }
+
+    .search-field {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(23,58,46,0.14);
+      background: rgba(255,255,255,0.92);
+      padding: 1rem 1.15rem;
+      font-size: .95rem;
+      color: var(--night);
+      transition: border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .search-field:focus {
+      outline: none;
+      border-color: rgba(23,58,46,.28);
+      box-shadow: 0 0 0 4px rgba(94,139,111,.12);
+    }
+
+    .search-results {
+      margin-top: .9rem;
+      display: grid;
+      gap: .65rem;
+    }
+
+    .search-result {
+      width: 100%;
+      text-align: left;
+      border: 1px solid rgba(23,58,46,0.08);
+      border-radius: 1.1rem;
+      background: rgba(255,255,255,0.82);
+      padding: .95rem 1rem;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .search-result:hover {
+      transform: translateY(-1px);
+      border-color: rgba(23,58,46,0.18);
+      background: rgba(255,255,255,0.98);
+    }
+
+    .spotlight-pane {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      overflow: hidden;
+      border-radius: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(12px) scale(0.985);
+      transition: opacity 280ms ease, transform 320ms ease;
+      background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.08));
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .spotlight-pane.is-visible {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+
+    .spotlight-image {
+      position: absolute;
+      inset: 0;
+      background-position: center;
+      background-size: cover;
+      opacity: .18;
+      transform: scale(1.04);
+      transition: opacity 320ms ease, transform 420ms ease;
+    }
+
+    .spotlight-pane.is-visible .spotlight-image {
+      opacity: .34;
+      transform: scale(1);
+    }
+
+    .spotlight-wash {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,0.6), transparent 28%),
+        linear-gradient(135deg, rgba(255,255,255,0.84), rgba(246,241,232,0.68) 54%, rgba(23,58,46,0.16));
+    }
+
+    .spotlight-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+    }
+
+    .spotlight-type {
+      font-family: "Instrument Serif", serif;
+      color: var(--forest);
+      font-size: clamp(1.4rem, 2.2vw, 2.1rem);
+      line-height: 1.12;
+      font-weight: 700;
+      min-height: 8.5rem;
+      max-width: 22ch;
+    }
+
+    .spotlight-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .45rem .75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(23,58,46,0.14);
+      background: rgba(255,255,255,0.68);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(23,58,46,0.72);
+      width: fit-content;
+      margin-bottom: 1rem;
+    }
+
+    .spotlight-meta {
+      margin-top: 1rem;
+      display: grid;
+      gap: .4rem;
+      color: rgba(15,23,42,0.84);
+      font-size: .9rem;
     }
 
     .district-band {
@@ -544,7 +724,7 @@
     .chat-msg.bot {
       margin-right: 1.2rem;
       background: rgba(201,106,75,.92);
-      color: #fff;
+      color: var(--night);
     }
 
     @media (max-width: 1180px) {
@@ -623,8 +803,8 @@
             </div>
           </div>
         </div>
-          </div>
-        </div>
+
+      </div>
 
         <div id="hubStage" class="map-stage mt-8 lg:mt-10">
           <div class="map-column">
@@ -658,7 +838,7 @@
                   </g>
 
                   <g id="group-human" class="slice-group" data-category="Human Services">
-                    <path class="slice" id="slice-human" data-category="Human Services" d="M48,50 L65,88 L50,98 L35,94 L22,88 Z" clip-path="url(#shapeClip)" fill="#C96A4B" tabindex="0" role="button" aria-label="Filter Human Services"></path>
+                    <path class="slice" id="slice-human" data-category="Human Services" d="M48,50 L65,88 L50,98 L35,94 L22,88 Z" clip-path="url(#shapeClip)" fill="#C96A4B" tabindex="0" role="button" aria-label="Filter Human Services" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"></path>
                     <text class="slice-label" x="46" y="86" clip-path="url(#shapeClip)">
                       <tspan x="46" dy="0">Human</tspan>
                       <tspan x="46" dy="3.2">Services</tspan>
@@ -666,22 +846,22 @@
                   </g>
 
                   <g id="group-edu" class="slice-group" data-category="Education">
-                    <path class="slice" id="slice-edu" data-category="Education" d="M48,50 L22,88 L12,84 L6,65 L4,48 L7,32 L15,22 L28,12 L42,5 Z" clip-path="url(#shapeClip)" fill="#285945" tabindex="0" role="button" aria-label="Filter Education"></path>
+                    <path class="slice" id="slice-edu" data-category="Education" d="M48,50 L22,88 L12,84 L6,65 L4,48 L7,32 L15,22 L28,12 L42,5 Z" clip-path="url(#shapeClip)" fill="#285945" tabindex="0" role="button" aria-label="Filter Education" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"></path>
                     <text class="slice-label" x="22" y="47" clip-path="url(#shapeClip)">Education</text>
                   </g>
 
                   <g id="group-arts" class="slice-group" data-category="Arts/History">
-                    <path class="slice" id="slice-arts" data-category="Arts/History" d="M48,50 L42,5 L52,2 L68,5 L78,12 L88,18 L85,35 Z" clip-path="url(#shapeClip)" fill="#6F7D99" tabindex="0" role="button" aria-label="Filter Arts and History"></path>
+                    <path class="slice" id="slice-arts" data-category="Arts/History" d="M48,50 L42,5 L52,2 L68,5 L78,12 L88,18 L85,35 Z" clip-path="url(#shapeClip)" fill="#6F7D99" tabindex="0" role="button" aria-label="Filter Arts and History" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"></path>
                     <text class="slice-label" x="58" y="20" clip-path="url(#shapeClip)">Arts</text>
                   </g>
 
                   <g id="group-rec" class="slice-group" data-category="Recreation">
-                    <path class="slice" id="slice-rec" data-category="Recreation" d="M48,50 L81,55 L82,65 L76,78 L65,88 Z" clip-path="url(#shapeClip)" fill="#D6A15E" tabindex="0" role="button" aria-label="Filter Recreation"></path>
+                    <path class="slice" id="slice-rec" data-category="Recreation" d="M48,50 L81,55 L82,65 L76,78 L65,88 Z" clip-path="url(#shapeClip)" fill="#D6A15E" tabindex="0" role="button" aria-label="Filter Recreation" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"></path>
                     <text class="slice-label" x="68" y="69" clip-path="url(#shapeClip)">Recreation</text>
                   </g>
 
                   <g id="group-health" class="slice-group" data-category="Health">
-                    <path class="slice" id="slice-health" data-category="Health" d="M48,50 L85,35 L88,45 L81,55 Z" clip-path="url(#shapeClip)" fill="#7E6A8D" tabindex="0" role="button" aria-label="Filter Health"></path>
+                    <path class="slice" id="slice-health" data-category="Health" d="M48,50 L85,35 L88,45 L81,55 Z" clip-path="url(#shapeClip)" fill="#7E6A8D" tabindex="0" role="button" aria-label="Filter Health" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"></path>
                     <text class="slice-label" x="75" y="45" clip-path="url(#shapeClip)">Health</text>
                   </g>
 
@@ -693,6 +873,20 @@
 
           <aside id="resourcePanel" class="resource-panel" aria-label="Filtered resource details" aria-live="polite" aria-hidden="true">
             <div id="resourcePanelShell" class="resource-panel-shell p-6 md:p-7">
+              <div id="spotlightPane" class="spotlight-pane" aria-hidden="true">
+                <div id="spotlightImage" class="spotlight-image"></div>
+                <div class="spotlight-wash"></div>
+                <div class="spotlight-content">
+                  <div id="spotlightMission" class="spotlight-chip">Community Spotlight</div>
+                  <h4 id="spotlightTitle" class="display text-4xl text-forest">Hover a spotlight node</h4>
+                  <p id="spotlightType" class="spotlight-type mt-4"></p>
+                  <div class="spotlight-meta">
+                    <p id="spotlightFeature"></p>
+                    <p id="spotlightContact"></p>
+                  </div>
+                </div>
+              </div>
+
               <div class="resource-list-pane">
                 <p class="text-[0.68rem] uppercase tracking-[0.24em] text-forest/55">Selected District</p>
                 <h3 id="panelTitle" class="display mt-2 text-3xl md:text-4xl text-forest">Choose a map fragment</h3>
@@ -717,6 +911,52 @@
             </div>
           </aside>
         </div>
+      <div class="px-6 md:px-8 lg:px-10 pb-6 md:pb-8 lg:pb-10">
+        <div class="featured-search-grid">
+          <div class="resource-search-shell">
+            <div class="flex flex-col gap-2">
+              <p class="text-[0.68rem] uppercase tracking-[0.28em] text-forest/55">Resource Search</p>
+              <h3 class="display mt-1 text-2xl md:text-3xl text-forest">Search all listed resources</h3>
+              <p class="text-sm text-slate-600">Jump directly to any organization across human services, health, arts, recreation, and education.</p>
+            </div>
+            <div class="mt-5">
+              <label class="sr-only" for="resourceSearchInput">Search all resources</label>
+              <input id="resourceSearchInput" class="search-field" type="search" placeholder="Search by organization, category, or focus..." autocomplete="off" />
+              <div id="resourceSearchResults" class="search-results" aria-live="polite"></div>
+            </div>
+          </div>
+
+          <div>
+            <p class="text-[0.68rem] uppercase tracking-[0.28em] text-forest/55">Community Highlights</p>
+            <h3 class="display mt-2 text-2xl md:text-3xl text-forest">Featured Resources</h3>
+            <p class="mt-2 text-sm text-slate-600">Three organizations that anchor the Weddington-Waxhaw community.</p>
+            <div class="mt-4 grid gap-3">
+
+              <button class="featured-card text-left" type="button" onclick="window.jumpToResource('Common Heart')" aria-label="View Common Heart on the map">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.63rem] font-bold uppercase tracking-[0.16em] bg-[#C96A4B]/12 text-[#C96A4B]">Human Services</span>
+                <p class="mt-2 font-bold text-forest text-base leading-snug">Common Heart</p>
+                <p class="mt-1 text-[0.82rem] leading-relaxed text-slate-600">A small revolution of kindness — the primary clearinghouse for food security and economic empowerment in the area.</p>
+                <p class="mt-2 text-[0.7rem] uppercase tracking-[0.14em] text-forest/60">View on map →</p>
+              </button>
+
+              <button class="featured-card text-left" type="button" onclick="window.jumpToResource('Museum of the Waxhaws')" aria-label="View Museum of the Waxhaws on the map">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.63rem] font-bold uppercase tracking-[0.16em] bg-[#6F7D99]/12 text-[#6F7D99]">Arts / History</span>
+                <p class="mt-2 font-bold text-forest text-base leading-snug">Museum of the Waxhaws</p>
+                <p class="mt-1 text-[0.82rem] leading-relaxed text-slate-600">Preserving the past to inspire the future — the cultural anchor of the region, home to living history and Andrew Jackson exhibits.</p>
+                <p class="mt-2 text-[0.7rem] uppercase tracking-[0.14em] text-forest/60">View on map →</p>
+              </button>
+
+              <button class="featured-card text-left" type="button" onclick="window.jumpToResource('JAARS')" aria-label="View JAARS on the map">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.63rem] font-bold uppercase tracking-[0.16em] bg-[#285945]/12 text-[#285945]">Education</span>
+                <p class="mt-2 font-bold text-forest text-base leading-snug">JAARS</p>
+                <p class="mt-1 text-[0.82rem] leading-relaxed text-slate-600">Making Bible translation possible — a Waxhaw campus offering STEM outreach, the Museum of the Alphabet, and state-unique educational tours.</p>
+                <p class="mt-2 text-[0.7rem] uppercase tracking-[0.14em] text-forest/60">View on map →</p>
+              </button>
+
+            </div>
+          </div>
+        </div>
+      </div>
       </div>
     </section>
 
@@ -800,7 +1040,7 @@
           </form>
         </div>
 
-        <aside class="rounded-[1.8rem] border border-forest/10 bg-gradient-to-br from-forest to-moss text-white p-6 md:p-7 relative overflow-hidden">
+        <aside class="rounded-[1.8rem] border border-forest/10 bg-gradient-to-br from-forest to-moss text-white p-6 md:p-7 relative overflow-hidden" aria-label="Explore more information">
           <div class="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/10"></div>
           <div class="absolute -left-10 bottom-0 h-40 w-40 rounded-full bg-white/10"></div>
           <div class="relative z-10">

@@ -179,6 +179,15 @@ const detailContact = document.getElementById("detailContact");
 const detailWebsiteBtn = document.getElementById("detailWebsiteBtn");
 const mapWrap = document.querySelector(".map-wrap");
 const mapColumn = document.querySelector(".map-column");
+const resourceSearchInput = document.getElementById("resourceSearchInput");
+const resourceSearchResults = document.getElementById("resourceSearchResults");
+const spotlightPane = document.getElementById("spotlightPane");
+const spotlightImage = document.getElementById("spotlightImage");
+const spotlightMission = document.getElementById("spotlightMission");
+const spotlightTitle = document.getElementById("spotlightTitle");
+const spotlightType = document.getElementById("spotlightType");
+const spotlightFeature = document.getElementById("spotlightFeature");
+const spotlightContact = document.getElementById("spotlightContact");
 
 const resourceSuggestionForm = document.getElementById("resourceSuggestionForm");
 const formStatusMessage = document.getElementById("formStatusMessage");
@@ -189,7 +198,7 @@ const chatbotMessages = document.getElementById("chatbotMessages");
 const chatbotForm = document.getElementById("chatbotForm");
 const chatbotInput = document.getElementById("chatbotInput");
 
-const hasGSAP = typeof globalThis.gsap !== "undefined";
+const hasGSAP = globalThis.gsap !== undefined;
 
 function animateTo(target, vars) {
   if (!target || !hasGSAP) return;
@@ -204,6 +213,26 @@ function animateFromTo(target, fromVars, toVars) {
 function setAnim(target, vars) {
   if (!target || !hasGSAP) return;
   globalThis.gsap.set(target, vars);
+}
+
+function normalizeSearchText(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replaceAll("&", "and")
+    .replaceAll(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function getResourceSearchBlob(resource) {
+  return normalizeSearchText([
+    resource.name,
+    resource.category,
+    resource.focus,
+    resource.description,
+    resource.contact,
+    resource.spotlight?.mission,
+    resource.spotlight?.uniqueFeature
+  ].filter(Boolean).join(" "));
 }
 
 if (
@@ -228,18 +257,132 @@ if (
   const state = {
     activeCategory: null,
     nodes: [],
-    activeResource: null
+    activeResource: null,
+    spotlightTimer: null,
+    spotlightResource: null
   };
 
   const basePanelTitle = "Choose a map fragment";
   const basePanelIntro = "Use the map to reveal organizations tied to each category.";
 
+  function clearSpotlightType() {
+    if (state.spotlightTimer) {
+      globalThis.clearTimeout(state.spotlightTimer);
+      state.spotlightTimer = null;
+    }
+    if (spotlightType) {
+      spotlightType.textContent = "";
+    }
+  }
+
+  function hideSpotlight() {
+    if (!spotlightPane) return;
+    clearSpotlightType();
+    state.spotlightResource = null;
+    spotlightPane.classList.remove("is-visible");
+    spotlightPane.setAttribute("aria-hidden", "true");
+    resourcePanelShell.classList.remove("showing-spotlight");
+  }
+
+  function typeSpotlightText(text) {
+    if (!spotlightType) return;
+    clearSpotlightType();
+    let cursor = 0;
+
+    function tick() {
+      spotlightType.textContent = text.slice(0, cursor);
+      cursor += 3;
+      if (cursor <= text.length) {
+        state.spotlightTimer = globalThis.setTimeout(tick, 18);
+      }
+    }
+
+    tick();
+  }
+
+  function showSpotlight(resource) {
+    if (!spotlightPane || !resource?.spotlight) return;
+
+    state.spotlightResource = resource;
+    spotlightMission.textContent = resource.spotlight.mission || "Community Spotlight";
+    spotlightTitle.textContent = resource.name || "Featured Resource";
+    spotlightFeature.textContent = `Unique Feature: ${resource.spotlight.uniqueFeature || ""}`;
+    spotlightContact.textContent = `Contact: ${resource.contact || ""}`;
+    spotlightImage.style.backgroundImage = `url('${resource.spotlight.image}')`;
+
+    resourcePanelShell.classList.add("showing-spotlight");
+    spotlightPane.classList.add("is-visible");
+    spotlightPane.setAttribute("aria-hidden", "false");
+    typeSpotlightText(resource.spotlight.description || "");
+  }
+
+  function activateResource(resource) {
+    if (!resource?.category) return;
+    activateSlice(resource.category);
+    showResourceDetail(resource);
+    hubStage.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function renderSearchResults(query) {
+    if (!resourceSearchResults) return;
+
+    const normalizedQuery = normalizeSearchText(query);
+    const source = normalizedQuery
+      ? resources.filter((resource) => getResourceSearchBlob(resource).includes(normalizedQuery))
+      : resources.slice().sort((left, right) => left.name.localeCompare(right.name)).slice(0, 8);
+
+    if (source.length === 0) {
+      resourceSearchResults.innerHTML = '<p class="text-sm text-slate-600">No resources matched that search.</p>';
+      return;
+    }
+
+    const helperText = normalizedQuery
+      ? `<p class="text-[0.7rem] uppercase tracking-[0.18em] text-forest/55">${source.length} matching resources</p>`
+      : '<p class="text-[0.7rem] uppercase tracking-[0.18em] text-forest/55">Browse a sample or start typing for all resources</p>';
+
+    const resultsMarkup = source.map((resource) => {
+      const encodedName = resource.name.replaceAll('"', "&quot;");
+      return [
+        '<button class="search-result" type="button" data-resource-name="',
+        encodedName,
+        '">',
+        '<div class="text-sm font-semibold text-forest">',
+        resource.name,
+        '</div>',
+        '<div class="mt-1 text-[0.68rem] uppercase tracking-[0.16em] text-forest/55">',
+        resource.category,
+        ' · ',
+        resource.focus,
+        '</div>',
+        '<div class="mt-2 text-sm text-slate-600">',
+        resource.description,
+        '</div>',
+        '</button>'
+      ].join("");
+    }).join("");
+
+    resourceSearchResults.innerHTML = helperText + resultsMarkup;
+
+    Array.from(resourceSearchResults.querySelectorAll(".search-result")).forEach((button) => {
+      button.addEventListener("click", () => {
+        const target = resources.find((resource) => resource.name === button.dataset.resourceName);
+        if (!target) return;
+        if (resourceSearchInput) {
+          resourceSearchInput.value = target.name;
+        }
+        activateResource(target);
+      });
+    });
+  }
+
   function showResourceListPane() {
     resourcePanelShell.classList.remove("showing-detail");
     state.activeResource = null;
+    hideSpotlight();
   }
 
   function showResourceDetail(resource) {
+    hideSpotlight();
     state.activeResource = resource;
     detailTitle.textContent = resource.name || "Resource";
     detailFocus.textContent = resource.focus || "";
@@ -320,6 +463,24 @@ if (
         </div>
       `;
       node.addEventListener("click", () => showResourceDetail(resource));
+      node.addEventListener("mouseenter", () => {
+        if (resource.spotlight) {
+          showSpotlight(resource);
+        } else {
+          hideSpotlight();
+        }
+      });
+      node.addEventListener("mouseleave", () => {
+        hideSpotlight();
+      });
+      node.addEventListener("focus", () => {
+        if (resource.spotlight) {
+          showSpotlight(resource);
+        }
+      });
+      node.addEventListener("blur", () => {
+        hideSpotlight();
+      });
       fragment.appendChild(node);
       state.nodes.push(node);
     });
@@ -390,6 +551,7 @@ if (
 
   function resetMap() {
     state.activeCategory = null;
+    hideSpotlight();
     reorderSliceGroups(null);
     hubStage.classList.remove("is-active");
     resourcePanel.setAttribute("aria-hidden", "true");
@@ -498,11 +660,26 @@ if (
   resetMapBtn.addEventListener("click", resetMap);
   detailBackBtn.addEventListener("click", showResourceListPane);
 
+  if (resourceSearchInput && resourceSearchResults) {
+    renderSearchResults("");
+    resourceSearchInput.addEventListener("input", (event) => {
+      renderSearchResults(event.target.value);
+    });
+    resourceSearchInput.addEventListener("focus", () => {
+      renderSearchResults(resourceSearchInput.value);
+    });
+  }
+
   globalThis.addEventListener("resize", () => {
     if (!state.activeCategory) return;
     setAnim(mapWrap, { x: globalThis.innerWidth > 1180 ? -26 : 0 });
     setAnim(mapColumn, { x: globalThis.innerWidth > 1180 ? -10 : 0 });
   });
+
+  globalThis.jumpToResource = (name) => {
+    const target = resources.find((r) => r.name === name);
+    if (target) activateResource(target);
+  };
 
   resetMap();
 }
@@ -574,8 +751,8 @@ if (chatbotToggle && chatbotShell && chatbotMessages && chatbotForm && chatbotIn
   function normalizeText(value) {
     return value
       .toLowerCase()
-      .replace(/&/g, "and")
-      .replace(/[^a-z0-9]+/g, " ")
+      .replaceAll("&", "and")
+      .replaceAll(/[^a-z0-9]+/g, " ")
       .trim();
   }
 
@@ -583,8 +760,8 @@ if (chatbotToggle && chatbotShell && chatbotMessages && chatbotForm && chatbotIn
     const terms = [resource.name, resource.category, resource.focus];
 
     if (resource.name.includes(" - ")) {
-      terms.push(resource.name.split(" - ")[0]);
-      terms.push(resource.name.split(" - ").slice(1).join(" - "));
+      const [primaryName, ...secondaryName] = resource.name.split(" - ");
+      terms.push(primaryName, secondaryName.join(" - "));
     }
 
     return terms.filter(Boolean).map(normalizeText);

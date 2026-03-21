@@ -10,10 +10,14 @@
       theme: {
         extend: {
           colors: {
-            brick: "#8B0000",
-            forest: "#228B22",
-            cream: "#F5F5DC",
-            ink: "#2f1818"
+            night: "#0F172A",
+            forest: "#173A2E",
+            moss: "#285945",
+            fern: "#5E8B6F",
+            parchment: "#F6F1E8",
+            fog: "#E7E2D8",
+            ember: "#C96A4B",
+            stone: "#667085"
           }
         }
       }
@@ -21,19 +25,20 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     body {
-      font-family: "Space Grotesk", sans-serif;
+      font-family: "Inter", sans-serif;
       background:
         radial-gradient(circle at 12% 8%, rgba(139, 0, 0, 0.12), transparent 32%),
         radial-gradient(circle at 85% 90%, rgba(34, 139, 34, 0.12), transparent 40%),
-        #F5F5DC;
+        #F6F1E8;
       color: #000000;
     }
 
     h1, h2, h3 {
-      font-family: "Cormorant Garamond", serif;
+      font-family: "Instrument Serif", serif;
+      letter-spacing: -0.02em;
     }
 
     .ticker-track {
@@ -53,73 +58,73 @@
 </head>
 <body class="min-h-screen">
   <header class="max-w-6xl mx-auto px-4 md:px-6 pt-5 pb-3">
-    <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-brick/30 pb-4">
+    <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-forest/20 pb-4">
       <div>
-        <p class="text-xs uppercase tracking-[0.22em] text-brick/80">Community Action Hub</p>
-        <h1 class="text-5xl md:text-6xl leading-none text-brick">Community Pulse</h1>
-        <p class="mt-2 text-base md:text-lg text-ink/80">Your logistics partner for local drives and urgent response.</p>
+        <p class="text-[0.68rem] uppercase tracking-[0.3em] text-forest/60">Community Action Hub</p>
+        <h1 class="text-4xl md:text-6xl leading-[0.95] text-forest">Community Pulse</h1>
+        <p class="mt-2 text-sm md:text-lg text-stone">Your logistics partner for local drives and urgent response.</p>
       </div>
-      <a href="index.html" class="inline-flex items-center justify-center rounded-full border border-forest px-5 py-3 text-xs uppercase tracking-[0.16em] font-bold text-forest hover:bg-forest hover:text-white transition-colors">
+      <a href="index.html" class="inline-flex items-center justify-center rounded-full border border-forest/15 bg-white/70 px-5 py-3 text-[0.72rem] uppercase tracking-[0.16em] font-semibold text-forest hover:bg-forest hover:text-white transition-colors">
         Back to Main Hub
       </a>
     </div>
   </header>
 
   <main class="max-w-6xl mx-auto px-4 md:px-6 pb-12 space-y-10">
-    <section aria-labelledby="urgent-needs" class="border-b border-brick/25 pb-8">
-      <h2 id="urgent-needs" class="text-4xl md:text-5xl text-brick">Urgent Needs</h2>
-      <div class="mt-4 overflow-hidden border-y-2 border-brick/80 py-3" aria-live="polite">
-        <p class="ticker-track text-sm md:text-base font-bold tracking-wide text-brick">
+    <section aria-labelledby="urgent-needs" class="border-b border-forest/20 pb-8">
+      <h2 id="urgent-needs" class="text-3xl md:text-5xl text-forest">Urgent Needs</h2>
+      <div class="mt-4 overflow-hidden border-y-2 border-ember/70 py-3" aria-live="polite">
+        <p class="ticker-track text-sm md:text-base font-bold tracking-wide text-forest">
           URGENT: O-Negative Blood needed at Waxhaw YMCA | FOOD DRIVE: Peanut Butter &amp; Canned Meats low at Common Heart.
         </p>
       </div>
     </section>
 
     <section aria-labelledby="logistics-partner" class="border-b border-forest/30 pb-8">
-      <h2 id="logistics-partner" class="text-4xl md:text-5xl text-brick">Why Register Through The Hub</h2>
-      <p class="mt-4 text-lg leading-relaxed">
+      <h2 id="logistics-partner" class="text-3xl md:text-5xl text-forest">Why Register Through The Hub</h2>
+      <p class="mt-4 text-base md:text-lg leading-relaxed text-stone">
         Hosting a drive can be overwhelming, so our platform acts as your Logistics Partner.
       </p>
-      <p class="mt-2 text-base leading-relaxed">
+      <p class="mt-2 text-sm md:text-base leading-relaxed text-stone">
         When you register a drive through the Weddington-Waxhaw Hub, we provide promotion, supplies, coordination, and verification support from start to finish.
       </p>
-      <ul class="mt-5 space-y-3 text-base md:text-lg">
-        <li><span class="font-bold text-brick">Promotion:</span> We feature your drive on our Urgent Needs ticker and community calendar.</li>
-        <li><span class="font-bold text-brick">Supplies:</span> Access to printable flyer templates and social media graphics tailored to our town's aesthetic.</li>
-        <li><span class="font-bold text-brick">Coordination:</span> We bridge the gap between your collection and the final delivery to a trusted organization.</li>
-        <li><span class="font-bold text-brick">Verification:</span> We provide a Certificate of Impact for student service hours or corporate social responsibility records.</li>
+      <ul class="mt-5 space-y-3 text-sm md:text-lg text-night">
+        <li><span class="font-bold text-forest">Promotion:</span> We feature your drive on our Urgent Needs ticker and community calendar.</li>
+        <li><span class="font-bold text-forest">Supplies:</span> Access to printable flyer templates and social media graphics tailored to our town's aesthetic.</li>
+        <li><span class="font-bold text-forest">Coordination:</span> We bridge the gap between your collection and the final delivery to a trusted organization.</li>
+        <li><span class="font-bold text-forest">Verification:</span> We provide a Certificate of Impact for student service hours or corporate social responsibility records.</li>
       </ul>
     </section>
 
-    <section aria-labelledby="trusted-venues" class="border-b border-brick/25 pb-8">
-      <h2 id="trusted-venues" class="text-4xl md:text-5xl text-brick">Trusted Venues (Drop-off &amp; Hosting Locations)</h2>
-      <p class="mt-3 text-base md:text-lg">These locations have partnered with us as reliable physical hubs for collection.</p>
+    <section aria-labelledby="trusted-venues" class="border-b border-forest/20 pb-8">
+      <h2 id="trusted-venues" class="text-3xl md:text-5xl text-forest">Trusted Venues (Drop-off &amp; Hosting Locations)</h2>
+      <p class="mt-3 text-sm md:text-lg text-stone">These locations have partnered with us as reliable physical hubs for collection.</p>
       <dl class="mt-5 grid gap-4 md:gap-5">
         <div class="grid gap-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-start">
           <dt class="font-bold text-lg text-forest">Weddington Town Hall</dt>
-          <dd class="text-base">Best for: Small-scale high-value collections (gift cards, school supplies). Phone: 704-846-1402</dd>
+          <dd class="text-sm md:text-base text-stone">Best for: Small-scale high-value collections (gift cards, school supplies). Phone: 704-846-1402</dd>
         </div>
         <div class="grid gap-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-start">
           <dt class="font-bold text-lg text-forest">Waxhaw Fire Department (Station 18)</dt>
-          <dd class="text-base">Best for: Large bulk items (canned food, bottled water, blankets). Phone: 704-843-4001</dd>
+          <dd class="text-sm md:text-base text-stone">Best for: Large bulk items (canned food, bottled water, blankets). Phone: 704-843-4001</dd>
         </div>
         <div class="grid gap-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-start">
           <dt class="font-bold text-lg text-forest">Union County Social Services (Monroe Hub)</dt>
-          <dd class="text-base">Best for: Clothing drives and formal social resource distributions. Phone: 704-296-4300</dd>
+          <dd class="text-sm md:text-base text-stone">Best for: Clothing drives and formal social resource distributions. Phone: 704-296-4300</dd>
         </div>
       </dl>
     </section>
 
     <section aria-labelledby="trusted-orgs" class="border-b border-forest/30 pb-8">
-      <h2 id="trusted-orgs" class="text-4xl md:text-5xl text-brick">Trusted Organizations by Drive Type</h2>
-      <p class="mt-3 text-base md:text-lg">If you are hosting a drive, these are the organizations that will receive and distribute your items.</p>
+      <h2 id="trusted-orgs" class="text-3xl md:text-5xl text-forest">Trusted Organizations by Drive Type</h2>
+      <p class="mt-3 text-sm md:text-lg text-stone">If you are hosting a drive, these are the organizations that will receive and distribute your items.</p>
       <div class="mt-5 overflow-x-auto">
         <table class="w-full min-w-[680px] border-collapse text-left">
           <thead>
-            <tr class="border-b-2 border-brick/60">
-              <th class="py-2 pr-3 text-sm uppercase tracking-[0.14em] text-brick">Drive Type</th>
-              <th class="py-2 pr-3 text-sm uppercase tracking-[0.14em] text-brick">Primary Organization</th>
-              <th class="py-2 text-sm uppercase tracking-[0.14em] text-brick">Secondary/Backup</th>
+            <tr class="border-b-2 border-forest/25">
+              <th class="py-2 pr-3 text-[0.72rem] uppercase tracking-[0.14em] text-forest/70">Drive Type</th>
+              <th class="py-2 pr-3 text-[0.72rem] uppercase tracking-[0.14em] text-forest/70">Primary Organization</th>
+              <th class="py-2 text-[0.72rem] uppercase tracking-[0.14em] text-forest/70">Secondary/Backup</th>
             </tr>
           </thead>
           <tbody class="[&>tr]:border-b [&>tr]:border-forest/20 [&>tr:last-child]:border-b-0">
@@ -151,23 +156,23 @@
           </tbody>
         </table>
       </div>
-      <p class="mt-4 text-base md:text-lg leading-relaxed"><span class="font-bold text-brick">Pro-Tip:</span> Common Heart and Heart for Monroe are our Universal Partners. They have the infrastructure to accept almost any type of drive (food, clothing, or financial) and route it to the right family.</p>
+      <p class="mt-4 text-sm md:text-lg leading-relaxed text-stone"><span class="font-bold text-forest">Pro-Tip:</span> Common Heart and Heart for Monroe are our Universal Partners. They have the infrastructure to accept almost any type of drive (food, clothing, or financial) and route it to the right family.</p>
     </section>
 
     <section aria-labelledby="get-involved" class="pb-2">
-      <h2 id="get-involved" class="text-4xl md:text-5xl text-brick">Get Involved: Start Your Drive</h2>
-      <p class="mt-3 text-base md:text-lg">Follow these steps to turn your idea into a community movement.</p>
+      <h2 id="get-involved" class="text-3xl md:text-5xl text-forest">Get Involved: Start Your Drive</h2>
+      <p class="mt-3 text-sm md:text-lg text-stone">Follow these steps to turn your idea into a community movement.</p>
 
       <div class="mt-6">
-        <p class="text-xs uppercase tracking-[0.2em] text-forest">The Process</p>
+        <p class="text-[0.68rem] uppercase tracking-[0.26em] text-forest/60">The Process</p>
         <ol class="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" id="stepButtons">
-          <li><button type="button" class="step-btn w-full text-left border-b-2 border-brick pb-2 font-semibold hover:text-brick" data-step="1">1. Select Your Cause</button></li>
-          <li><button type="button" class="step-btn w-full text-left border-b-2 border-brick/45 pb-2 font-semibold hover:text-brick" data-step="2">2. Pick a Date</button></li>
-          <li><button type="button" class="step-btn w-full text-left border-b-2 border-brick/45 pb-2 font-semibold hover:text-brick" data-step="3">3. Register Below</button></li>
-          <li><button type="button" class="step-btn w-full text-left border-b-2 border-brick/45 pb-2 font-semibold hover:text-brick" data-step="4">4. Collect &amp; Deliver</button></li>
+          <li><button type="button" class="step-btn w-full text-left border-b-2 border-forest pb-2 text-sm font-semibold text-night hover:text-forest" data-step="1">1. Select Your Cause</button></li>
+          <li><button type="button" class="step-btn w-full text-left border-b-2 border-forest/30 pb-2 text-sm font-semibold text-night hover:text-forest" data-step="2">2. Pick a Date</button></li>
+          <li><button type="button" class="step-btn w-full text-left border-b-2 border-forest/30 pb-2 text-sm font-semibold text-night hover:text-forest" data-step="3">3. Register Below</button></li>
+          <li><button type="button" class="step-btn w-full text-left border-b-2 border-forest/30 pb-2 text-sm font-semibold text-night hover:text-forest" data-step="4">4. Collect &amp; Deliver</button></li>
         </ol>
 
-        <div class="mt-4 text-base leading-relaxed" id="stepDetails" aria-live="polite">
+        <div class="mt-4 text-sm md:text-base leading-relaxed text-stone" id="stepDetails" aria-live="polite">
           <p class="step-content" data-content="1">Choose what you want to collect: food, blood, or supplies.</p>
           <p class="step-content" data-content="2" hidden>We recommend a 2-week window for maximum participation.</p>
           <p class="step-content" data-content="3" hidden>Fill out the form so we can add you to the Community Pulse map.</p>
@@ -177,13 +182,13 @@
 
       <form class="mt-8 grid gap-4 md:grid-cols-2" aria-label="Drive registration form">
         <div>
-          <label class="block text-sm font-semibold mb-1" for="full_name">Full Name</label>
-          <input id="full_name" name="full_name" type="text" required class="w-full border border-forest/50 bg-white/90 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-brick/40" />
+          <label class="mb-1 block text-sm font-semibold text-night" for="full_name">Full Name</label>
+          <input id="full_name" name="full_name" type="text" required class="w-full border border-forest/20 bg-white/90 px-3 py-2.5 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-forest/20" />
         </div>
 
         <div>
-          <label class="block text-sm font-semibold mb-1" for="drive_type">Type of Drive</label>
-          <select id="drive_type" name="drive_type" required class="w-full border border-forest/50 bg-white/90 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-brick/40">
+          <label class="mb-1 block text-sm font-semibold text-night" for="drive_type">Type of Drive</label>
+          <select id="drive_type" name="drive_type" required class="w-full border border-forest/20 bg-white/90 px-3 py-2.5 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-forest/20">
             <option value="">Select</option>
             <option>Food</option>
             <option>Blood</option>
@@ -193,13 +198,13 @@
         </div>
 
         <div>
-          <label class="block text-sm font-semibold mb-1" for="proposed_dates">Proposed Dates</label>
-          <input id="proposed_dates" name="proposed_dates" type="date" required class="w-full border border-forest/50 bg-white/90 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-brick/40" />
+          <label class="mb-1 block text-sm font-semibold text-night" for="proposed_dates">Proposed Dates</label>
+          <input id="proposed_dates" name="proposed_dates" type="date" required class="w-full border border-forest/20 bg-white/90 px-3 py-2.5 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-forest/20" />
         </div>
 
         <div>
-          <label class="block text-sm font-semibold mb-1" for="preferred_venue">Preferred Venue</label>
-          <select id="preferred_venue" name="preferred_venue" required class="w-full border border-forest/50 bg-white/90 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-brick/40">
+          <label class="mb-1 block text-sm font-semibold text-night" for="preferred_venue">Preferred Venue</label>
+          <select id="preferred_venue" name="preferred_venue" required class="w-full border border-forest/20 bg-white/90 px-3 py-2.5 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-forest/20">
             <option value="">Select</option>
             <option>Weddington Town Hall</option>
             <option>Waxhaw Fire</option>
@@ -208,12 +213,12 @@
         </div>
 
         <div class="md:col-span-2">
-          <label class="block text-sm font-semibold mb-1" for="message">Message / Special Needs</label>
-          <textarea id="message" name="message" rows="5" class="w-full border border-forest/50 bg-white/90 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-brick/40"></textarea>
+          <label class="mb-1 block text-sm font-semibold text-night" for="message">Message / Special Needs</label>
+          <textarea id="message" name="message" rows="5" class="w-full border border-forest/20 bg-white/90 px-3 py-2.5 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-forest/20"></textarea>
         </div>
 
         <div class="md:col-span-2 flex items-center justify-start">
-          <button type="submit" class="inline-flex items-center justify-center rounded-full bg-brick px-6 py-3 text-xs uppercase tracking-[0.14em] font-bold text-white hover:bg-forest transition-colors">
+          <button type="submit" class="inline-flex items-center justify-center rounded-full bg-forest px-6 py-3 text-[0.72rem] uppercase tracking-[0.14em] font-bold text-white hover:bg-moss transition-colors">
             Submit Drive Request
           </button>
         </div>
@@ -237,9 +242,9 @@
 
         stepButtons.forEach((btn) => {
           const active = btn.dataset.step === targetStep;
-          btn.classList.toggle("border-brick", active);
-          btn.classList.toggle("text-brick", active);
-          btn.classList.toggle("border-brick/45", !active);
+          btn.classList.toggle("border-forest", active);
+          btn.classList.toggle("text-forest", active);
+          btn.classList.toggle("border-forest/30", !active);
         });
 
         stepContents.forEach((content) => {
