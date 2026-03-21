@@ -1,585 +1,846 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Community Resource Hub | Weddington + Waxhaw</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brick: "#8B0000",
-                        forest: "#228B22",
-                        cream: "#F5F5DC"
-                    }
-                }
-            }
-        };
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
-    <style>
-        :root {
-            --brick: #8B0000;
-            --forest: #228B22;
-            --cream: #F5F5DC;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community Resource Hub | Weddington + Waxhaw</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            night: "#0F172A",
+            forest: "#173A2E",
+            moss: "#285945",
+            fern: "#5E8B6F",
+            parchment: "#F6F1E8",
+            ember: "#C96A4B",
+            fog: "#E7E2D8",
+            stone: "#667085"
+          },
+          boxShadow: {
+            haze: "0 20px 60px rgba(15, 23, 42, 0.12)",
+            floaty: "0 14px 34px rgba(15, 23, 42, 0.16)",
+            insetline: "inset 0 1px 0 rgba(255,255,255,0.45)"
+          },
+          borderRadius: {
+            shell: "2rem"
+          }
         }
+      }
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --night: #0F172A;
+      --forest: #173A2E;
+      --moss: #285945;
+      --fern: #5E8B6F;
+      --parchment: #F6F1E8;
+      --fog: #E7E2D8;
+      --ember: #C96A4B;
+      --line: rgba(23, 58, 46, 0.12);
+      --line-strong: rgba(23, 58, 46, 0.2);
+    }
 
-        body {
-            font-family: "Inter", sans-serif;
-            background:
-                radial-gradient(circle at 18% 10%, rgba(139, 0, 0, 0.16), transparent 44%),
-                radial-gradient(circle at 88% 85%, rgba(34, 139, 34, 0.14), transparent 44%),
-                #F5F5DC;
-        }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
-        h1,
-        h2,
-        h3,
-        .display {
-            font-family: "Playfair Display", serif;
-        }
+    body {
+      font-family: "Inter", sans-serif;
+      color: var(--night);
+      background:
+        radial-gradient(circle at 10% 20%, rgba(94, 139, 111, 0.14), transparent 28%),
+        radial-gradient(circle at 84% 14%, rgba(201, 106, 75, 0.10), transparent 24%),
+        linear-gradient(180deg, #fcfaf6 0%, #f6f1e8 42%, #efe7db 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-        .hub-stage {
-            position: relative;
-            display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-            align-items: center;
-            gap: 2rem;
-            min-height: 580px;
-        }
+    h1, h2, h3, .display {
+      font-family: "Instrument Serif", serif;
+      letter-spacing: -0.02em;
+    }
 
-        .map-shell {
-            position: relative;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            transition: transform 420ms ease;
-        }
+    .grain::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.055;
+      background-image:
+        linear-gradient(rgba(0,0,0,.4) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,.4) 1px, transparent 1px);
+      background-size: 4px 4px, 4px 4px;
+      mix-blend-mode: multiply;
+      z-index: 1;
+    }
 
-        #studyMap {
-            width: 80vw;
-            max-width: 760px;
-            height: auto;
-            display: block;
-            overflow: visible;
-            filter: drop-shadow(0 18px 26px rgba(49, 18, 18, 0.22));
-        }
+    .shell {
+      position: relative;
+      background: linear-gradient(180deg, rgba(255,255,255,0.52), rgba(255,255,255,0.3));
+      border: 1px solid rgba(23, 58, 46, 0.12);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
 
-        .slice-group {
-            transform-box: fill-box;
-            transform-origin: center;
-        }
+    .topo-lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 50%, transparent 0 30%, rgba(23,58,46,.045) 30.5% 31%, transparent 31.5%),
+        radial-gradient(circle at 50% 50%, transparent 0 40%, rgba(23,58,46,.04) 40.5% 41%, transparent 41.5%),
+        radial-gradient(circle at 50% 50%, transparent 0 50%, rgba(23,58,46,.035) 50.5% 51%, transparent 51.5%),
+        radial-gradient(circle at 50% 50%, transparent 0 60%, rgba(23,58,46,.03) 60.5% 61%, transparent 61.5%);
+      opacity: .7;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.2));
+    }
 
-        .slice {
-            cursor: pointer;
-            transform-box: fill-box;
-            transform-origin: center;
-            transition: filter 180ms ease, opacity 220ms ease;
-            stroke: rgba(245, 245, 220, 0.92);
-            stroke-width: 2;
-            stroke-linejoin: round;
-            vector-effect: non-scaling-stroke;
-        }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1.5rem;
+      align-items: stretch;
+    }
 
-        .slice:hover,
-        .slice.hovering {
-            filter: brightness(1.16) drop-shadow(0 0 3px rgba(34, 139, 34, 0.9));
-        }
+    .map-stage {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+      gap: 1.5rem;
+      align-items: center;
+      min-height: 680px;
+    }
 
-        .slice.is-active {
-            filter: brightness(1.2) drop-shadow(0 0 4px rgba(34, 139, 34, 0.95));
-        }
+    .map-column {
+      position: relative;
+      min-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .slice-label {
-            fill: rgba(245, 245, 220, 0.95);
-            font-size: 2.8px;
-            letter-spacing: 0.09em;
-            text-transform: uppercase;
-            pointer-events: none;
-            font-family: "Inter", sans-serif;
-            font-weight: 700;
-            text-anchor: middle;
-        }
+    .map-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 850px;
+      aspect-ratio: 1 / 1;
+      border-radius: 2rem;
+      padding: 1.2rem;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.7), rgba(231,226,216,0.6));
+      border: 1px solid rgba(23, 58, 46, 0.12);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.55),
+        0 24px 60px rgba(15, 23, 42, 0.10);
+      overflow: hidden;
+    }
 
-        .base-layer {
-            opacity: 0.96;
-        }
+    .map-wrap::before,
+    .map-wrap::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(30px);
+      opacity: 0.8;
+      pointer-events: none;
+    }
 
-        .resource-panel {
-            opacity: 0;
-            pointer-events: none;
-            transform: translateX(32px);
-            transition: opacity 320ms ease, transform 420ms ease;
-        }
+    .map-wrap::before {
+      width: 180px;
+      height: 180px;
+      background: rgba(94, 139, 111, 0.18);
+      top: -2rem;
+      left: -1rem;
+    }
 
-        .hub-stage.is-active .map-shell {
-            transform: translateX(-25%);
-        }
+    .map-wrap::after {
+      width: 160px;
+      height: 160px;
+      background: rgba(201, 106, 75, 0.14);
+      right: -2rem;
+      bottom: 0;
+    }
 
-        .hub-stage.is-active .resource-panel {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateX(0);
-        }
+    .map-core {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 1.5rem;
+      border: 1px dashed rgba(23,58,46,0.12);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.42), rgba(255,255,255,0.16));
+    }
 
-        .resource-node {
-            position: relative;
-            display: grid;
-            grid-template-columns: 16px 1fr;
-            align-items: start;
-            gap: 0.9rem;
-            text-align: left;
-            line-height: 1.22;
-            color: rgba(50, 15, 15, 0.95);
-            text-shadow: 0 0 14px rgba(245, 245, 220, 0.85);
-            pointer-events: auto;
-            opacity: 0;
-            transform-origin: center;
-            margin-bottom: 1.15rem;
-            width: 100%;
-            border: 0;
-            background: transparent;
-            padding: 0;
-        }
+    #studyMap {
+      width: min(100%, 780px);
+      height: auto;
+      display: block;
+      overflow: visible;
+      filter: drop-shadow(0 24px 40px rgba(15, 23, 42, 0.16));
+    }
 
-        .resource-node:hover {
-            cursor: pointer;
-        }
+    .slice-group {
+      transform-box: fill-box;
+      transform-origin: center;
+    }
 
-        .resource-node .bullet {
-            width: 10px;
-            height: 10px;
-            margin-top: 0.4rem;
-            border-radius: 999px;
-            background: radial-gradient(circle, rgba(34, 139, 34, 1) 0%, rgba(34, 139, 34, 0.76) 45%, rgba(34, 139, 34, 0) 100%);
-            box-shadow: 0 0 14px rgba(34, 139, 34, 0.85);
-        }
+    .slice {
+      cursor: pointer;
+      transform-box: fill-box;
+      transform-origin: center;
+      stroke: rgba(255,255,255,0.95);
+      stroke-width: 2.2;
+      vector-effect: non-scaling-stroke;
+      transition: transform 180ms ease, filter 180ms ease, opacity 180ms ease;
+    }
 
-        .resource-node .name {
-            font-size: clamp(0.72rem, 1.5vw, 1rem);
-            font-weight: 700;
-            letter-spacing: 0.02em;
-        }
+    .slice:hover,
+    .slice.hovering {
+      transform: translateY(-1px) scale(1.012);
+      filter: brightness(1.08) saturate(1.08) drop-shadow(0 0 8px rgba(23, 58, 46, 0.28));
+    }
 
-        .resource-node .meta {
-            font-size: clamp(0.55rem, 1vw, 0.72rem);
-            letter-spacing: 0.06em;
-            opacity: 0.78;
-        }
+    .slice.is-active {
+      filter: brightness(1.1) saturate(1.08) drop-shadow(0 0 10px rgba(23, 58, 46, 0.35));
+    }
 
-        .spotlight-flow {
-            position: relative;
-            overflow: hidden;
-            border-radius: 999px;
-            min-height: 320px;
-        }
+    .slice-label {
+      fill: rgba(255,255,255,0.95);
+      font-size: 2.8px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      text-anchor: middle;
+      pointer-events: none;
+    }
 
-        .glass-ribbon {
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            background: linear-gradient(140deg, rgba(245, 245, 220, 0.22), rgba(245, 245, 220, 0.1));
-            box-shadow: 0 14px 30px rgba(59, 22, 22, 0.16);
-        }
+    .map-meta {
+      position: absolute;
+      left: 1.6rem;
+      right: 1.6rem;
+      top: 1.4rem;
+      z-index: 3;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      pointer-events: none;
+    }
 
-        .pulse-link {
-            animation: pulseLink 2.1s ease-in-out infinite;
-        }
+    .map-badge,
+    .map-note {
+      pointer-events: auto;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(23, 58, 46, 0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
 
-        .resource-panel-shell {
-            position: relative;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            background: linear-gradient(160deg, rgba(245, 245, 220, 0.46), rgba(245, 245, 220, 0.18));
-            box-shadow: 0 18px 34px rgba(59, 22, 22, 0.12);
-            overflow: hidden;
-        }
+    .resource-panel {
+      position: relative;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(18px);
+      transition: opacity 280ms ease, transform 360ms ease;
+    }
 
-        .resource-panel-track {
-            position: relative;
-            width: 100%;
-        }
+    .map-stage.is-active .resource-panel {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+    }
 
-        .resource-list-pane,
-        .resource-detail-pane {
-            min-width: 0;
-        }
+    .resource-panel-shell {
+      position: relative;
+      height: 100%;
+      min-height: 640px;
+      overflow: hidden;
+      border-radius: 2rem;
+      background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(246,241,232,0.92));
+      border: 1px solid rgba(23, 58, 46, 0.12);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.48),
+        0 24px 54px rgba(15, 23, 42, 0.11);
+    }
 
-        .resource-list-pane {
-            transition: transform 360ms ease, opacity 280ms ease;
-            min-width: 0;
-        }
+    .resource-panel-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(145deg, rgba(94,139,111,.05), transparent 40%),
+        radial-gradient(circle at 100% 0%, rgba(201,106,75,.10), transparent 24%);
+      pointer-events: none;
+    }
 
-        .resource-panel-shell.showing-detail .resource-list-pane {
-            transform: translateX(-12%);
-            opacity: 0.42;
-        }
+    .resource-list-pane,
+    .resource-detail-pane {
+      position: relative;
+      z-index: 2;
+      min-width: 0;
+      height: 100%;
+    }
 
-        .resource-detail-pane {
-            position: absolute;
-            inset: 0;
-            padding-left: 1.25rem;
-            padding-top: 0;
-            background: linear-gradient(160deg, rgba(245, 245, 220, 0.97), rgba(245, 245, 220, 0.9));
-            border-left: 1px solid rgba(139, 0, 0, 0.14);
-            opacity: 0;
-            transform: translateX(100%);
-            pointer-events: none;
-            transition: opacity 280ms ease, transform 360ms ease;
-            overflow: hidden;
-        }
+    .resource-list-pane {
+      transition: transform 320ms ease, opacity 260ms ease;
+    }
 
-        .resource-panel-shell.showing-detail .resource-detail-pane {
-            opacity: 1;
-            transform: translateX(0);
-            pointer-events: auto;
-        }
+    .resource-panel-shell.showing-detail .resource-list-pane {
+      transform: translateX(-10%);
+      opacity: 0.18;
+      pointer-events: none;
+    }
 
-        .resource-detail-pane p,
-        .resource-detail-pane a,
-        .resource-node .meta,
-        .resource-node .name {
-            overflow-wrap: anywhere;
-            word-break: break-word;
-        }
+    .resource-detail-pane {
+      position: absolute;
+      inset: 0;
+      padding: 1.75rem;
+      opacity: 0;
+      transform: translateX(100%);
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(246,241,232,0.98));
+      border-left: 1px solid rgba(23,58,46,0.1);
+      transition: opacity 280ms ease, transform 340ms ease;
+    }
 
-        .detail-back {
-            border: 0;
-            background: transparent;
-            color: #8B0000;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            font-size: 0.68rem;
-            padding: 0;
-        }
+    .resource-panel-shell.showing-detail .resource-detail-pane {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
 
-        .detail-website {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 0.7rem 1rem;
-            background: #8B0000;
-            color: #F5F5DC;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            font-size: 0.72rem;
-        }
+    .node-rail {
+      position: absolute;
+      left: 1.15rem;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(40,89,69,.2), rgba(40,89,69,.05));
+    }
 
-        .chatbot-dock {
-            position: fixed;
-            right: 1rem;
-            bottom: 1rem;
-            z-index: 60;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 0.55rem;
-        }
+    .resource-node {
+      position: relative;
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 1rem;
+      width: 100%;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(23,58,46,0.08);
+      border-radius: 1.35rem;
+      padding: 1rem 1rem 1rem 1.1rem;
+      background: rgba(255,255,255,0.55);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      opacity: 0;
+    }
 
-        .chatbot-toggle-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 999px;
-            border: 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: #F5F5DC;
-            color: #8B0000;
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            box-shadow: 0 10px 24px rgba(59, 22, 22, 0.28);
-            transition: background 180ms ease, transform 180ms ease;
-        }
+    .resource-node:hover {
+      transform: translateY(-2px) translateX(3px);
+      border-color: rgba(23,58,46,0.18);
+      background: rgba(255,255,255,0.88);
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+      cursor: pointer;
+    }
 
-        .chatbot-toggle-icon:hover {
-            background: #8B0000;
-            transform: translateY(-2px);
-        }
+    .resource-node .bullet {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      margin-top: .3rem;
+      background: radial-gradient(circle at 35% 35%, #fff, #5E8B6F 42%, #285945 75%);
+      box-shadow: 0 0 0 4px rgba(94,139,111,.14);
+    }
 
-        .chatbot-shell {
-            width: min(360px, calc(100vw - 1.5rem));
-            border-radius: 1.2rem;
-            overflow: hidden;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            background: linear-gradient(160deg, rgba(245, 245, 220, 0.95), rgba(245, 245, 220, 0.76));
-            box-shadow: 0 16px 38px rgba(39, 17, 17, 0.22);
-            border: 1px solid rgba(139, 0, 0, 0.18);
-        }
+    .resource-node .name {
+      font-size: .98rem;
+      font-weight: 800;
+      color: var(--forest);
+      line-height: 1.2;
+    }
 
-        .chatbot-messages {
-            max-height: 280px;
-            overflow-y: auto;
-            padding: 0.85rem;
-            display: grid;
-            gap: 0.65rem;
-        }
+    .resource-node .meta {
+      margin-top: .2rem;
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .13em;
+      color: rgba(15, 23, 42, 0.58);
+    }
 
-        .chat-msg {
-            font-size: 0.82rem;
-            line-height: 1.35;
-            padding: 0.6rem 0.72rem;
-            border-radius: 0.72rem;
-        }
+    .resource-node .blurb {
+      margin-top: .45rem;
+      font-size: .88rem;
+      line-height: 1.45;
+      color: rgba(15, 23, 42, 0.78);
+    }
 
-        .chat-msg.user {
-            margin-left: 2rem;
-            background: rgba(98, 14, 14, 0.9);
-            color: #f8f2d8;
-        }
+    .detail-back {
+      border: 0;
+      background: none;
+      color: var(--forest);
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      padding: 0;
+    }
 
-        .chat-msg.bot {
-            margin-right: 1.25rem;
-            background: rgba(18, 92, 18, 0.9);
-            color: #f7f5df;
-        }
+    .detail-website {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1.2rem;
+      min-height: 46px;
+      padding: .82rem 1.15rem;
+      border-radius: 999px;
+      text-decoration: none;
+      background: var(--forest);
+      color: #fff;
+      font-size: .75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      transition: transform 180ms ease, background 180ms ease;
+    }
 
-        #nodeLayer {
-            min-height: 220px;
-        }
+    .detail-website:hover {
+      transform: translateY(-1px);
+      background: var(--ember);
+    }
 
-        @keyframes pulseLink {
-            0%,
-            100% { transform: scale(1); }
-            50% { transform: scale(1.04); }
-        }
+    .district-band {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
 
-        @media (max-width: 1024px) {
-            .hub-stage {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-                min-height: unset;
-            }
+    .district-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.75rem;
+      min-height: 240px;
+      border: 1px solid rgba(23,58,46,0.12);
+      background: linear-gradient(180deg, rgba(255,255,255,0.62), rgba(255,255,255,0.32));
+      box-shadow: 0 18px 40px rgba(15,23,42,.08);
+    }
 
-            .hub-stage.is-active .map-shell {
-                transform: translateX(0);
-            }
+    .district-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -10% -35% auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 999px;
+      background: rgba(94,139,111,0.14);
+      filter: blur(4px);
+    }
 
-            #studyMap {
-                width: 92vw;
-            }
+    .district-card:nth-child(2)::before { background: rgba(201,106,75,0.14); }
+    .district-card:nth-child(3)::before { background: rgba(40,89,69,0.14); }
 
-            .chatbot-dock {
-                right: 0.65rem;
-                bottom: 0.65rem;
-            }
+    .survey-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1.25rem;
+    }
 
-            .chatbot-shell {
-                width: min(360px, calc(100vw - 1.3rem));
-            }
-        }
-    </style>
+    .form-field {
+      width: 100%;
+      border-radius: 1rem;
+      border: 1px solid rgba(23,58,46,0.12);
+      background: rgba(255,255,255,0.7);
+      padding: .95rem 1rem;
+      transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .form-field:focus {
+      outline: none;
+      border-color: rgba(23,58,46,.35);
+      box-shadow: 0 0 0 4px rgba(94,139,111,.12);
+      background: rgba(255,255,255,.98);
+    }
+
+    .chatbot-dock {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+      align-items: flex-end;
+    }
+
+    .chatbot-toggle-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(23,58,46,0.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(246,241,232,.92));
+      box-shadow: 0 14px 34px rgba(15,23,42,.18);
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--forest);
+      transition: transform 180ms ease, background 180ms ease, color 180ms ease;
+    }
+
+    .chatbot-toggle-icon:hover {
+      transform: translateY(-2px);
+      background: var(--forest);
+      color: #fff;
+    }
+
+    .chatbot-shell {
+      width: min(380px, calc(100vw - 1.5rem));
+      overflow: hidden;
+      border-radius: 1.4rem;
+      background: linear-gradient(180deg, rgba(255,255,255,.94), rgba(246,241,232,.96));
+      border: 1px solid rgba(23,58,46,.12);
+      box-shadow: 0 18px 40px rgba(15,23,42,.18);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .chatbot-messages {
+      max-height: 280px;
+      overflow-y: auto;
+      padding: .95rem;
+      display: grid;
+      gap: .65rem;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.26), transparent),
+        repeating-linear-gradient(180deg, transparent 0 35px, rgba(23,58,46,.03) 35px 36px);
+    }
+
+    .chat-msg {
+      border-radius: 1rem;
+      padding: .75rem .85rem;
+      font-size: .83rem;
+      line-height: 1.45;
+    }
+
+    .chat-msg.user {
+      margin-left: 2rem;
+      background: var(--forest);
+      color: #fff;
+    }
+
+    .chat-msg.bot {
+      margin-right: 1.2rem;
+      background: rgba(201,106,75,.92);
+      color: #fff;
+    }
+
+    @media (max-width: 1180px) {
+      .hero-grid,
+      .survey-grid,
+      .map-stage,
+      .district-band {
+        grid-template-columns: 1fr;
+      }
+
+      .resource-panel-shell {
+        min-height: 540px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .map-stage { min-height: auto; }
+      .map-meta {
+        position: static;
+        margin-bottom: 1rem;
+        flex-direction: column;
+      }
+      .map-wrap { aspect-ratio: auto; }
+      .resource-panel-shell,
+      .map-wrap { border-radius: 1.5rem; }
+      .chatbot-shell { width: min(360px, calc(100vw - 1rem)); }
+    }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col">
-    <header class="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-brick/20">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-            <div>
-                <h1 class="display text-3xl md:text-5xl text-brick leading-none">Community Resource Hub</h1>
-                <p class="text-xs md:text-sm tracking-[0.22em] uppercase text-brick/85 mt-1">Weddington + Waxhaw, North Carolina</p>
-            </div>
-            <nav class="flex flex-wrap gap-2 text-xs uppercase tracking-[0.14em]">
-                <a href="index.html" class="px-3 py-2 bg-brick text-cream">Hub</a>
-                <a href="navigator.html" class="px-3 py-2 bg-brick/10 text-brick hover:bg-brick hover:text-cream transition-colors">Local Navigator</a>
-                <a href="references.html" class="px-3 py-2 bg-brick/10 text-brick hover:bg-brick hover:text-cream transition-colors">References</a>
-            </nav>
+<body class="grain min-h-screen flex flex-col">
+  <header class="sticky top-0 z-40 px-3 pt-3">
+    <div class="shell max-w-7xl mx-auto rounded-[1.6rem] px-4 md:px-6 py-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div class="flex items-start gap-4">
+        <img src="logo.png" alt="Community Resource Hub Logo" class="hidden md:block h-16 w-16 rounded-2xl border border-forest/10 shadow-sm object-cover" />
+        <div>
+          <p class="text-[0.68rem] uppercase tracking-[0.34em] text-forest/60">Community Access Platform</p>
+          <h1 class="display text-3xl md:text-5xl leading-none text-forest">Community Resource Hub</h1>
+          <p class="mt-2 text-sm md:text-base text-slate-600">Weddington + Waxhaw, North Carolina</p>
         </div>
-    </header>
+      </div>
+      <nav class="flex flex-wrap gap-2 text-[0.72rem] uppercase tracking-[0.16em]">
+        <a href="index.html" class="px-4 py-3 rounded-full bg-forest text-white shadow-sm">Hub</a>
+        <a href="navigator.html" class="px-4 py-3 rounded-full border border-forest/12 bg-white/70 text-forest hover:bg-forest hover:text-white transition-colors">Local Navigator</a>
+        <a href="references.html" class="px-4 py-3 rounded-full border border-forest/12 bg-white/70 text-forest hover:bg-forest hover:text-white transition-colors">References</a>
+      </nav>
+    </div>
+  </header>
 
-    <main class="flex-1">
-        <section class="max-w-7xl mx-auto px-4 pt-8 md:pt-12 pb-8">
-            <div class="max-w-3xl">
-                <h2 class="display text-2xl md:text-4xl text-brick">Interactive Resources Filter</h2>
-                <p class="mt-2 text-sm md:text-base text-brick/85">
-                    Click a fragment of the Weddington Area silhouette to reveal resources in the community.
+  <main class="relative z-10 flex-1 px-3 pb-14 pt-4 md:pt-6">
+    <section class="max-w-7xl mx-auto shell rounded-shell overflow-hidden">
+      <div class="topo-lines"></div>
+      <div class="p-6 md:p-8 lg:p-10">
+        <div class="hero-grid">
+          <div class="relative rounded-[1.8rem] border border-forest/10 bg-white/45 p-6 md:p-8 overflow-hidden">
+            <div class="absolute -top-16 -left-10 h-40 w-40 rounded-full bg-fern/15 blur-2xl"></div>
+            <div class="absolute bottom-0 right-0 h-36 w-36 rounded-full bg-ember/10 blur-2xl"></div>
+            <p class="text-[0.68rem] uppercase tracking-[0.3em] text-forest/60">Interactive Directory</p>
+            <h2 class="display mt-4 text-4xl md:text-6xl leading-[0.95] text-forest max-w-[12ch]">A local guide built around place.</h2>
+            <p class="mt-5 max-w-2xl text-sm md:text-lg leading-relaxed text-slate-700">
+              Click a section of the map to pull up organizations tied to that part of the community ecosystem.
+            </p>
+            <div class="mt-7 flex flex-wrap gap-3 text-[0.72rem] uppercase tracking-[0.16em]">
+              <button id="resetMapBtn" class="px-5 py-3 rounded-full bg-forest text-white hover:bg-ember transition-colors">Reset Map</button>
+              <a href="navigator.html" class="px-5 py-3 rounded-full border border-forest/14 bg-white/70 text-forest hover:bg-forest hover:text-white transition-colors">Open Local Navigator</a>
+            </div>
+          </div>
+
+          <div class="rounded-[1.8rem] border border-forest/10 bg-gradient-to-br from-white/70 to-white/35 p-3 md:p-4 shadow-sm overflow-hidden">
+            <div class="relative h-full min-h-[320px] md:min-h-[420px] rounded-[1.45rem] overflow-hidden border border-forest/10 bg-white/60">
+              <img
+                src="th.jpg"
+                alt="Community hub visual"
+                class="absolute inset-0 h-full w-full object-cover"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-forest/35 via-transparent to-white/10"></div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+
+        <div id="hubStage" class="map-stage mt-8 lg:mt-10">
+          <div class="map-column">
+            <div class="map-wrap">
+              <div class="map-meta">
+                <div class="map-badge rounded-full px-4 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-forest/70">
+                  Tap a district to filter resources
+                </div>
+                <div class="map-note rounded-2xl px-4 py-3 text-xs md:text-sm text-slate-700 max-w-[18rem]">
+                  Each slice represents a core part of community life: education, health, arts, recreation, and human services.
+                </div>
+              </div>
+
+              <div class="map-core">
+                <svg id="studyMap" viewBox="0 0 100 100" aria-labelledby="mapTitle mapDesc">
+                  <title id="mapTitle">Weddington Study Area map navigation</title>
+                  <desc id="mapDesc">Five map slices represent Human Services, Health, Arts and History, Recreation, and Education.</desc>
+                  <defs>
+                    <linearGradient id="baseGradient" x1="10%" y1="10%" x2="90%" y2="90%">
+                      <stop offset="0%" stop-color="#5E8B6F"></stop>
+                      <stop offset="100%" stop-color="#173A2E"></stop>
+                    </linearGradient>
+                    <path id="weddingtonShape" d="M52,2 L68,5 L78,12 L88,18 L85,35 L88,45 L81,55 L82,65 L76,78 L65,88 L50,98 L35,94 L22,88 L12,84 L6,65 L4,48 L7,32 L15,22 L28,12 L42,5 Z" />
+                    <clipPath id="shapeClip">
+                      <use href="#weddingtonShape"></use>
+                    </clipPath>
+                  </defs>
+
+                  <g class="base-layer" transform="translate(0 5)" aria-hidden="true">
+                    <use href="#weddingtonShape" fill="url(#baseGradient)"></use>
+                  </g>
+
+                  <g id="group-human" class="slice-group" data-category="Human Services">
+                    <path class="slice" id="slice-human" data-category="Human Services" d="M48,50 L65,88 L50,98 L35,94 L22,88 Z" clip-path="url(#shapeClip)" fill="#C96A4B" tabindex="0" role="button" aria-label="Filter Human Services"></path>
+                    <text class="slice-label" x="46" y="86" clip-path="url(#shapeClip)">
+                      <tspan x="46" dy="0">Human</tspan>
+                      <tspan x="46" dy="3.2">Services</tspan>
+                    </text>
+                  </g>
+
+                  <g id="group-edu" class="slice-group" data-category="Education">
+                    <path class="slice" id="slice-edu" data-category="Education" d="M48,50 L22,88 L12,84 L6,65 L4,48 L7,32 L15,22 L28,12 L42,5 Z" clip-path="url(#shapeClip)" fill="#285945" tabindex="0" role="button" aria-label="Filter Education"></path>
+                    <text class="slice-label" x="22" y="47" clip-path="url(#shapeClip)">Education</text>
+                  </g>
+
+                  <g id="group-arts" class="slice-group" data-category="Arts/History">
+                    <path class="slice" id="slice-arts" data-category="Arts/History" d="M48,50 L42,5 L52,2 L68,5 L78,12 L88,18 L85,35 Z" clip-path="url(#shapeClip)" fill="#6F7D99" tabindex="0" role="button" aria-label="Filter Arts and History"></path>
+                    <text class="slice-label" x="58" y="20" clip-path="url(#shapeClip)">Arts</text>
+                  </g>
+
+                  <g id="group-rec" class="slice-group" data-category="Recreation">
+                    <path class="slice" id="slice-rec" data-category="Recreation" d="M48,50 L81,55 L82,65 L76,78 L65,88 Z" clip-path="url(#shapeClip)" fill="#D6A15E" tabindex="0" role="button" aria-label="Filter Recreation"></path>
+                    <text class="slice-label" x="68" y="69" clip-path="url(#shapeClip)">Recreation</text>
+                  </g>
+
+                  <g id="group-health" class="slice-group" data-category="Health">
+                    <path class="slice" id="slice-health" data-category="Health" d="M48,50 L85,35 L88,45 L81,55 Z" clip-path="url(#shapeClip)" fill="#7E6A8D" tabindex="0" role="button" aria-label="Filter Health"></path>
+                    <text class="slice-label" x="75" y="45" clip-path="url(#shapeClip)">Health</text>
+                  </g>
+
+                  <use href="#weddingtonShape" fill="none" stroke="#FFFDF8" stroke-width="1.4"></use>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <aside id="resourcePanel" class="resource-panel" aria-label="Filtered resource details" aria-live="polite" aria-hidden="true">
+            <div id="resourcePanelShell" class="resource-panel-shell p-6 md:p-7">
+              <div class="resource-list-pane">
+                <p class="text-[0.68rem] uppercase tracking-[0.24em] text-forest/55">Selected District</p>
+                <h3 id="panelTitle" class="display mt-2 text-3xl md:text-4xl text-forest">Choose a map fragment</h3>
+                <p id="panelIntro" class="mt-3 text-sm md:text-base text-slate-600 max-w-[30ch]">
+                  Use the map to reveal organizations tied to each category.
                 </p>
-            </div>
-
-            <div id="hubStage" class="mt-8 hub-stage">
-                <div class="map-shell">
-                    <svg id="studyMap" viewBox="0 0 100 100" aria-labelledby="mapTitle mapDesc">
-                        <title id="mapTitle">Weddington Study Area map navigation</title>
-                        <desc id="mapDesc">Five map slices represent Human Services, Health, Arts and History, Recreation, and Education.</desc>
-                        <defs>
-                            <linearGradient id="baseGradient" x1="10%" y1="10%" x2="90%" y2="90%">
-                                <stop offset="0%" stop-color="#5E4E4A"></stop>
-                                <stop offset="100%" stop-color="#4F5F4B"></stop>
-                            </linearGradient>
-                            <path id="weddingtonShape" d="M52,2 L68,5 L78,12 L88,18 L85,35 L88,45 L81,55 L82,65 L76,78 L65,88 L50,98 L35,94 L22,88 L12,84 L6,65 L4,48 L7,32 L15,22 L28,12 L42,5 Z" />
-                            <clipPath id="shapeClip">
-                                <use href="#weddingtonShape"></use>
-                            </clipPath>
-                        </defs>
-
-                        <g class="base-layer" transform="translate(0 5)" aria-hidden="true">
-                            <use href="#weddingtonShape" fill="url(#baseGradient)"></use>
-                        </g>
-
-                        <g id="group-human" class="slice-group" data-category="Human Services">
-                            <path class="slice" id="slice-human" data-category="Human Services" d="M48,50 L65,88 L50,98 L35,94 L22,88 Z" clip-path="url(#shapeClip)" fill="#D1495B" tabindex="0" role="button" aria-label="Filter Human Services" onkeydown="return true"></path>
-                            <text class="slice-label" x="46" y="86" clip-path="url(#shapeClip)">
-                                <tspan x="46" dy="0">Human</tspan>
-                                <tspan x="46" dy="3.2">Services</tspan>
-                            </text>
-                        </g>
-
-                        <g id="group-edu" class="slice-group" data-category="Education">
-                            <path class="slice" id="slice-edu" data-category="Education" d="M48,50 L22,88 L12,84 L6,65 L4,48 L7,32 L15,22 L28,12 L42,5 Z" clip-path="url(#shapeClip)" fill="#2A9D8F" tabindex="0" role="button" aria-label="Filter Education" onkeydown="return true"></path>
-                            <text class="slice-label" x="22" y="47" clip-path="url(#shapeClip)">Education</text>
-                        </g>
-
-                        <g id="group-arts" class="slice-group" data-category="Arts/History">
-                            <path class="slice" id="slice-arts" data-category="Arts/History" d="M48,50 L42,5 L52,2 L68,5 L78,12 L88,18 L85,35 Z" clip-path="url(#shapeClip)" fill="#457B9D" tabindex="0" role="button" aria-label="Filter Arts and History" onkeydown="return true"></path>
-                            <text class="slice-label" x="58" y="20" clip-path="url(#shapeClip)">Arts</text>
-                        </g>
-
-                        <g id="group-rec" class="slice-group" data-category="Recreation">
-                            <path class="slice" id="slice-rec" data-category="Recreation" d="M48,50 L81,55 L82,65 L76,78 L65,88 Z" clip-path="url(#shapeClip)" fill="#F77F00" tabindex="0" role="button" aria-label="Filter Recreation" onkeydown="return true"></path>
-                            <text class="slice-label" x="68" y="69" clip-path="url(#shapeClip)">Recreation</text>
-                        </g>
-
-                        <g id="group-health" class="slice-group" data-category="Health">
-                            <path class="slice" id="slice-health" data-category="Health" d="M48,50 L85,35 L88,45 L81,55 Z" clip-path="url(#shapeClip)" fill="#6D597A" tabindex="0" role="button" aria-label="Filter Health" onkeydown="return true"></path>
-                            <text class="slice-label" x="75" y="45" clip-path="url(#shapeClip)">Health</text>
-                        </g>
-
-                        <use href="#weddingtonShape" fill="none" stroke="#F5F5DC" stroke-width="1.35"></use>
-
-                        <g aria-hidden="true">
-                            <path d="M52,2 L68,5 L78,12 L88,18 L85,35 L88,45 L81,55 L82,65 L76,78 L65,88 L50,98 L35,94 L22,88 L12,84 L6,65 L4,48 L7,32 L15,22 L28,12 L42,5 Z" fill="none" stroke="rgba(245,245,220,0.35)" stroke-width="0.5" transform="translate(0 5)"></path>
-                        </g>
-                    </svg>
+                <div class="relative mt-7 pl-2">
+                  <div class="node-rail"></div>
+                  <div id="nodeLayer"></div>
                 </div>
+              </div>
 
-                <aside id="resourcePanel" class="resource-panel" aria-label="Filtered resource details" aria-live="polite" aria-hidden="true">
-                    <div id="resourcePanelShell" class="resource-panel-shell rounded-[2rem] p-6 md:p-8">
-                        <div class="resource-panel-track">
-                            <div class="resource-list-pane">
-                                <p class="text-[0.68rem] uppercase tracking-[0.22em] text-brick/70">Active Filter</p>
-                                <h3 id="panelTitle" class="display mt-2 text-2xl md:text-3xl text-brick">Choose a map fragment</h3>
-                                <p id="panelIntro" class="mt-2 text-sm text-brick/80"></p>
-                                <div id="nodeLayer" class="mt-6"></div>
-                            </div>
-                            <div class="resource-detail-pane">
-                                <button id="detailBackBtn" class="detail-back" type="button">Back to list</button>
-                                <p class="mt-5 text-[0.68rem] uppercase tracking-[0.22em] text-brick/70">Resource Detail</p>
-                                <h3 id="detailTitle" class="display mt-2 text-2xl md:text-3xl text-brick">Select a resource</h3>
-                                <p id="detailFocus" class="mt-3 text-sm uppercase tracking-[0.12em] text-brick/70"></p>
-                                <p id="detailDescription" class="mt-4 text-sm text-brick/85"></p>
-                                <p id="detailContact" class="mt-4 text-sm text-brick/85"></p>
-                                <a id="detailWebsiteBtn" class="detail-website" href="#" target="_blank" rel="noopener noreferrer">Visit Website</a>
-                            </div>
-                        </div>
-                    </div>
-                </aside>
+              <div class="resource-detail-pane">
+                <button id="detailBackBtn" class="detail-back" type="button">Back to list</button>
+                <p class="mt-6 text-[0.68rem] uppercase tracking-[0.24em] text-forest/55">Resource Detail</p>
+                <h3 id="detailTitle" class="display mt-2 text-3xl md:text-4xl text-forest">Select a resource</h3>
+                <p id="detailFocus" class="mt-3 text-xs uppercase tracking-[0.18em] text-slate-500"></p>
+                <p id="detailDescription" class="mt-4 text-sm md:text-base leading-relaxed text-slate-700"></p>
+                <p id="detailContact" class="mt-4 text-sm text-slate-700"></p>
+                <a id="detailWebsiteBtn" class="detail-website" href="#" target="_blank" rel="noopener noreferrer">Visit Website</a>
+              </div>
             </div>
-
-            <div class="mt-8 flex flex-wrap gap-2 text-xs uppercase tracking-[0.13em]">
-                <button id="resetMapBtn" class="px-4 py-2 bg-brick text-cream hover:bg-forest transition-colors">Reset Map</button>
-                <a href="navigator.html" class="pulse-link px-4 py-2 bg-forest text-cream hover:bg-brick transition-colors">
-                    Explore the Local Navigator &amp; Utility Map
-                </a>
-            </div>
-        </section>
-
-        <section class="max-w-7xl mx-auto px-4 py-10 md:py-14">
-            <h2 class="display text-2xl md:text-4xl text-brick mb-5">Featured Spotlight</h2>
-            <div class="spotlight-flow bg-[url('th.jpg')] bg-cover bg-center p-6 md:p-10">
-                <div class="absolute inset-0 bg-gradient-to-r from-brick/35 via-transparent to-forest/25"></div>
-                <div class="relative z-10 grid md:grid-cols-3 gap-5 text-cream">
-                    <article class="glass-ribbon rounded-[2rem] p-5 md:p-6">
-                        <h3 class="display text-xl">Common Heart</h3>
-                        <p class="mt-2 text-sm">Hunger relief, dignity-first pantry access, and county-wide kindness initiatives.</p>
-                    </article>
-                    <article class="glass-ribbon rounded-[2rem] p-5 md:p-6">
-                        <h3 class="display text-xl">Museum of the Waxhaws</h3>
-                        <p class="mt-2 text-sm">Regional heritage, living history events, and educational storytelling across generations.</p>
-                    </article>
-                    <article class="glass-ribbon rounded-[2rem] p-5 md:p-6">
-                        <h3 class="display text-xl">JAARS</h3>
-                        <p class="mt-2 text-sm">Aviation and language access innovation rooted in Waxhaw with global humanitarian impact.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="max-w-5xl mx-auto px-4 pb-14 md:pb-20">
-            <h2 class="display text-2xl md:text-4xl text-brick">Suggest a New Resource</h2>
-            <p class="mt-2 text-sm md:text-base text-brick/80">Help us keep this map living and local.</p>
-
-            <form
-                id="resourceSuggestionForm"
-                class="mt-8 grid md:grid-cols-2 gap-6"
-                action="https://formspree.io/f/mpqyoedk"
-                method="post"
-                aria-label="Resource suggestion form"
-            >
-                <input type="hidden" name="_subject" value="New Community Resource Suggestion" />
-                <input type="hidden" name="_captcha" value="false" />
-
-                <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-brick/75">
-                    Organization Name
-                    <input class="bg-transparent border-0 border-b-2 border-brick/35 focus:border-forest focus:ring-0 px-1 py-2" type="text" name="organization_name" required />
-                </label>
-
-                <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-brick/75">
-                    Category
-                    <select class="bg-transparent border-0 border-b-2 border-brick/35 focus:border-forest focus:ring-0 px-1 py-2" name="category" required>
-                        <option value="">Select</option>
-                        <option>Human Services</option>
-                        <option>Health</option>
-                        <option>Arts/History</option>
-                        <option>Recreation</option>
-                        <option>Education</option>
-                    </select>
-                </label>
-
-                <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-brick/75 md:col-span-2">
-                    Contact Info
-                    <input class="bg-transparent border-0 border-b-2 border-brick/35 focus:border-forest focus:ring-0 px-1 py-2" type="text" name="contact_info" required />
-                </label>
-
-                <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-brick/75 md:col-span-2">
-                    Why it matters
-                    <textarea class="bg-transparent border-0 border-b-2 border-brick/35 focus:border-forest focus:ring-0 px-1 py-2 min-h-24" name="description" required></textarea>
-                </label>
-
-                <div class="md:col-span-2">
-                    <button type="submit" class="px-6 py-3 uppercase tracking-[0.14em] text-cream bg-brick hover:bg-forest transition-colors">Submit Suggestion</button>
-                </div>
-
-                <output id="formStatusMessage" class="md:col-span-2 text-sm text-brick/85" aria-live="polite"></output>
-            </form>
-        </section>
-    </main>
-
-    <footer class="bg-brick text-cream">
-        <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-sm">
-            <p>Created by CATA TSA Chapter - 2026 National TSA Conference Exception Rule.</p>
-            <a href="references.html" class="underline underline-offset-4 hover:text-white">Reference</a>
+          </aside>
         </div>
-    </footer>
+      </div>
+    </section>
 
-    <aside class="chatbot-dock" aria-label="Community assistant">
-        <button id="chatbotToggle" class="chatbot-toggle-icon" type="button" aria-expanded="false" aria-controls="chatbotShell" aria-label="Open community assistant">
-            Chat
-        </button>
-        <div id="chatbotShell" class="chatbot-shell" hidden>
-            <div class="px-4 py-3 bg-brick text-cream text-xs uppercase tracking-[0.16em]">Ask about this page or plan a day out</div>
-            <div id="chatbotMessages" class="chatbot-messages" aria-live="polite"></div>
-            <form id="chatbotForm" class="p-3 border-t border-brick/15 flex gap-2" aria-label="Chat input">
-                <input id="chatbotInput" class="flex-1 px-3 py-2 text-sm bg-cream border border-brick/25 focus:outline-none focus:border-forest" type="text" placeholder="Ask a question..." autocomplete="off" />
-                <button class="px-3 py-2 bg-brick text-cream text-xs uppercase tracking-[0.12em] hover:bg-forest transition-colors" type="submit">Send</button>
-            </form>
+    <section class="max-w-7xl mx-auto mt-4 md:mt-6">
+      <div class="district-band">
+        <article class="district-card p-6 md:p-7">
+          <p class="text-[0.65rem] uppercase tracking-[0.25em] text-forest/55">Community Layer</p>
+          <h3 class="display mt-3 text-3xl text-forest">Services</h3>
+          <p class="mt-3 text-sm md:text-base leading-relaxed text-slate-700 max-w-[28ch]">
+            Hunger relief, family support, and practical access points should feel connected to the same system as everything else on the site.
+          </p>
+        </article>
+        <article class="district-card p-6 md:p-7">
+          <p class="text-[0.65rem] uppercase tracking-[0.25em] text-forest/55">Community Layer</p>
+          <h3 class="display mt-3 text-3xl text-forest">Culture</h3>
+          <p class="mt-3 text-sm md:text-base leading-relaxed text-slate-700 max-w-[28ch]">
+            Arts and history should feel editorial and place-based, not buried in the same UI treatment as every other section.
+          </p>
+        </article>
+        <article class="district-card p-6 md:p-7">
+          <p class="text-[0.65rem] uppercase tracking-[0.25em] text-forest/55">Community Layer</p>
+          <h3 class="display mt-3 text-3xl text-forest">Learning</h3>
+          <p class="mt-3 text-sm md:text-base leading-relaxed text-slate-700 max-w-[28ch]">
+            Education and recreation can still feel structured while looking more custom and more rooted in the local identity.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto mt-4 md:mt-6 shell rounded-shell overflow-hidden">
+      <div class="survey-grid p-6 md:p-8 lg:p-10">
+        <div>
+          <p class="text-[0.68rem] uppercase tracking-[0.26em] text-forest/55">Community Contribution</p>
+          <h2 class="display mt-3 text-3xl md:text-5xl text-forest">Suggest a new resource</h2>
+          <p class="mt-4 max-w-2xl text-sm md:text-lg leading-relaxed text-slate-700">
+            The submission section is cleaned up to match the rest of the site instead of feeling like a default form block.
+          </p>
+
+          <form
+            id="resourceSuggestionForm"
+            class="mt-8 grid md:grid-cols-2 gap-5"
+            action="https://formspree.io/f/mpqyoedk"
+            method="post"
+            aria-label="Resource suggestion form"
+          >
+            <input type="hidden" name="_subject" value="New Community Resource Suggestion" />
+            <input type="hidden" name="_captcha" value="false" />
+
+            <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-forest/75">
+              Organization Name
+              <input class="form-field" type="text" name="organization_name" required />
+            </label>
+
+            <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-forest/75">
+              Category
+              <select class="form-field" name="category" required>
+                <option value="">Select</option>
+                <option>Human Services</option>
+                <option>Health</option>
+                <option>Arts/History</option>
+                <option>Recreation</option>
+                <option>Education</option>
+              </select>
+            </label>
+
+            <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-forest/75 md:col-span-2">
+              Contact Info
+              <input class="form-field" type="text" name="contact_info" required />
+            </label>
+
+            <label class="flex flex-col gap-2 text-sm uppercase tracking-[0.12em] text-forest/75 md:col-span-2">
+              Why it matters
+              <textarea class="form-field min-h-28" name="description" required></textarea>
+            </label>
+
+            <div class="md:col-span-2 flex items-center gap-3 flex-wrap">
+              <button type="submit" class="px-6 py-3 rounded-full uppercase tracking-[0.14em] text-white bg-forest hover:bg-ember transition-colors">
+                Submit Suggestion
+              </button>
+              <output id="formStatusMessage" class="text-sm text-slate-600" aria-live="polite"></output>
+            </div>
+          </form>
         </div>
-    </aside>
 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-    <script src="script.js"></script>
+        <aside class="rounded-[1.8rem] border border-forest/10 bg-gradient-to-br from-forest to-moss text-white p-6 md:p-7 relative overflow-hidden">
+          <div class="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/10"></div>
+          <div class="absolute -left-10 bottom-0 h-40 w-40 rounded-full bg-white/10"></div>
+          <div class="relative z-10">
+            <p class="text-[0.65rem] uppercase tracking-[0.28em] text-white/70">Explore More</p>
+            <h3 class="display mt-3 text-3xl leading-tight">Find places that support everyday life.</h3>
+            <ul class="mt-5 space-y-3 text-sm leading-relaxed text-white/90">
+              <li>Browse local nonprofits, support centers, and outreach groups.</li>
+              <li>Find arts, history, and recreation spots in one place.</li>
+              <li>Use the map to move through the directory visually.</li>
+              <li>Submit additional resources to help expand the hub.</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="px-3 pb-3">
+    <div class="max-w-7xl mx-auto rounded-[1.5rem] bg-forest text-white px-5 md:px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-sm shadow-lg">
+      <p>Created by CATA TSA Chapter - 2026 National TSA Conference Exception Rule.</p>
+      <a href="references.html" class="underline underline-offset-4 hover:text-white/80">References</a>
+    </div>
+  </footer>
+
+  <aside class="chatbot-dock" aria-label="Community assistant">
+    <button id="chatbotToggle" class="chatbot-toggle-icon" type="button" aria-expanded="false" aria-controls="chatbotShell" aria-label="Open community assistant">
+      Chat
+    </button>
+    <div id="chatbotShell" class="chatbot-shell" hidden>
+      <div class="px-4 py-3 bg-forest text-white text-xs uppercase tracking-[0.16em]">Ask about this page or plan a day out</div>
+      <div id="chatbotMessages" class="chatbot-messages" aria-live="polite"></div>
+      <form id="chatbotForm" class="p-3 border-t border-forest/10 flex gap-2 bg-white/50" aria-label="Chat input">
+        <input id="chatbotInput" class="flex-1 px-3 py-2 text-sm bg-white border border-forest/15 rounded-xl focus:outline-none focus:border-ember" type="text" placeholder="Ask a question..." autocomplete="off" />
+        <button class="px-3 py-2 rounded-xl bg-forest text-white text-xs uppercase tracking-[0.12em] hover:bg-ember transition-colors" type="submit">Send</button>
+      </form>
+    </div>
+  </aside>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
