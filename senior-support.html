@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Senior Connection | Weddington + Waxhaw</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --brick: #8B0000;
+      --forest: #173A2E;
+      --forest-soft: #285945;
+      --cream: #F5F5DC;
+      --ink: #0F172A;
+      --muted: #475467;
+      --line: rgba(23, 58, 46, 0.18);
+      --surface: #fffef8;
+      --focus: #ffbf47;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(139, 0, 0, 0.12), transparent 34%),
+        radial-gradient(circle at 88% 86%, rgba(34, 139, 34, 0.14), transparent 44%),
+        var(--cream);
+    }
+
+    h1, h2, h3 {
+      font-family: "Cormorant Garamond", serif;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 1rem;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 1rem;
+      align-self: start;
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.88);
+      padding: 1rem;
+      box-shadow: 0 18px 38px rgba(15, 23, 42, 0.08);
+    }
+
+    .sidebar h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4.2vw, 2.8rem);
+      color: var(--forest);
+    }
+
+    .sidebar p {
+      margin: 0.45rem 0 0;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.68rem;
+      color: var(--forest-soft);
+    }
+
+    .back-link {
+      margin-top: 1rem;
+      display: inline-flex;
+      width: 100%;
+      justify-content: center;
+      text-decoration: none;
+      border: 1px solid var(--forest);
+      border-radius: 999px;
+      padding: 0.8rem 1rem;
+      background: var(--forest);
+      color: #fff;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      font-size: 0.76rem;
+    }
+
+    .back-link:hover {
+      background: var(--forest-soft);
+      border-color: var(--forest-soft);
+    }
+
+    .content {
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.9);
+      overflow: hidden;
+    }
+
+    .section {
+      padding: 1.25rem;
+      border-bottom: 1px solid rgba(83, 63, 63, 0.35);
+    }
+
+    .section:last-child { border-bottom: 0; }
+
+    .section h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 2.55rem);
+      color: var(--forest);
+    }
+
+    .lead {
+      margin-top: 0.75rem;
+      font-size: 1rem;
+      max-width: 75ch;
+      color: var(--muted);
+    }
+
+    .service-list {
+      margin: 1rem 0 0;
+      padding-left: 1.2rem;
+    }
+
+    .service-list li {
+      margin-bottom: 0.8rem;
+    }
+
+    .service-list strong {
+      color: var(--forest);
+      font-size: 1rem;
+    }
+
+    .org-table-wrap {
+      margin-top: 1rem;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 620px;
+    }
+
+    th,
+    td {
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      padding: 0.7rem 0.35rem;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--forest-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.72rem;
+    }
+
+    .helping-list {
+      margin: 1rem 0 0;
+      padding: 0;
+      list-style: none;
+      display: block;
+    }
+
+    .helping-list li {
+      padding: 0.72rem 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 1rem;
+    }
+
+    .helping-list li:last-child {
+      border-bottom: 0;
+    }
+
+    .active-tag {
+      color: var(--forest-soft);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.68rem;
+      margin-right: 0.4rem;
+    }
+
+    .pathways {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .pathway {
+      border-top: 2px solid var(--forest);
+      padding-top: 0.7rem;
+    }
+
+    .pathway h3 {
+      margin: 0;
+      color: var(--forest);
+      font-size: 1.7rem;
+    }
+
+    .form-row {
+      margin-top: 0.65rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      margin-top: 0.28rem;
+      border: 1px solid var(--line);
+      border-radius: 0.5rem;
+      background: var(--surface);
+      color: var(--ink);
+      font: inherit;
+      padding: 0.68rem;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .checks {
+      margin-top: 0.35rem;
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .checks label {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-weight: 600;
+    }
+
+    .checks input[type="checkbox"] {
+      width: 1.1rem;
+      height: 1.1rem;
+      margin: 0;
+    }
+
+    .btn {
+      margin-top: 0.8rem;
+      border: 0;
+      border-radius: 999px;
+      padding: 0.8rem 1rem;
+      background: var(--forest);
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.76rem;
+      cursor: pointer;
+    }
+
+    .btn:hover { background: var(--forest-soft); }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 4px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    footer {
+      max-width: 1200px;
+      margin: 0.8rem auto 1rem;
+      border-radius: 1rem;
+      background: var(--forest);
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 980px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .pathways {
+        grid-template-columns: 1fr;
+      }
+
+      body {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar" aria-label="Senior Connection navigation">
+      <h1>Senior Connection</h1>
+      <p>Bridging Generations</p>
+      <a href="index.html" class="back-link">Back to Main Hub</a>
+    </aside>
+
+    <main class="content">
+      <section class="section" aria-labelledby="mission">
+        <h2 id="mission">Bridging Generations</h2>
+        <p class="lead">
+          Our mission is to ensure that no senior in the Weddington-Waxhaw area feels isolated or overwhelmed by modern challenges.
+          We provide a secure platform where seniors can request Micro-Supports, small tasks that make a big difference,
+          fulfilled by verified local volunteers.
+        </p>
+      </section>
+
+      <section class="section" aria-labelledby="services-categories">
+        <h2 id="services-categories">Services &amp; Support Categories</h2>
+        <p class="lead">We focus on three primary areas where our community's youth and adults can provide immediate value.</p>
+        <ul class="service-list">
+          <li>
+            <strong>Tech &amp; Digital Literacy:</strong>
+            Help with setting up new tablets/phones, troubleshooting Zoom for family calls, identifying phishing or scam emails, and basic social media navigation.
+          </li>
+          <li>
+            <strong>Household &amp; Yard Assistance:</strong>
+            Help with bringing trash bins to the curb, light leaf raking, changing hard-to-reach lightbulbs, or moving small furniture items.
+          </li>
+          <li>
+            <strong>Wellness &amp; Companionship:</strong>
+            Help with weekly Safety Check phone calls, friendly porch visits, or playing a game of chess/cards at a local park.
+          </li>
+        </ul>
+      </section>
+
+      <section class="section" aria-labelledby="trusted-orgs">
+        <h2 id="trusted-orgs">Trusted Organizations for Senior Care</h2>
+        <p class="lead">
+          If a senior requires professional medical or long-term assistance beyond our volunteer scope,
+          we recommend these local partners.
+        </p>
+        <div class="org-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Service Type</th>
+                <th scope="col">Trusted Organization</th>
+                <th scope="col">Contact Information</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Daily Meals</td>
+                <td>Union County Meals on Wheels</td>
+                <td>704-283-3755</td>
+              </tr>
+              <tr>
+                <td>Social Hubs</td>
+                <td>Waxhaw Senior Center</td>
+                <td>704-843-2195</td>
+              </tr>
+              <tr>
+                <td>Health Transit</td>
+                <td>Union County Transportation (CATS)</td>
+                <td>704-292-2511</td>
+              </tr>
+              <tr>
+                <td>Home Safety</td>
+                <td>Waxhaw Police (Wellness Checks)</td>
+                <td>704-843-0358</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="helping-board">
+        <h2 id="helping-board">The Helping Hand Board (Live Requests)</h2>
+        <p class="lead">A clean, easy-to-read list of current needs for volunteers to claim.</p>
+        <ul class="helping-list" aria-label="Live support requests">
+          <li><span class="active-tag">Active</span>Need help syncing a new hearing aid to a smartphone (Weddington Chase Area).</li>
+          <li><span class="active-tag">Active</span>Yard debris pickup after recent storm (Old Town Waxhaw).</li>
+          <li><span class="active-tag">Active</span>Looking for a weekly Sunday afternoon Coffee and Conversation visitor.</li>
+        </ul>
+      </section>
+
+      <section class="section" aria-labelledby="support-pathways">
+        <h2 id="support-pathways">Get Support or Give Support</h2>
+        <p class="lead">A dual pathway for both seniors and volunteers.</p>
+
+        <div class="pathways">
+          <div class="pathway">
+            <h3>For Seniors: Request a Helping Hand</h3>
+            <form aria-label="Senior help request form">
+              <div class="form-row">
+                <label for="senior_name">Name &amp; Neighborhood</label>
+                <input id="senior_name" name="senior_name" type="text" required />
+              </div>
+
+              <div class="form-row">
+                <label for="senior_help">How can we help?</label>
+                <select id="senior_help" name="senior_help" required>
+                  <option value="">Select</option>
+                  <option>Tech</option>
+                  <option>Yard</option>
+                  <option>Social</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label for="senior_contact">Best way to reach you</label>
+                <input id="senior_contact" name="senior_contact" type="text" required />
+              </div>
+
+              <div class="form-row">
+                <label for="senior_urgency">Urgency</label>
+                <select id="senior_urgency" name="senior_urgency" required>
+                  <option value="">Select</option>
+                  <option>Low</option>
+                  <option>Medium</option>
+                  <option>High</option>
+                </select>
+              </div>
+
+              <button class="btn" type="submit">Request Assistance</button>
+            </form>
+          </div>
+
+          <div class="pathway">
+            <h3>For Volunteers: Join the Connection</h3>
+            <form aria-label="Volunteer signup form">
+              <div class="form-row">
+                <label for="volunteer_name">Name</label>
+                <input id="volunteer_name" name="volunteer_name" type="text" required />
+              </div>
+
+              <div class="form-row">
+                <label for="volunteer_age_grade">Age/Grade</label>
+                <input id="volunteer_age_grade" name="volunteer_age_grade" type="text" required />
+              </div>
+
+              <div class="form-row">
+                <span style="font-weight:700; font-size:0.95rem;">Skills</span>
+                <div class="checks">
+                  <label><input type="checkbox" name="skills" value="Technology" /> Technology</label>
+                  <label><input type="checkbox" name="skills" value="Gardening" /> Gardening</label>
+                  <label><input type="checkbox" name="skills" value="Social" /> Social</label>
+                  <label><input type="checkbox" name="skills" value="Driving" /> Driving</label>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <label for="volunteer_availability">Availability</label>
+                <textarea id="volunteer_availability" name="volunteer_availability" required></textarea>
+              </div>
+
+              <button class="btn" type="submit">Apply to Volunteer</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    Created by CATA - 2026 TSA Conference.
+  </footer>
+</body>
+</html>
