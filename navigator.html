@@ -15,44 +15,26 @@
             moss: "#285945",
             fern: "#5E8B6F",
             parchment: "#F6F1E8",
-            ember: "#C96A4B",
             fog: "#E7E2D8",
+            ember: "#C96A4B",
             stone: "#667085"
-          },
-          boxShadow: {
-            haze: "0 20px 60px rgba(15, 23, 42, 0.12)",
-            floaty: "0 14px 34px rgba(15, 23, 42, 0.16)",
-            insetline: "inset 0 1px 0 rgba(255,255,255,0.45)"
-          },
-          borderRadius: {
-            shell: "2rem"
           }
         }
       }
     };
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --night: #0F172A;
-      --forest: #173A2E;
-      --moss: #285945;
-      --fern: #5E8B6F;
-      --parchment: #F6F1E8;
-      --fog: #E7E2D8;
-      --ember: #C96A4B;
-      --line: rgba(23, 58, 46, 0.12);
-      --line-strong: rgba(23, 58, 46, 0.2);
-    }
-
     * { box-sizing: border-box; }
+
     html { scroll-behavior: smooth; }
 
     body {
       font-family: "Inter", sans-serif;
-      color: var(--night);
+      color: #0F172A;
       background:
         radial-gradient(circle at 10% 20%, rgba(94, 139, 111, 0.14), transparent 28%),
         radial-gradient(circle at 84% 14%, rgba(201, 106, 75, 0.10), transparent 24%),
@@ -61,7 +43,7 @@
       overflow-x: hidden;
     }
 
-    h1, h2, h3, .display {
+    .display {
       font-family: "Instrument Serif", serif;
       letter-spacing: -0.02em;
     }
@@ -80,6 +62,13 @@
       z-index: 1;
     }
 
+    .glass-layer {
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.42), rgba(255,255,255,0.18));
+      border: 1px solid rgba(23,58,46,0.12);
+    }
+
     .shell {
       position: relative;
       background: linear-gradient(180deg, rgba(255,255,255,0.52), rgba(255,255,255,0.3));
@@ -88,100 +77,642 @@
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
     }
+
+    .hero-w-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: grid;
+      place-items: center;
+      z-index: 0;
+    }
+
+    .hero-w-bg span {
+      font-family: "Instrument Serif", serif;
+      font-size: clamp(16rem, 42vw, 34rem);
+      line-height: 0.8;
+      color: rgba(23,58,46,0.12);
+    }
+
+    .planner-panel {
+      opacity: 0;
+      transform: translateX(36px);
+      transition: opacity 280ms ease, transform 320ms ease;
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+    }
+
+    .planner-panel.is-active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+      position: relative;
+    }
+
+    .planner-panel[hidden] {
+      display: none;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 3rem;
+      top: 1.1rem;
+      bottom: 1.1rem;
+      width: 1px;
+      background: rgba(23,58,46,0.2);
+    }
+
+    .month-chip.active {
+      background: #173A2E;
+      color: #ffffff;
+      border-color: #173A2E;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 0.45rem;
+    }
+
+    .calendar-day {
+      min-height: 88px;
+      border: 1px solid rgba(23,58,46,0.12);
+      background: rgba(255,255,255,0.48);
+      border-radius: 0.75rem;
+      padding: 0.5rem;
+    }
+
+    .calendar-day.empty {
+      background: rgba(255,255,255,0.18);
+      border-style: dashed;
+    }
+
+    .calendar-day.has-event {
+      border-color: rgba(23,58,46,0.28);
+      background: linear-gradient(180deg, rgba(94,139,111,0.12), rgba(255,255,255,0.52));
+    }
+
+    .event-dot {
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 999px;
+      display: inline-block;
+      margin-top: 0.35rem;
+    }
+
+    .calendar-day.is-selected {
+      outline: 2px solid rgba(201,106,75,0.5);
+      outline-offset: 1px;
+    }
+
+    .event-popup {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 60;
+      width: min(430px, calc(100vw - 1.5rem));
+      border-radius: 1rem;
+      border: 1px solid rgba(23,58,46,0.22);
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.8));
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 16px 34px rgba(15,23,42,0.18);
+      padding: 0.9rem 1rem;
+    }
+
+    .event-popup[hidden] {
+      display: none;
+    }
+
+    .chatbot-dock {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      align-items: flex-end;
+    }
+
+    .chatbot-toggle-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(23,58,46,0.12);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(246,241,232,0.92));
+      box-shadow: 0 14px 34px rgba(15,23,42,0.18);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #173A2E;
+      transition: transform 180ms ease, background 180ms ease, color 180ms ease;
+    }
+
+    .chatbot-toggle-icon:hover {
+      transform: translateY(-2px);
+      background: #173A2E;
+      color: #ffffff;
+    }
+
+    .chatbot-shell {
+      width: min(380px, calc(100vw - 1.5rem));
+      overflow: hidden;
+      border-radius: 1.4rem;
+      background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(246,241,232,0.96));
+      border: 1px solid rgba(23,58,46,0.12);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.18);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .chatbot-messages {
+      max-height: 280px;
+      overflow-y: auto;
+      padding: 0.95rem;
+      display: grid;
+      gap: 0.65rem;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.26), transparent),
+        repeating-linear-gradient(180deg, transparent 0 35px, rgba(23,58,46,0.03) 35px 36px);
+    }
+
+    .chat-msg {
+      border-radius: 1rem;
+      padding: 0.75rem 0.85rem;
+      font-size: 0.83rem;
+      line-height: 1.45;
+    }
+
+    .chat-msg.user {
+      margin-left: 2rem;
+      background: #173A2E;
+      color: #ffffff;
+    }
+
+    .chat-msg.bot {
+      margin-right: 1.2rem;
+      background: rgba(201,106,75,0.92);
+      color: #0F172A;
+    }
+
+    @media (max-width: 768px) {
+      .timeline-line {
+        left: 2.25rem;
+      }
+
+      .calendar-day {
+        min-height: 72px;
+        padding: 0.38rem;
+      }
+    }
   </style>
 </head>
-<body class="grain min-h-screen flex flex-col">
+<body class="grain">
   <header class="sticky top-0 z-40 px-3 pt-3">
     <div class="shell max-w-7xl mx-auto rounded-[1.6rem] px-4 md:px-6 py-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
       <div class="flex items-start gap-4">
         <img src="logo.png" alt="Community Resource Hub Logo" class="hidden md:block h-16 w-16 rounded-2xl border border-forest/10 shadow-sm object-cover" />
         <div>
-          <p class="text-[0.68rem] uppercase tracking-[0.34em] text-forest/60">Local Navigator</p>
           <h1 class="display text-3xl md:text-5xl leading-none text-forest">Local Navigator</h1>
-          <p class="mt-2 text-sm md:text-base text-slate-600">Quick Start for New and Returning Residents</p>
+          <p class="mt-2 text-base md:text-2xl font-semibold tracking-[0.02em] text-forest/85">Weddington + Waxhaw, North Carolina</p>
         </div>
       </div>
       <nav class="flex flex-wrap gap-2 text-[0.72rem] uppercase tracking-[0.16em]">
         <a href="index.html" class="px-4 py-3 rounded-full border border-forest/12 bg-white/70 text-forest hover:bg-forest hover:text-white transition-colors">Hub</a>
         <a href="navigator.html" class="px-4 py-3 rounded-full bg-forest text-white shadow-sm">Local Navigator</a>
+        <a href="faq.html" class="px-4 py-3 rounded-full border border-forest/12 bg-white/70 text-forest hover:bg-forest hover:text-white transition-colors">FAQ</a>
         <a href="references.html" class="px-4 py-3 rounded-full border border-forest/12 bg-white/70 text-forest hover:bg-forest hover:text-white transition-colors">References</a>
       </nav>
     </div>
   </header>
 
-  <main class="relative z-10 flex-1 px-3 pb-10 pt-3 md:pt-4">
+  <main class="relative z-10 px-4 pb-14 pt-8 md:pt-10 space-y-20">
+    <section class="max-w-7xl mx-auto relative">
+      <div class="hero-w-bg" aria-hidden="true"><span>W</span></div>
+      <h2 class="display mt-3 text-4xl md:text-6xl leading-[0.92] text-forest relative z-10">Weddington + Waxhaw Navigator</h2>
+      <p class="mt-4 text-sm md:text-lg text-slate-700 max-w-3xl relative z-10">
+        Browse both towns as one connected ecosystem with day routes, official meeting schedules, and civic event timelines.
+      </p>
+    </section>
+
     <section class="max-w-7xl mx-auto">
-      <div class="shell rounded-shell overflow-hidden p-4 md:p-6 lg:p-8">
-        <h2 class="display text-2xl md:text-4xl text-forest">Weddington vs. Waxhaw Vibes</h2>
-        <p class="mt-2 text-sm text-slate-600 max-w-3xl">Two neighboring identities, one connected community ecosystem.</p>
+      <h2 class="display mt-3 text-4xl md:text-6xl leading-[0.92] text-forest">Interactive Day Planner</h2>
 
-        <div class="mt-6 grid md:grid-cols-2 gap-4">
-          <article class="rounded-[1.4rem] border border-forest/10 bg-white/45 p-4 md:p-5">
-            <h3 class="display text-lg md:text-xl text-forest">Weddington</h3>
-            <ul class="mt-3 space-y-2 text-xs md:text-sm text-slate-700">
-              <li>Quiet residential rhythm with estate-scale neighborhoods.</li>
-              <li>Strong school-centered routines and family programming.</li>
-              <li>Preference for preserved green corridors and low-density planning.</li>
-            </ul>
-          </article>
+      <div class="mt-8 grid lg:grid-cols-[280px_minmax(0,1fr)] gap-8 items-start">
+        <div class="space-y-3" id="plannerTabs" aria-label="Planner tabs">
+          <button type="button" class="planner-tab w-full text-left rounded-full glass-layer px-5 py-3.5 uppercase tracking-[0.12em] text-[0.74rem] font-semibold text-forest" data-plan="family">Family Explorer</button>
+          <button type="button" class="planner-tab w-full text-left rounded-full glass-layer px-5 py-3.5 uppercase tracking-[0.12em] text-[0.74rem] font-semibold text-forest/75 hover:text-forest" data-plan="service">Service Saturday</button>
+          <button type="button" class="planner-tab w-full text-left rounded-full glass-layer px-5 py-3.5 uppercase tracking-[0.12em] text-[0.74rem] font-semibold text-forest/75 hover:text-forest" data-plan="history">Historic + Arts Loop</button>
+          <button type="button" class="planner-tab w-full text-left rounded-full glass-layer px-5 py-3.5 uppercase tracking-[0.12em] text-[0.74rem] font-semibold text-forest/75 hover:text-forest" data-plan="outdoors">Outdoors Focus</button>
+        </div>
 
-          <article class="rounded-[1.4rem] border border-forest/10 bg-white/45 p-4 md:p-5">
-            <h3 class="display text-lg md:text-xl text-forest">Waxhaw</h3>
-            <ul class="mt-3 space-y-2 text-xs md:text-sm text-slate-700">
-              <li>Historic downtown energy with events and arts-forward culture.</li>
-              <li>Walkable social core anchored by local business clusters.</li>
-              <li>Blend of heritage architecture and modern growth corridors.</li>
+        <div class="relative min-h-[420px]">
+          <div class="planner-panel is-active" data-panel="family">
+            <h3 class="display text-3xl md:text-4xl text-forest">Family Explorer Route</h3>
+            <ul class="mt-6 space-y-5">
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">1</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">9:00 AM</p>
+                  <p class="mt-1 text-slate-700">Start at Museum of the Waxhaws for regional history exhibits and student-friendly tours. <a href="https://museumofthewaxhaws.org" target="_blank" rel="noreferrer" class="underline decoration-fern text-fern hover:text-ember transition-colors">museumofthewaxhaws.org</a></p>
+                </div>
+              </li>
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">2</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">11:30 AM</p>
+                  <p class="mt-1 text-slate-700">Walk Waxhaw downtown, lunch locally, then check event boards for same-day activities on Main Street.</p>
+                </div>
+              </li>
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">3</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">2:00 PM</p>
+                  <p class="mt-1 text-slate-700">Head to Cane Creek Park for trails, lake views, and recreation. <a href="https://unioncountync.gov/canecreek" target="_blank" rel="noreferrer" class="underline decoration-fern text-fern hover:text-ember transition-colors">unioncountync.gov/canecreek</a></p>
+                </div>
+              </li>
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">4</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">7:00 PM</p>
+                  <p class="mt-1 text-slate-700">Close with a local performance listing at Waxhaw Community Theatre. <a href="https://waxhawcommunitytheatre.com" target="_blank" rel="noreferrer" class="underline decoration-fern text-fern hover:text-ember transition-colors">waxhawcommunitytheatre.com</a></p>
+                </div>
+              </li>
             </ul>
-          </article>
+          </div>
+
+          <div class="planner-panel" data-panel="service" hidden>
+            <h3 class="display text-3xl md:text-4xl text-forest">Service Saturday Route</h3>
+            <ul class="mt-6 space-y-5">
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">1</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">8:30 AM</p>
+                  <p class="mt-1 text-slate-700">Drop supplies or volunteer check-in with Common Heart community support programs. <a href="https://commonheart.org" target="_blank" rel="noreferrer" class="underline decoration-fern text-fern hover:text-ember transition-colors">commonheart.org</a></p>
+                </div>
+              </li>
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">2</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">10:30 AM</p>
+                  <p class="mt-1 text-slate-700">Coordinate distribution updates with Heart for Monroe partner programs. <a href="https://heartformonroe.com" target="_blank" rel="noreferrer" class="underline decoration-fern text-fern hover:text-ember transition-colors">heartformonroe.com</a></p>
+                </div>
+              </li>
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">3</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">1:00 PM</p>
+                  <p class="mt-1 text-slate-700">Connect with Union County Community Shelter for immediate housing-resource support. <a href="https://unionshelter.org" target="_blank" rel="noreferrer" class="underline decoration-fern text-fern hover:text-ember transition-colors">unionshelter.org</a></p>
+                </div>
+              </li>
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">4</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">3:30 PM</p>
+                  <p class="mt-1 text-slate-700">Log impact and request future slots through the Community Pulse form on the hub.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="planner-panel" data-panel="history" hidden>
+            <h3 class="display text-3xl md:text-4xl text-forest">Historic + Arts Loop</h3>
+            <ul class="mt-6 space-y-5">
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">1</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">10:00 AM</p>
+                  <p class="mt-1 text-slate-700">Begin at Museum of the Waxhaws for timeline exhibits and regional context. <a href="https://museumofthewaxhaws.org" target="_blank" rel="noreferrer" class="underline decoration-fern text-fern hover:text-ember transition-colors">museumofthewaxhaws.org</a></p>
+                </div>
+              </li>
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">2</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">12:00 PM</p>
+                  <p class="mt-1 text-slate-700">Explore public art and storefront galleries around downtown Waxhaw.</p>
+                </div>
+              </li>
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">3</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">2:00 PM</p>
+                  <p class="mt-1 text-slate-700">Tour JAARS outreach exhibits and language-technology learning spaces. <a href="https://jaars.org" target="_blank" rel="noreferrer" class="underline decoration-fern text-fern hover:text-ember transition-colors">jaars.org</a></p>
+                </div>
+              </li>
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">4</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">7:30 PM</p>
+                  <p class="mt-1 text-slate-700">Attend an evening show if available at a local theater program. <a href="https://thestorefronttheatre.org" target="_blank" rel="noreferrer" class="underline decoration-fern text-fern hover:text-ember transition-colors">thestorefronttheatre.org</a></p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="planner-panel" data-panel="outdoors" hidden>
+            <h3 class="display text-3xl md:text-4xl text-forest">Outdoors Focus Route</h3>
+            <ul class="mt-6 space-y-5">
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">1</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">8:00 AM</p>
+                  <p class="mt-1 text-slate-700">Morning warmup at Weddington Town Park trails and open fields. <a href="https://www.townofweddington.com" target="_blank" rel="noreferrer" class="underline decoration-fern text-fern hover:text-ember transition-colors">townofweddington.com</a></p>
+                </div>
+              </li>
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">2</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">10:30 AM</p>
+                  <p class="mt-1 text-slate-700">Continue to Twelve Claws Nature Preserve for wooded hiking loops. <a href="https://tarheeltrailblazers.com" target="_blank" rel="noreferrer" class="underline decoration-fern text-fern hover:text-ember transition-colors">tarheeltrailblazers.com</a></p>
+                </div>
+              </li>
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">3</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">1:30 PM</p>
+                  <p class="mt-1 text-slate-700">Lakeside break and paddle-view points at Cane Creek Park. <a href="https://unioncountync.gov/canecreek" target="_blank" rel="noreferrer" class="underline decoration-fern text-fern hover:text-ember transition-colors">unioncountync.gov/canecreek</a></p>
+                </div>
+              </li>
+              <li class="flex gap-4 items-start">
+                <span class="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-forest text-white text-sm font-bold">4</span>
+                <div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.16em] text-ember font-semibold">4:00 PM</p>
+                  <p class="mt-1 text-slate-700">Finish at Waxhaw Skate Park for community action sports and youth activity zones. <a href="https://www.waxhaw.com" target="_blank" rel="noreferrer" class="underline decoration-fern text-fern hover:text-ember transition-colors">waxhaw.com</a></p>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="max-w-7xl mx-auto mt-3 md:mt-4">
-      <div class="shell rounded-shell overflow-hidden p-4 md:p-6 lg:p-8">
-        <h2 class="display text-2xl md:text-4xl text-forest">Emergency &amp; Utility Quick Dial</h2>
-        <p class="mt-2 text-sm text-slate-600">Tap to call directly from mobile devices.</p>
+    <section class="max-w-7xl mx-auto relative">
+      <h2 class="display mt-3 text-4xl md:text-6xl leading-[0.92] text-forest">2026 Calendar: Events, Meetings, Closures</h2>
 
-        <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          <a href="tel:+17042833789" class="px-4 py-3 rounded-full bg-forest text-white hover:bg-ember transition-colors uppercase tracking-[0.12em] text-xs font-semibold text-center">
-            Union County Sheriff
-          </a>
-          <a href="tel:+17042964210" class="px-4 py-3 rounded-full bg-moss text-white hover:bg-ember transition-colors uppercase tracking-[0.12em] text-xs font-semibold text-center">
-            Water Services
-          </a>
-          <a href="tel:+17042893145" class="px-4 py-3 rounded-full bg-fern text-white hover:bg-ember transition-colors uppercase tracking-[0.12em] text-xs font-semibold text-center">
-            Power Outage
-          </a>
-          <a href="tel:+17042762944" class="px-4 py-3 rounded-full bg-forest text-white hover:bg-ember transition-colors uppercase tracking-[0.12em] text-xs font-semibold text-center">
-            Fire Department
-          </a>
+      <div class="mt-6 flex items-center justify-between gap-3 flex-wrap">
+        <button id="prevMonthBtn" type="button" class="rounded-full glass-layer px-4 py-2 text-[0.74rem] uppercase tracking-[0.14em] font-semibold text-forest hover:text-ember">Previous</button>
+        <p id="monthTitle" class="display text-3xl text-forest"></p>
+        <button id="nextMonthBtn" type="button" class="rounded-full glass-layer px-4 py-2 text-[0.74rem] uppercase tracking-[0.14em] font-semibold text-forest hover:text-ember">Next</button>
+      </div>
+
+      <div id="monthChips" class="mt-4 flex gap-2 overflow-x-auto pb-2"></div>
+
+      <div class="mt-5 glass-layer rounded-2xl p-4 md:p-5">
+        <div class="calendar-grid text-[0.68rem] uppercase tracking-[0.14em] text-forest/70 mb-2">
+          <div class="px-1">Sun</div><div class="px-1">Mon</div><div class="px-1">Tue</div><div class="px-1">Wed</div><div class="px-1">Thu</div><div class="px-1">Fri</div><div class="px-1">Sat</div>
         </div>
+        <div id="calendarGrid" class="calendar-grid"></div>
       </div>
-    </section>
 
-    <section class="max-w-7xl mx-auto mt-3 md:mt-4">
-      <div class="shell rounded-shell overflow-hidden p-4 md:p-6 lg:p-8">
-        <h2 class="display text-2xl md:text-4xl text-forest">Quick Start Steps</h2>
-        <ol class="mt-5 grid md:grid-cols-3 gap-3 text-xs md:text-sm">
-          <li class="rounded-[1.2rem] border border-forest/10 bg-white/45 p-4 text-slate-700">
-            <span class="display text-lg text-forest">1.</span> Explore the map slices on the hub to identify service domains.
-          </li>
-          <li class="rounded-[1.2rem] border border-forest/10 bg-white/45 p-4 text-slate-700">
-            <span class="display text-lg text-forest">2.</span> Prioritize health and human services contacts in your phone.
-          </li>
-          <li class="rounded-[1.2rem] border border-forest/10 bg-white/45 p-4 text-slate-700">
-            <span class="display text-lg text-forest">3.</span> Save utility lines and review local event calendars monthly.
-          </li>
-        </ol>
+      <div class="mt-6">
+        <h3 class="display text-2xl md:text-3xl text-forest">Events This Month</h3>
+        <div id="monthEvents" class="mt-4 space-y-3"></div>
       </div>
+
+      <aside id="dayEventPopup" class="event-popup" hidden aria-live="polite" aria-label="Selected day events">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p id="dayEventTitle" class="display text-2xl text-forest"></p>
+            <p class="text-[0.68rem] uppercase tracking-[0.14em] text-forest/65">Selected date</p>
+          </div>
+          <button id="closeDayEventPopup" type="button" class="text-ember text-sm font-bold uppercase tracking-[0.12em]">Close</button>
+        </div>
+        <div id="dayEventItems" class="mt-3 space-y-2"></div>
+      </aside>
     </section>
   </main>
 
-  <footer class="px-3 pb-3">
-    <div class="max-w-7xl mx-auto rounded-[1.5rem] bg-forest text-white px-5 md:px-6 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-sm shadow-lg">
-      <p>Created by CATA TSA Chapter - 2026 TSA Conference.</p>
-      <a href="references.html" class="underline underline-offset-4 hover:text-white/80">References</a>
+  <footer class="px-4 pb-5 pt-2">
+    <div class="max-w-7xl mx-auto border-t border-forest/20 pt-4 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-sm text-forest/90">
+      <p>Created by CATA TSA Chapter — 2026 National TSA Conference Exception Rule.</p>
+      <a href="references.html" class="underline decoration-fern text-fern hover:text-ember transition-colors">Reference Page</a>
     </div>
   </footer>
+
+  <aside class="chatbot-dock" aria-label="Community assistant">
+    <button id="chatbotToggle" class="chatbot-toggle-icon" type="button" aria-expanded="false" aria-controls="chatbotShell" aria-label="Open community assistant">
+      Chat
+    </button>
+    <div id="chatbotShell" class="chatbot-shell" hidden>
+      <div class="px-4 py-3 bg-forest text-white text-xs uppercase tracking-[0.16em]">Ask about this page or plan a day out</div>
+      <div id="chatbotMessages" class="chatbot-messages" aria-live="polite"></div>
+      <form id="chatbotForm" class="p-3 border-t border-forest/10 flex gap-2 bg-white/50" aria-label="Chat input">
+        <input id="chatbotInput" class="flex-1 px-3 py-2 text-sm bg-white border border-forest/15 rounded-xl focus:outline-none focus:border-ember" type="text" placeholder="Ask a question..." autocomplete="off" />
+        <button class="px-3 py-2 rounded-xl bg-forest text-white text-xs uppercase tracking-[0.12em] hover:bg-ember transition-colors" type="submit">Send</button>
+      </form>
+    </div>
+  </aside>
+
+  <script>
+    const plannerTabs = Array.from(document.querySelectorAll(".planner-tab"));
+    const plannerPanels = Array.from(document.querySelectorAll(".planner-panel"));
+
+    const months = ["April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const monthEventsData = {
+      April: [
+        { day: 3, title: "Good Friday (Town Hall Closed)", time: "All Day", type: "Weddington" },
+        { day: 13, title: "Regular Town Council Meeting", time: "Governance", type: "Weddington" },
+        { day: 18, title: "Litter Sweep", time: "Starts 8:00 AM", type: "Waxhaw" },
+        { day: 23, title: "Western Union Municipal Alliance Meeting", time: "Governance", type: "Weddington" },
+        { day: 24, title: "WXW Sk8", time: "5:00 PM - 7:00 PM", type: "Waxhaw" },
+        { day: 27, title: "Regular Planning Board Meeting", time: "Governance", type: "Weddington" }
+      ],
+      May: [
+        { day: 9, title: "Kaleidoscope Fest", time: "10:00 AM - 6:00 PM", type: "Waxhaw" },
+        { day: 11, title: "Regular Town Council Meeting", time: "Governance", type: "Weddington" },
+        { day: 21, title: "Western Union Municipal Alliance Meeting", time: "Governance", type: "Weddington" },
+        { day: 25, title: "Memorial Day Ceremony", time: "Starts 10:00 AM", type: "Waxhaw" },
+        { day: 25, title: "Memorial Day (Town Hall Closed)", time: "All Day", type: "Weddington" },
+        { day: 26, title: "Regular Planning Board Meeting", time: "Governance", type: "Weddington" }
+      ],
+      June: [
+        { day: 8, title: "Regular Town Council Meeting", time: "Governance", type: "Weddington" },
+        { day: 12, title: "Jammin' by the Tracks", time: "7:00 PM - 9:00 PM", type: "Waxhaw" },
+        { day: 19, title: "Juneteenth Celebration", time: "6:00 PM - 9:00 PM", type: "Waxhaw" },
+        { day: 22, title: "Regular Planning Board Meeting", time: "Governance", type: "Weddington" },
+        { day: 25, title: "Western Union Municipal Alliance Meeting", time: "Governance", type: "Weddington" }
+      ],
+      July: [
+        { day: 3, title: "Independence Day Observed (Town Hall Closed)", time: "All Day", type: "Weddington" },
+        { day: 13, title: "Regular Town Council Meeting", time: "Governance", type: "Weddington" },
+        { day: 27, title: "Regular Planning Board Meeting", time: "Governance", type: "Weddington" }
+      ]
+    };
+
+    const monthToIndex = { April: 3, May: 4, June: 5, July: 6, August: 7, September: 8, October: 9, November: 10, December: 11 };
+    const daysInMonth = { April: 30, May: 31, June: 30, July: 31, August: 31, September: 30, October: 31, November: 30, December: 31 };
+
+    let activeMonthIndex = 0;
+    const monthTitle = document.getElementById("monthTitle");
+    const monthChips = document.getElementById("monthChips");
+    const calendarGrid = document.getElementById("calendarGrid");
+    const monthEvents = document.getElementById("monthEvents");
+    const dayEventPopup = document.getElementById("dayEventPopup");
+    const dayEventTitle = document.getElementById("dayEventTitle");
+    const dayEventItems = document.getElementById("dayEventItems");
+    const closeDayEventPopup = document.getElementById("closeDayEventPopup");
+
+    let selectedDay = null;
+
+    function hideDayPopup() {
+      dayEventPopup.hidden = true;
+      dayEventItems.innerHTML = "";
+      dayEventTitle.textContent = "";
+      selectedDay = null;
+      document.querySelectorAll(".calendar-day.is-selected").forEach((cell) => cell.classList.remove("is-selected"));
+    }
+
+    function showDayPopup(monthName, day, events) {
+      selectedDay = day;
+      dayEventTitle.textContent = `${monthName} ${day}, 2026`;
+      dayEventItems.innerHTML = "";
+      events.forEach((evt) => {
+        const row = document.createElement("div");
+        row.className = "rounded-lg border border-forest/15 bg-white/70 px-3 py-2";
+        row.innerHTML = `<p class="text-[0.68rem] uppercase tracking-[0.14em] font-semibold ${evt.type === "Waxhaw" ? "text-ember" : "text-forest"}">${evt.type} • ${evt.time}</p><p class="mt-1 text-sm text-slate-800">${evt.title}</p>`;
+        dayEventItems.appendChild(row);
+      });
+      dayEventPopup.hidden = false;
+      if (globalThis.gsap) {
+        gsap.fromTo(dayEventPopup, { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.22, ease: "power2.out" });
+      }
+    }
+
+    function renderMonthChips() {
+      monthChips.innerHTML = "";
+      months.forEach((month, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = month;
+        btn.className = "month-chip rounded-full border border-forest/20 bg-white/60 px-4 py-2 text-[0.72rem] uppercase tracking-[0.14em] font-semibold text-forest hover:text-ember transition-colors";
+        if (idx === activeMonthIndex) btn.classList.add("active");
+        btn.addEventListener("click", () => {
+          activeMonthIndex = idx;
+          renderCalendar();
+        });
+        monthChips.appendChild(btn);
+      });
+    }
+
+    function renderCalendar() {
+      const monthName = months[activeMonthIndex];
+      monthTitle.textContent = monthName + " 2026";
+
+      renderMonthChips();
+      calendarGrid.innerHTML = "";
+
+      const firstWeekday = new Date(2026, monthToIndex[monthName], 1).getDay();
+      const totalDays = daysInMonth[monthName];
+      const eventsForMonth = monthEventsData[monthName] || [];
+
+      hideDayPopup();
+
+      for (let i = 0; i < firstWeekday; i += 1) {
+        const empty = document.createElement("div");
+        empty.className = "calendar-day empty";
+        calendarGrid.appendChild(empty);
+      }
+
+      for (let day = 1; day <= totalDays; day += 1) {
+        const hasEvent = eventsForMonth.some((evt) => evt.day === day);
+        const dayCell = document.createElement("div");
+        dayCell.className = "calendar-day" + (hasEvent ? " has-event" : "");
+
+        const dayNumber = document.createElement("p");
+        dayNumber.className = "text-sm font-bold text-forest";
+        dayNumber.textContent = String(day);
+        dayCell.appendChild(dayNumber);
+
+        if (hasEvent) {
+          const dots = eventsForMonth.filter((evt) => evt.day === day).slice(0, 3);
+          dots.forEach((evt) => {
+            const dot = document.createElement("span");
+            dot.className = "event-dot";
+            dot.style.background = evt.type === "Waxhaw" ? "#C96A4B" : "#173A2E";
+            dayCell.appendChild(dot);
+          });
+
+          dayCell.addEventListener("click", () => {
+            document.querySelectorAll(".calendar-day.is-selected").forEach((cell) => cell.classList.remove("is-selected"));
+            dayCell.classList.add("is-selected");
+            showDayPopup(monthName, day, eventsForMonth.filter((evt) => evt.day === day));
+          });
+        } else {
+          dayCell.addEventListener("click", hideDayPopup);
+        }
+
+        calendarGrid.appendChild(dayCell);
+      }
+
+      monthEventsContainer(monthName);
+    }
+
+    function monthEventsContainer(monthName) {
+      const items = monthEventsData[monthName] || [];
+      monthEvents.innerHTML = "";
+      if (items.length === 0) {
+        const soon = document.createElement("article");
+        soon.className = "glass-layer rounded-xl px-4 py-4";
+        const lateYear = ["August", "September", "October", "November", "December"].includes(monthName);
+        const message = lateYear
+          ? "No official events are published for " + monthName + " yet. More events coming soon as calendars update."
+          : "No events listed for " + monthName + ".";
+        soon.innerHTML = `<p class="text-sm text-slate-700">${message}</p>`;
+        monthEvents.appendChild(soon);
+        return;
+      }
+      items.forEach((evt) => {
+        const row = document.createElement("article");
+        row.className = "glass-layer rounded-xl px-4 py-3 flex items-start gap-3";
+        row.innerHTML = `<div class="min-w-12 text-center"><p class="text-[0.7rem] uppercase tracking-[0.14em] text-forest/60">${monthName.slice(0,3).toUpperCase()}</p><p class="display text-2xl text-forest leading-none">${evt.day}</p></div><div><p class="text-[0.7rem] uppercase tracking-[0.14em] font-semibold ${evt.type === "Waxhaw" ? "text-ember" : "text-forest"}">${evt.type} • ${evt.time}</p><h4 class="mt-1 text-base font-semibold text-slate-800">${evt.title}</h4></div>`;
+        monthEvents.appendChild(row);
+      });
+    }
+
+    function setPlan(plan) {
+      plannerTabs.forEach((tab) => {
+        const active = tab.dataset.plan === plan;
+        tab.classList.toggle("text-forest", active);
+        tab.classList.toggle("text-forest/75", !active);
+        tab.setAttribute("aria-selected", active ? "true" : "false");
+      });
+
+      plannerPanels.forEach((panel) => {
+        const active = panel.dataset.panel === plan;
+        panel.classList.toggle("is-active", active);
+        panel.hidden = !active;
+      });
+
+      const activePanel = document.querySelector(`.planner-panel[data-panel="${plan}"]`);
+      if (activePanel && globalThis.gsap) {
+        gsap.fromTo(activePanel, { x: 36, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power2.out" });
+      }
+    }
+
+    plannerTabs.forEach((tab) => {
+      tab.addEventListener("click", () => setPlan(tab.dataset.plan));
+    });
+
+    document.getElementById("prevMonthBtn").addEventListener("click", () => {
+      activeMonthIndex = (activeMonthIndex - 1 + months.length) % months.length;
+      renderCalendar();
+    });
+
+    document.getElementById("nextMonthBtn").addEventListener("click", () => {
+      activeMonthIndex = (activeMonthIndex + 1) % months.length;
+      renderCalendar();
+    });
+
+    closeDayEventPopup.addEventListener("click", hideDayPopup);
+
+    renderCalendar();
+  </script>
+  <script src="script.js"></script>
 </body>
 </html>
