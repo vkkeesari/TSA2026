@@ -652,6 +652,7 @@ if (
   const isCoarsePointer = globalThis.matchMedia
     ? globalThis.matchMedia("(pointer: coarse)").matches
     : false;
+  const enableSpotlightEffects = false;
 
   const basePanelTitle = "Choose a map fragment";
   const basePanelIntro = "Use the map to reveal organizations tied to each category.";
@@ -692,6 +693,7 @@ if (
   }
 
   function showSpotlight(resource) {
+    if (!enableSpotlightEffects) return;
     if (!spotlightPane || !resource?.spotlight) return;
 
     state.spotlightResource = resource;
@@ -802,28 +804,6 @@ if (
         </div>
       `;
       node.addEventListener("click", () => showResourceDetail(resource));
-
-      if (supportsHover) {
-        node.addEventListener("mouseenter", () => {
-          if (resource.spotlight) {
-            showSpotlight(resource);
-          } else {
-            hideSpotlight();
-          }
-        });
-        node.addEventListener("mouseleave", () => {
-          hideSpotlight();
-        });
-      }
-
-      node.addEventListener("focus", () => {
-        if (resource.spotlight) {
-          showSpotlight(resource);
-        }
-      });
-      node.addEventListener("blur", () => {
-        hideSpotlight();
-      });
       fragment.appendChild(node);
       state.nodes.push(node);
     });
