@@ -1,43 +1,77 @@
 const resources = [
   {
-    name: "Common Heart",
-    category: "Human Services",
-    focus: "Hunger relief and community support",
-    description: "Supports families through food access programs and local kindness initiatives.",
-    contact: "704-218-9060 | commonheart.org",
-    url: "https://commonheart.org"
-  },
-  {
-    name: "Museum of the Waxhaws",
-    category: "Arts/History",
-    focus: "Regional history and exhibits",
-    description: "Highlights Waxhaw area heritage with educational exhibits and programs.",
-    contact: "704-843-1832 | museumofthewaxhaws.org",
-    url: "https://museumofthewaxhaws.org"
-  },
-  {
-    name: "Waxhaw Community Theatre",
-    category: "Arts/History",
-    focus: "Community theatre productions",
-    description: "Provides local productions and performance opportunities for residents.",
-    contact: "waxhawcommunitytheatre.com",
-    url: "https://waxhawcommunitytheatre.com"
-  },
-  {
-    name: "Heart for Monroe",
-    category: "Human Services",
-    focus: "Family support and local outreach",
-    description: "Coordinates local service projects and aid programs for residents.",
-    contact: "heartformonroe.com",
-    url: "https://heartformonroe.com"
+    name: "988 Suicide & Crisis Lifeline",
+    category: "Health",
+    focus: "24/7 crisis support and suicide prevention",
+    description: "Free, confidential support for anyone experiencing suicidal thoughts, mental health crises, or emotional distress. Available 24/7, 365 days a year.",
+    contact: "Call or Text 988 | suicideandcrisislifeline.org",
+    url: "https://suicideandcrisislifeline.org"
   },
   {
     name: "Turning Point",
     category: "Health",
-    focus: "Crisis support and counseling",
-    description: "Offers crisis response and trauma-informed support services.",
-    contact: "704-283-7233 | turningpointnc.org",
+    focus: "Crisis support and trauma-informed counseling",
+    description: "Offers immediate crisis response, domestic violence services, and trauma-informed support. Available 24/7 for those in crisis.",
+    contact: "Crisis: 704-283-7233 | 501 South Main St, Waxhaw | turningpointnc.org",
     url: "https://turningpointnc.org"
+  },
+  {
+    name: "Union County Community Shelter",
+    category: "Human Services",
+    focus: "Emergency housing and meals",
+    description: "Provides emergency shelter, hot meals, and rehousing support for families facing homelessness across Union County. Open 24/7.",
+    contact: "704-289-5300 | unionshelter.org",
+    url: "https://unionshelter.org",
+    spotlight: {
+      mission: "Immediate emergency support",
+      uniqueFeature: "24/7 emergency housing and hot meals available regardless of ability to pay",
+      description: "A vital safety net providing emergency shelter intake, nutrition, case management, and transitional housing support to help families move toward permanent housing solutions.",
+      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop"
+    }
+  },
+  {
+    name: "Common Heart",
+    category: "Human Services",
+    focus: "Hunger relief and community support",
+    description: "Supports families through food access programs, pantry services, financial assistance programs, and local kindness initiatives.",
+    contact: "704-218-9060 | 125 E Main St, Waxhaw | commonheart.org",
+    url: "https://commonheart.org",
+    spotlight: {
+      mission: "Community-driven hunger relief",
+      uniqueFeature: "Flexible food assistance programs tailored to family needs",
+      description: "Common Heart bridges the gap between families and food security through community-powered programs, emergency food access, and support for those facing economic hardship.",
+      image: "https://images.unsplash.com/photo-1488521787991-ed7fe863a892?w=400&h=300&fit=crop"
+    }
+  },
+  {
+    name: "Museum of the Waxhaws",
+    category: "Arts/History",
+    focus: "Regional history and cultural exhibits",
+    description: "Highlights Waxhaw area heritage with rotating exhibits, educational programs, and historical archives. Open Wed-Sat 10 AM-5 PM. General admission $5.",
+    contact: "704-843-1832 | 129 Museum Lane, Waxhaw | museumofthewaxhaws.org",
+    url: "https://museumofthewaxhaws.org",
+    spotlight: {
+      mission: "Preserve and celebrate regional heritage",
+      uniqueFeature: "Interactive exhibits connecting local history to broader cultural narratives",
+      description: "The Museum curates deep local stories, from early settlement through contemporary Waxhaw culture. Research library available by appointment.",
+      image: "https://images.unsplash.com/photo-1564399579883-451a5d44be7f?w=400&h=300&fit=crop"
+    }
+  },
+  {
+    name: "Waxhaw Community Theatre & Arts",
+    category: "Arts/History",
+    focus: "Theatre and arts productions",
+    description: "Family-friendly theatre productions featuring community actors, directors, and playwrights. Performances throughout the year with opportunities for local artists.",
+    contact: "waxhawcommunitytheatre.com",
+    url: "https://waxhawcommunitytheatre.com"
+  },
+  {
+    name: "Heart for Monroe Community Outreach",
+    category: "Human Services",
+    focus: "Family support and volunteer coordination",
+    description: "Coordinates local service projects, volunteer opportunities, and community aid programs connecting residents with needs.",
+    contact: "heartformonroe.com",
+    url: "https://heartformonroe.com"
   },
   {
     name: "HealthQuest",
@@ -58,10 +92,16 @@ const resources = [
   {
     name: "Cane Creek Park",
     category: "Recreation",
-    focus: "Outdoor recreation",
-    description: "Features lake activities, trails, and outdoor family recreation.",
-    contact: "704-843-3919 | unioncountync.gov/canecreek",
-    url: "https://unioncountync.gov/canecreek"
+    focus: "Lake activities, hiking trails, and family recreation",
+    description: "13-acre lake park featuring boating, fishing, multi-use trails, picnic areas, and playgrounds. Senior North Carolina residents receive fishing license discounts. Open sunrise to sunset.",
+    contact: "704-843-3919 | Waxhaw | unioncountync.gov/canecreek",
+    url: "https://unioncountync.gov/canecreek",
+    spotlight: {
+      mission: "Accessible outdoor recreation for all",
+      uniqueFeature: "Beautiful lake activities and trail systems within minutes of Waxhaw",
+      description: "Cane Creek combines natural beauty with accessible recreation—fishing, paddling, nature walks, and scenic picnic areas for families and seniors alike.",
+      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop"
+    }
   },
   {
     name: "WCWAA",
@@ -72,19 +112,25 @@ const resources = [
     url: "https://wcwaa.org"
   },
   {
-    name: "JAARS",
+    name: "JAARS (Jungle Aviation And Radio Service)",
     category: "Education",
-    focus: "STEM and language learning",
-    description: "Offers educational outreach and technology-focused learning experiences.",
-    contact: "704-843-6000 | jaars.org",
-    url: "https://jaars.org"
+    focus: "STEM, language learning, and aviation technology",
+    description: "Provides cutting-edge STEM education, language training, and aviation innovation programs. Located in Waxhaw with hands-on learning for youth and professionals.",
+    contact: "704-843-6000 | 2500 Jaars Drive, Waxhaw | jaars.org",
+    url: "https://jaars.org",
+    spotlight: {
+      mission: "Global innovation through STEM education",
+      uniqueFeature: "Hands-on aviation and technology programs unique to the region",
+      description: "JAARS combines rigorous STEM education with real-world application in aviation, language technology, and global innovation. Educational partnerships serve K-12 students.",
+      image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=300&fit=crop"
+    }
   },
   {
-    name: "SPCC",
+    name: "South Piedmont Community College (SPCC)",
     category: "Education",
-    focus: "Career and continuing education",
-    description: "Provides pathways for skill building and academic advancement.",
-    contact: "704-272-5300 | spcc.edu",
+    focus: "Career training and higher education pathways",
+    description: "Regionally-accredited community college offering transfer degrees, workforce certifications, and continuing education. Multiple campus locations with flexible scheduling.",
+    contact: "704-272-5300 | Main Campus: Polkton Rd, Polkton | spcc.edu",
     url: "https://spcc.edu"
   },
   {
@@ -122,42 +168,48 @@ const resources = [
   {
     name: "Weddington Town Park",
     category: "Recreation",
-    focus: "Local nature trails and quiet outdoor space",
-    description: "Located behind Town Hall, this park features a walking trail, playground, and pavilion for small community gatherings.",
-    contact: "704-846-1402 | townofweddington.com",
+    focus: "Nature trails, playground, and community gathering space",
+    description: "Located behind Town Hall at 401 Town Center Drive, this quiet park features scenic walking trails, a playground, picnic areas, and pavilion for small gatherings. Free to community.",
+    contact: "704-846-1402 | Weddington | townofweddington.com",
+    url: "https://www.townofweddington.com",
+    spotlight: {
+      mission: "Welcoming outdoor community space",
+      uniqueFeature: "Small, accessible nature trails perfect for families and seniors",
+      description: "Weddington Town Park offers a peaceful escape with easy walking trails and open green space, ideal for morning walks, family gatherings, or quiet reflection.",
+      image: "https://images.unsplash.com/photo-1511497584788-876760111969?w=400&h=300&fit=crop"
+    }
+  },
+  {
+    name: "Town of Weddington Civic Portal",
+    category: "Human Services",
+    focus: "Official town updates, meetings, and public services",
+    description: "Official Town of Weddington website for council updates, planning notices, permits, and community announcements.",
+    contact: "704-846-2709 | townofweddington.com",
     url: "https://www.townofweddington.com"
   },
   {
     name: "Town of Waxhaw Skate Park",
     category: "Recreation",
-    focus: "Youth athletics and action sports",
-    description: "A designated concrete skate park for local skateboarders and bikers to practice and build community through sports.",
-    contact: "704-843-2195 | waxhaw.com",
+    focus: "Skateboarding, BMX, and youth action sports",
+    description: "Free outdoor concrete skate park featuring modern ramps and obstacles for skateboarders and BMX riders. Open during daylight hours. Part of the Sk8 Night community programming.",
+    contact: "704-843-2195 | Waxhaw | waxhaw.com",
     url: "https://www.waxhaw.com"
   },
   {
     name: "Twelve Claws Nature Preserve",
     category: "Recreation",
-    focus: "Wildlife conservation and hiking",
-    description: "A hidden Waxhaw-area preserve offering rugged trails and opportunities to explore Carolina Piedmont flora and fauna.",
+    focus: "Wilderness hiking and wildlife observation",
+    description: "Pristine Waxhaw-area nature preserve with rugged trails showcasing native Carolina Piedmont flora and fauna. Great for hiking, wildlife photography, and nature education.",
     contact: "tarheeltrailblazers.com",
     url: "https://tarheeltrailblazers.com"
   },
   {
     name: "The Storefront Theatre",
     category: "Arts/History",
-    focus: "Professional-grade community theatre",
-    description: "An intimate Waxhaw theatre company producing high-quality plays and providing a platform for local playwrights and actors.",
+    focus: "Professional theatre and local playwright productions",
+    description: "Intimate Waxhaw theatre company producing high-quality plays, musicals, and new works. Performance space supports touring shows and emerging local talent.",
     contact: "thestorefronttheatre.org",
     url: "https://thestorefronttheatre.org"
-  },
-  {
-    name: "Union County Community Shelter",
-    category: "Human Services",
-    focus: "Emergency housing and nutrition",
-    description: "A primary provider of emergency shelter and hot meals for families facing homelessness across Weddington and Waxhaw zip codes.",
-    contact: "704-289-5300 | unionshelter.org",
-    url: "https://unionshelter.org"
   }
 ];
 
@@ -200,6 +252,107 @@ const chatbotInput = document.getElementById("chatbotInput");
 
 const hasGSAP = globalThis.gsap !== undefined;
 
+function setupGlobalUiPolish() {
+  const styleTag = document.createElement("style");
+  styleTag.textContent = `
+    .hub-loading-banner {
+      position: fixed;
+      top: 0.8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 120;
+      padding: 0.55rem 0.9rem;
+      border: 1px solid rgba(23,58,46,0.16);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.92);
+      color: #173A2E;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: opacity 220ms ease, transform 220ms ease;
+    }
+
+    .hub-loading-banner.is-hidden {
+      opacity: 0;
+      transform: translate(-50%, -8px);
+      pointer-events: none;
+    }
+
+    .global-back-to-top {
+      position: fixed;
+      right: 1rem;
+      bottom: 5.4rem;
+      z-index: 58;
+      border: 1px solid rgba(23,58,46,0.2);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.95);
+      color: #173A2E;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.6rem 0.8rem;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease, background 180ms ease, color 180ms ease;
+    }
+
+    .global-back-to-top.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .global-back-to-top:hover {
+      background: #173A2E;
+      color: #ffffff;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid #ffbf47;
+      outline-offset: 2px;
+    }
+  `;
+  document.head.appendChild(styleTag);
+
+  const loadingBanner = document.createElement("div");
+  loadingBanner.className = "hub-loading-banner";
+  loadingBanner.textContent = "Loading Community Hub...";
+  document.body.appendChild(loadingBanner);
+  globalThis.setTimeout(() => {
+    loadingBanner.classList.add("is-hidden");
+    globalThis.setTimeout(() => loadingBanner.remove(), 260);
+  }, 650);
+
+  const backToTopBtn = document.createElement("button");
+  backToTopBtn.type = "button";
+  backToTopBtn.className = "global-back-to-top";
+  backToTopBtn.textContent = "Back to top";
+  backToTopBtn.setAttribute("aria-label", "Back to top");
+  backToTopBtn.addEventListener("click", () => {
+    globalThis.scrollTo({ top: 0, behavior: "smooth" });
+  });
+  document.body.appendChild(backToTopBtn);
+
+  function toggleBackToTop() {
+    backToTopBtn.classList.toggle("is-visible", globalThis.scrollY > 520);
+  }
+
+  toggleBackToTop();
+  globalThis.addEventListener("scroll", toggleBackToTop, { passive: true });
+}
+
+if (document.body) {
+  setupGlobalUiPolish();
+}
+
 function animateTo(target, vars) {
   if (!target || !hasGSAP) return;
   globalThis.gsap.to(target, vars);
@@ -233,6 +386,44 @@ function getResourceSearchBlob(resource) {
     resource.spotlight?.mission,
     resource.spotlight?.uniqueFeature
   ].filter(Boolean).join(" "));
+}
+
+const keywordPriorities = [
+  {
+    terms: ["food", "pantry", "groceries", "hungry", "meal", "meals"],
+    resourceNames: ["Common Heart", "Union County Community Shelter"]
+  },
+  {
+    terms: ["crisis", "abuse", "assault", "urgent", "suicide", "emergency", "shelter"],
+    resourceNames: ["988 Suicide & Crisis Lifeline", "Turning Point", "Union County Community Shelter"]
+  },
+  {
+    terms: ["housing", "homeless", "rehousing"],
+    resourceNames: ["Union County Community Shelter"]
+  },
+  {
+    terms: ["college", "school", "training", "education", "learning"],
+    resourceNames: ["South Piedmont Community College (SPCC)", "JAARS (Jungle Aviation And Radio Service)"]
+  },
+  {
+    terms: ["museum", "history", "events", "heritage"],
+    resourceNames: ["Museum of the Waxhaws"]
+  },
+  {
+    terms: ["park", "outdoor", "recreation", "nature"],
+    resourceNames: ["Cane Creek Park", "Weddington Town Park", "Town of Waxhaw Skate Park", "Twelve Claws Nature Preserve"]
+  }
+];
+
+function getSearchPriorityScore(resource, normalizedQuery) {
+  let score = 0;
+  keywordPriorities.forEach((rule) => {
+    const matched = rule.terms.some((term) => normalizedQuery.includes(term));
+    if (matched && rule.resourceNames.includes(resource.name)) {
+      score += 100;
+    }
+  });
+  return score;
 }
 
 if (
@@ -328,7 +519,20 @@ if (
 
     const normalizedQuery = normalizeSearchText(query);
     const source = normalizedQuery
-      ? resources.filter((resource) => getResourceSearchBlob(resource).includes(normalizedQuery))
+      ? resources
+        .map((resource) => {
+          const blob = getResourceSearchBlob(resource);
+          const includesQuery = blob.includes(normalizedQuery);
+          const termMatches = normalizedQuery.split(" ").filter(Boolean).reduce((count, term) => {
+            return count + (blob.includes(term) ? 1 : 0);
+          }, 0);
+          const priorityScore = getSearchPriorityScore(resource, normalizedQuery);
+          const score = (includesQuery ? 200 : 0) + (termMatches * 25) + priorityScore;
+          return { resource, score };
+        })
+        .filter((entry) => entry.score > 0)
+        .sort((left, right) => right.score - left.score)
+        .map((entry) => entry.resource)
       : resources.slice().sort((left, right) => left.name.localeCompare(right.name)).slice(0, 8);
 
     if (source.length === 0) {
@@ -670,6 +874,27 @@ if (
     });
   }
 
+  // Quick-access button handlers
+  const quickAccessBtns = Array.from(document.querySelectorAll(".quick-access-btn[data-category], .quick-access-btn[data-search]"));
+  quickAccessBtns.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
+      const category = btn.dataset.category;
+      const searchTerm = btn.dataset.search;
+
+      if (category) {
+        activateSlice(category);
+      } else if (searchTerm) {
+        if (resourceSearchInput) {
+          resourceSearchInput.value = searchTerm;
+          resourceSearchInput.focus();
+          renderSearchResults(searchTerm);
+        }
+      }
+    });
+  });
+
+
   globalThis.addEventListener("resize", () => {
     if (!state.activeCategory) return;
     setAnim(mapWrap, { x: globalThis.innerWidth > 1180 ? -26 : 0 });
@@ -788,10 +1013,6 @@ if (chatbotToggle && chatbotShell && chatbotMessages && chatbotForm && chatbotIn
     return bestMatch;
   }
 
-  function getResourceSummary(resource) {
-    return `${resource.name} is a ${resource.category.toLowerCase()} resource focused on ${resource.focus}. ${resource.description} Contact: ${resource.contact}. Website: ${resource.url}.`;
-  }
-
   function buildDayPlan(userText) {
     const lower = userText.toLowerCase();
 
@@ -810,7 +1031,31 @@ if (chatbotToggle && chatbotShell && chatbotMessages && chatbotForm && chatbotIn
     const text = input.toLowerCase();
     const resourceMatch = findResourceMatch(input);
 
-    if (resourceMatch) return getResourceSummary(resourceMatch);
+    // Crisis keywords - prioritize these responses
+    if (text.includes("suicide") || text.includes("suicidal") || text.includes("harm myself") || text.includes("end it all")) {
+      return "If you're having thoughts of suicide, please reach out immediately. Call or text 988 (Suicide & Crisis Lifeline) - it's free, confidential, and available 24/7. You can also contact Turning Point at 704-283-7233 for immediate crisis support. Your life matters.";
+    }
+    if (text.includes("abuse") || text.includes("domestic") || text.includes("assault") || text.includes("violence")) {
+      return "If you're in danger, please call 911 or reach out to Turning Point Crisis Support at 704-283-7233. They provide trauma-informed services and safe shelter. Help is available 24/7 and is confidential.";
+    }
+    if (text.includes("homeless") || text.includes("shelter") || text.includes("nowhere to stay")) {
+      return "Union County Community Shelter provides emergency housing and hot meals 24/7. Call 704-289-5300. They help families access emergency shelter and can assist with transitional housing planning.";
+    }
+    if (text.includes("hungry") || text.includes("food") || text.includes("pantry") || text.includes("meals")) {
+      return "Common Heart provides food access programs and emergency food assistance. You can reach them at 704-218-9060. The Union County Public Library also offers resources and community support.";
+    }
+    if (text.includes("urgent") || text.includes("emergency") || text.includes("crisis") || text.includes("911")) {
+      return "For emergencies, always call 911. For crisis support, call or text 988 (Suicide & Crisis Lifeline) or reach Turning Point at 704-283-7233. Both are free, confidential, and available 24/7.";
+    }
+
+    // Regular resource matching
+    if (resourceMatch) {
+      return `Found a match: ${resourceMatch.name}. ${resourceMatch.focus}. Contact: ${resourceMatch.contact}. Learn more at ${resourceMatch.url}`;
+    }
+    // Category queries
+    if (text.includes("activities") || text.includes("event") || text.includes("weekend")) {
+      return "Check the Events & Happenings section on the Pulse page, or ask about Museum of the Waxhaws, Waxhaw Skate Park, or Cane Creek Park for indoor and outdoor options.";
+    }
     if (text.includes("plan") || text.includes("day") || text.includes("itinerary")) return buildDayPlan(input);
     if (text.includes("human") || text.includes("services")) return getCategorySummary("Human Services");
     if (text.includes("health")) return getCategorySummary("Health");
@@ -851,7 +1096,8 @@ if (chatbotToggle && chatbotShell && chatbotMessages && chatbotForm && chatbotIn
   });
 
   if (!chatbotMessages.children.length) {
-    pushMessage("Hi, I can answer questions about the listed resources and the map categories.", "bot");
+    // Initial message with suggested prompts
+    pushMessage("Hi! I can help you find resources or answer questions about the community. Try asking about:\n• Food help\n• Crisis support\n• Housing\n• Education\n• Local events", "bot");
   }
 
   syncChatbotToggleState();

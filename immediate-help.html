@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Immediate Help & Emergency Resources | Community Resource Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            night: "#0F172A",
+            forest: "#173A2E",
+            moss: "#285945",
+            fern: "#5E8B6F",
+            parchment: "#F6F1E8",
+            ember: "#C96A4B",
+            fog: "#E7E2D8",
+            stone: "#667085"
+          },
+          boxShadow: {
+            haze: "0 20px 60px rgba(15, 23, 42, 0.12)",
+            floaty: "0 14px 34px rgba(15, 23, 42, 0.16)",
+            insetline: "inset 0 1px 0 rgba(255,255,255,0.45)"
+          },
+          borderRadius: {
+            shell: "2rem"
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --night: #0F172A;
+      --forest: #173A2E;
+      --moss: #285945;
+      --fern: #5E8B6F;
+      --parchment: #F6F1E8;
+      --fog: #E7E2D8;
+      --ember: #C96A4B;
+      --line: rgba(23, 58, 46, 0.12);
+      --line-strong: rgba(23, 58, 46, 0.2);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Inter", sans-serif;
+      color: var(--night);
+      background:
+        radial-gradient(circle at 10% 20%, rgba(94, 139, 111, 0.14), transparent 28%),
+        radial-gradient(circle at 84% 14%, rgba(201, 106, 75, 0.10), transparent 24%),
+        linear-gradient(180deg, #fcfaf6 0%, #f6f1e8 42%, #efe7db 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .display {
+      font-family: "Instrument Serif", serif;
+      letter-spacing: -0.02em;
+    }
+
+    .grain::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.055;
+      background-image:
+        linear-gradient(rgba(0,0,0,.4) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,.4) 1px, transparent 1px);
+      background-size: 4px 4px, 4px 4px;
+      mix-blend-mode: multiply;
+      z-index: 1;
+    }
+
+    .shell {
+      position: relative;
+      background: linear-gradient(180deg, rgba(255,255,255,0.52), rgba(255,255,255,0.3));
+      border: 1px solid rgba(23, 58, 46, 0.12);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .topo-lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 50%, transparent 0 30%, rgba(23,58,46,.045) 30.5% 31%, transparent 31.5%),
+        radial-gradient(circle at 50% 50%, transparent 0 40%, rgba(23,58,46,.04) 40.5% 41%, transparent 41.5%),
+        radial-gradient(circle at 50% 50%, transparent 0 50%, rgba(23,58,46,.035) 50.5% 51%, transparent 51.5%),
+        radial-gradient(circle at 50% 50%, transparent 0 60%, rgba(23,58,46,.03) 60.5% 61%, transparent 61.5%);
+      opacity: .7;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.2));
+    }
+
+    .priority-row {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid rgba(23, 58, 46, 0.12);
+      transition: background 180ms ease;
+    }
+
+    .priority-row:last-child {
+      border-bottom: none;
+    }
+
+    .priority-row:hover {
+      background: rgba(255, 255, 255, 0.45);
+    }
+
+    .row-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--forest);
+      margin-bottom: 0.35rem;
+    }
+
+    .row-description {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: rgba(15, 23, 42, 0.75);
+      margin-bottom: 0.5rem;
+    }
+
+    .row-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+      font-size: 0.8rem;
+      color: rgba(15, 23, 42, 0.65);
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    .meta-label {
+      font-weight: 700;
+      color: rgba(15, 23, 42, 0.8);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.7rem;
+    }
+
+    .filter-pill {
+      display: inline-block;
+      padding: 0.5rem 0.9rem;
+      margin: 0 0.3rem 0.4rem 0;
+      border-radius: 999px;
+      border: 1px solid rgba(23, 58, 46, 0.3);
+      background: transparent;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--forest);
+      cursor: pointer;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
+    }
+
+    .filter-pill:hover,
+    .filter-pill.active {
+      transform: translateY(-1px);
+      background: var(--forest);
+      color: #fff;
+      border-color: var(--forest);
+      box-shadow: 0 4px 12px rgba(23, 58, 46, 0.2);
+    }
+
+    .action-button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .action-button {
+      display: inline-block;
+      padding: 0.65rem 1.2rem;
+      border-radius: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      border: 2px solid var(--forest);
+      color: var(--forest);
+      background: transparent;
+      cursor: pointer;
+      transition: all 180ms ease;
+    }
+
+    .action-button:hover {
+      background: var(--forest);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(23, 58, 46, 0.15);
+    }
+
+    .action-button.primary {
+      background: var(--forest);
+      color: white;
+    }
+
+    .action-button.primary:hover {
+      background: var(--moss);
+      border-color: var(--moss);
+    }
+
+    @media (max-width: 768px) {
+      .action-button-group {
+        flex-direction: column;
+      }
+
+      .action-button {
+        text-align: center;
+      }
+    }
+
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(23, 58, 46, 0.12), transparent);
+      margin: 1.5rem 0;
+    }
+
+    @media (max-width: 768px) {
+      .row-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .priority-row {
+        padding: 1rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body class="grain min-h-screen flex flex-col">
+  <header class="sticky top-0 z-40 px-3 pt-3 mb-8 md:mb-12">
+    <div class="shell max-w-7xl mx-auto rounded-[1.6rem] px-4 md:px-6 py-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div class="flex items-start gap-4">
+        <img src="logo.png" alt="Community Resource Hub Logo" class="hidden md:block h-16 w-16 rounded-2xl border border-forest/10 shadow-sm object-cover" />
+        <div>
+          <h1 class="display text-3xl md:text-5xl leading-none text-forest">Community Resource Hub</h1>
+          <p class="mt-2 text-base md:text-2xl font-semibold tracking-[0.02em] text-forest/85">Weddington + Waxhaw, North Carolina</p>
+        </div>
+      </div>
+      <nav aria-label="Primary" class="flex flex-wrap gap-2 text-[0.72rem] uppercase tracking-[0.16em]">
+        <a href="index.html" class="px-4 py-3 rounded-full bg-forest text-white shadow-sm">Hub</a>
+        <a href="navigator.html" class="px-4 py-3 rounded-full border border-forest/12 bg-white/70 text-forest hover:bg-forest hover:text-white transition-colors">Local Navigator</a>
+        <a href="faq.html" class="px-4 py-3 rounded-full border border-forest/12 bg-white/70 text-forest hover:bg-forest hover:text-white transition-colors">FAQ</a>
+        <a href="references.html" class="px-4 py-3 rounded-full border border-forest/12 bg-white/70 text-forest hover:bg-forest hover:text-white transition-colors">References</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="relative z-10 flex-1 px-3 pb-14 pt-4 md:pt-6">
+        <section class="max-w-4xl mx-auto mb-5">
+          <nav aria-label="Breadcrumb" class="text-xs uppercase tracking-[0.14em] text-forest/65 font-semibold">
+            <a href="index.html" class="hover:text-ember transition-colors">Home</a>
+            <span class="mx-2">&gt;</span>
+            <span aria-current="page">Immediate Help</span>
+          </nav>
+        </section>
+
+        <!-- Emergency Banner -->
+        <section class="max-w-4xl mx-auto mb-10 md:mb-14">
+          <div class="bg-gradient-to-r from-ember/15 to-ember/8 border-l-4 border-ember px-5 md:px-6 py-4 md:py-5 rounded-r-lg">
+            <p class="text-sm md:text-base font-semibold text-ember flex items-start gap-2">
+              <span class="text-lg mt-0.5">!</span>
+              <span><strong>Life-threatening emergency?</strong> Call 911 immediately. These resources below are for urgent support but may not be appropriate for active danger.</span>
+            </p>
+          </div>
+        </section>
+
+    <!-- Main Content Section -->
+    <section class="max-w-4xl mx-auto">
+      <!-- Page Title -->
+      <div class="border-b-2 border-forest/20 pb-8 md:pb-12">
+        <span class="text-xs md:text-sm uppercase tracking-[0.18em] text-forest/65 font-bold">Immediate Help & Emergency Resources</span>
+        <h1 class="display mt-3 text-5xl md:text-7xl leading-[1.05] text-forest">
+          Getting Help Fast
+        </h1>
+        <p class="mt-6 text-lg md:text-xl leading-relaxed text-slate-700 max-w-3xl">
+          These resources are best for urgent or same-day needs. <strong>For life-threatening emergencies, call 911.</strong>
+        </p>
+      </div>
+
+      <!-- Section 1: Crisis and Urgent Support -->
+      <div class="mt-10 md:mt-14">
+        <div class="pb-8 border-b-2 border-forest/20">
+          <h2 class="display text-3xl md:text-4xl text-forest">Crisis and urgent support</h2>
+          <p class="mt-3 text-sm text-slate-600">Direct services for mental health emergencies, personal safety, and housing crisis.</p>
+        </div>
+        
+        <!-- Priority List Row 1 -->
+        <div class="mt-0 border-b border-forest/12">
+          <div class="priority-row">
+            <div class="row-title">988 Suicide & Crisis Lifeline</div>
+            <div class="row-description">
+              Free 24/7 support for mental health, emotional distress, or substance use concerns. Call or text 988 for immediate help.
+            </div>
+            <div class="row-meta">
+              <div class="meta-item">
+                <span class="meta-label">Availability:</span>
+                <span>24/7</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Cost:</span>
+                <span>Free</span>
+              </div>
+            </div>
+            <div class="action-button-group">
+              <a href="tel:988" class="action-button primary">Call 988</a>
+              <a href="https://suicideandcrisislifeline.org" target="_blank" class="action-button">Learn More</a>
+            </div>
+          </div>
+
+          <div class="priority-row">
+            <div class="row-title">Turning Point Crisis Services</div>
+            <div class="row-description">
+              Emergency crisis support for survivors of domestic violence, sexual assault, and child abuse in Union County. Trauma-informed services 24/7.
+            </div>
+            <div class="row-meta">
+              <div class="meta-item">
+                <span class="meta-label">Domestic Violence:</span>
+                <span>704-283-7233</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Sexual Assault:</span>
+                <span>704-283-7770</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Location:</span>
+                <span>501 South Main St, Waxhaw</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Availability:</span>
+                <span>24/7</span>
+              </div>
+            </div>
+            <div class="action-button-group">
+              <a href="tel:704-283-7233" class="action-button primary">Call Now</a>
+              <a href="https://turningpointnc.org" target="_blank" class="action-button">Learn More</a>
+            </div>
+          </div>
+
+          <div class="priority-row">
+            <div class="row-title">Union County Community Shelter</div>
+            <div class="row-description">
+              Emergency housing, hot meals, and rehousing support for families facing homelessness. Available 24/7, walk-ins welcome.
+            </div>
+            <div class="row-meta">
+              <div class="meta-item">
+                <span class="meta-label">Phone:</span>
+                <span>704-289-5300</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Location:</span>
+                <span>Union County</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Availability:</span>
+                <span>24/7</span>
+              </div>
+            </div>
+            <div class="action-button-group">
+              <a href="tel:704-289-5300" class="action-button primary">Call Now</a>
+              <a href="https://unionshelter.org" target="_blank" class="action-button">Learn More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Same-Day Help -->
+      <div class="mt-10 md:mt-14">
+        <div class="pb-8 border-b-2 border-forest/20">
+          <h2 class="display text-3xl md:text-4xl text-forest">Same-day help</h2>
+          <p class="mt-3 text-sm text-slate-600">Food, basic services, and healthcare access that can start today.</p>
+        </div>
+
+        <div class="mt-0 border-b border-forest/12">
+          <!-- Row 1: Common Heart Food Pantries -->
+          <div class="priority-row">
+            <div class="row-title">Common Heart Food Pantries</div>
+            <div class="row-description">
+              Common Heart operates food pantries in Union County and provides groceries to help stabilize families living in poverty.
+            </div>
+            <div class="row-meta">
+              <div class="meta-item">
+                <span class="meta-label">Service Area:</span>
+                <span>Union County</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Note:</span>
+                <span>Check the official pantry schedule for current locations and times</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 2: Common Cupboard Delivery -->
+          <div class="priority-row">
+            <div class="row-title">Common Cupboard Delivery</div>
+            <div class="row-description">
+              Union County residents who cannot get to an evening pantry because of a significant barrier may qualify for Saturday morning grocery delivery.
+            </div>
+            <div class="row-meta">
+              <div class="meta-item">
+                <span class="meta-label">Availability:</span>
+                <span>Saturday morning delivery</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Eligibility:</span>
+                <span>Union County residents with transportation or access barriers</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3: HealthQuest -->
+          <div class="priority-row">
+            <div class="row-title">HealthQuest</div>
+            <div class="row-description">
+              Connects uninsured residents with medications and health education.
+            </div>
+            <div class="row-meta">
+              <div class="meta-item">
+                <span class="meta-label">Note:</span>
+                <span>Verify current address, hours, and intake details from the official organization before final submission.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Filter Urgent Resources -->
+      <div class="mt-10 md:mt-14">
+        <div class="pb-8 border-b-2 border-forest/20">
+          <h2 class="display text-3xl md:text-4xl text-forest">Filter urgent resources</h2>
+          <p class="mt-3 text-sm text-slate-600">Narrow down your options by category or urgency level.</p>
+        </div>
+
+        <div class="mt-6 flex flex-wrap gap-2">
+          <button class="filter-pill">Open now</button>
+          <button class="filter-pill">Free only</button>
+          <button class="filter-pill">Crisis support</button>
+          <button class="filter-pill">Family services</button>
+          <button class="filter-pill">Housing-related</button>
+        </div>
+
+        <div class="mt-8 p-5 bg-gradient-to-r from-forest/5 to-transparent border-l-4 border-forest/20">
+          <p class="text-sm text-slate-700">
+            <strong>Note:</strong> Check official websites before visiting. Hours and intake rules can change.
+          </p>
+        </div>
+      </div>
+
+      <!-- Back to Hub Link -->
+      <div class="text-center pb-6">
+        <a href="index.html" class="inline-flex items-center gap-2 text-forest hover:text-ember font-bold text-sm uppercase tracking-[0.12em] transition-colors">
+          ← Back to Community Hub
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="px-3 pb-3 pt-4 mt-16 md:mt-20">
+    <div class="max-w-7xl mx-auto rounded-[1.5rem] bg-forest px-5 py-5 text-center text-sm text-white shadow-lg">
+      <a href="references.html" class="inline-flex items-center justify-center hover:text-white/80 transition-colors">Made by CATA TSA</a>
+    </div>
+  </footer>
+
+  <aside class="chatbot-dock" aria-label="Community assistant">
+    <button id="chatbotToggle" class="chatbot-toggle-icon" type="button" aria-expanded="false" aria-controls="chatbotShell" aria-label="Open community assistant">
+      Chat
+    </button>
+  </aside>
+
+  <script>
+    // Filter pill interaction
+    document.querySelectorAll('.filter-pill').forEach(pill => {
+      pill.addEventListener('click', function() {
+        this.classList.toggle('active');
+      });
+    });
+  </script>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

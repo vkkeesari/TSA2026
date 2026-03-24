@@ -119,6 +119,13 @@
       border-color: var(--forest-soft);
     }
 
+    .back-link.is-active {
+      background: var(--forest);
+      color: #fff;
+      border-color: var(--forest);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+    }
+
     .content {
       border: 1px solid var(--line);
       border-radius: 1rem;
@@ -406,34 +413,41 @@
     }
   </style>
 </head>
-<body class="grain">
+<body class="grain min-h-screen" style="display:flex;flex-direction:column;">
   <div class="page">
     <aside class="sidebar" aria-label="Senior Connection navigation">
       <div>
-        <h1>Senior Connection</h1>
-        <p>Bridging Generations</p>
+        <h1>Community Resource Hub</h1>
+        <p>Senior Connection</p>
       </div>
       <div style="display:flex; gap:0.55rem; flex-wrap:wrap;">
-        <a href="index.html" class="back-link">Hub</a>
-        <a href="navigator.html" class="back-link" style="background:#fff;color:var(--forest);">Navigator</a>
+        <a href="index.html" class="back-link is-active">Hub</a>
+        <a href="navigator.html" class="back-link" style="background:#fff;color:var(--forest);">Local Navigator</a>
         <a href="faq.html" class="back-link" style="background:#fff;color:var(--forest);">FAQ</a>
         <a href="references.html" class="back-link" style="background:#fff;color:var(--forest);">References</a>
       </div>
     </aside>
 
     <main class="content">
+      <section class="section" style="padding-bottom:0.85rem;">
+        <nav aria-label="Breadcrumb" style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.14em;color:rgba(23,58,46,0.7);font-weight:700;">
+          <a href="index.html" style="color:#173A2E;text-decoration:none;">Home</a>
+          <span style="margin:0 0.5rem;">&gt;</span>
+          <span aria-current="page">Senior Connection</span>
+        </nav>
+      </section>
+
       <section class="section" aria-labelledby="mission">
         <h2 id="mission">Bridging Generations</h2>
         <p class="lead">
-          Our mission is to ensure that no senior in the Weddington-Waxhaw area feels isolated or overwhelmed by modern challenges.
-          We provide a secure platform where seniors can request Micro-Supports, small tasks that make a big difference,
-          fulfilled by verified local volunteers.
+          Seniors in Weddington and Waxhaw can ask for practical help here.
+          Local volunteers can step in for small tasks that matter day to day.
         </p>
       </section>
 
       <section class="section" aria-labelledby="services-categories">
         <h2 id="services-categories">Services &amp; Support Categories</h2>
-        <p class="lead">We focus on three primary areas where our community's youth and adults can provide immediate value.</p>
+        <p class="lead">Three support areas where local volunteers can help quickly and safely.</p>
         <ul class="service-list">
           <li>
             <strong>Tech &amp; Digital Literacy:</strong>
@@ -507,7 +521,7 @@
         <div class="pathways">
           <div class="pathway">
             <h3>For Seniors: Request a Helping Hand</h3>
-            <form id="seniorForm" aria-label="Senior help request form" action="https://formspree.io/f/YOURCODE" method="POST">
+            <form id="seniorForm" aria-label="Senior help request form" action="https://formspree.io/f/mpqyoedk" method="POST">
               <div class="form-row">
                 <label for="senior_name">Name &amp; Neighborhood</label>
                 <input id="senior_name" name="senior_name" type="text" required />
@@ -542,7 +556,7 @@
               <button class="btn" type="submit">Request Assistance</button>
             </form>
             <div id="seniorFormThanks" hidden style="margin-top:1rem;padding:1rem;border:1px solid rgba(23,58,46,0.2);border-radius:0.75rem;background:rgba(255,255,255,0.85);color:#173A2E;">
-              <strong style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;">Thank you!</strong>
+              <strong style="font-family:'Instrument Serif',serif;font-size:1.35rem;">Thank you!</strong>
               <p style="margin:0.3rem 0 0;font-size:0.9rem;">Your request has been received. A volunteer will be in touch soon.</p>
             </div>
           </div>
@@ -578,7 +592,7 @@
               <button class="btn" type="submit">Apply to Volunteer</button>
             </form>
             <div id="volunteerFormThanks" hidden style="margin-top:1rem;padding:1rem;border:1px solid rgba(23,58,46,0.2);border-radius:0.75rem;background:rgba(255,255,255,0.85);color:#173A2E;">
-              <strong style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;">Thank you for signing up!</strong>
+              <strong style="font-family:'Instrument Serif',serif;font-size:1.35rem;">Thank you for signing up!</strong>
               <p style="margin:0.3rem 0 0;font-size:0.9rem;">We'll review your application and reach out with your first match.</p>
             </div>
           </div>
@@ -587,8 +601,10 @@
     </main>
   </div>
 
-  <footer>
-    Created by CATA TSA Chapter.
+  <footer style="padding:1rem 0.75rem 0.75rem;">
+    <div style="max-width:1200px;margin:0 auto;border-radius:1.5rem;background:#173A2E;padding:1.25rem;text-align:center;color:#fff;box-shadow:0 20px 40px rgba(15,23,42,0.12);font-size:0.875rem;">
+      <a href="references.html" style="color:#fff;text-decoration:none;">Made by CATA TSA</a>
+    </div>
   </footer>
 
   <aside class="chatbot-dock" aria-label="Community assistant">
