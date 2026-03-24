@@ -846,9 +846,18 @@
       .resource-panel,
       .map-stage.is-active .resource-panel {
         max-width: 100%;
-        opacity: 1;
         transform: none;
         overflow: visible;
+      }
+
+      .resource-panel {
+        display: none;
+      }
+
+      .map-stage.is-active .resource-panel {
+        display: block;
+        opacity: 1;
+        pointer-events: auto;
       }
 
       .resource-panel-shell {
