@@ -146,8 +146,8 @@ const resources = [
     category: "Education",
     focus: "Literacy, technology access, and community workshops",
     description: "A vital hub for student research, offering free tutoring resources, Storytime for younger children, and high-speed internet access for the community.",
-    contact: "704-283-8184 | ucpl.libguides.com/waxhaw",
-    url: "https://ucpl.libguides.com/waxhaw"
+    contact: "704-283-8184 | uclnc.org",
+    url: "https://www.uclnc.org/"
   },
   {
     name: "Union Day School",
