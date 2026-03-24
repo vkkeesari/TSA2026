@@ -426,6 +426,88 @@ function getSearchPriorityScore(resource, normalizedQuery) {
   return score;
 }
 
+function renderSearchResults(query, onSelect) {
+  if (!resourceSearchResults) return;
+
+  const normalizedQuery = normalizeSearchText(query);
+  const source = normalizedQuery
+    ? resources
+      .map((resource) => {
+        const blob = getResourceSearchBlob(resource);
+        const includesQuery = blob.includes(normalizedQuery);
+        const termMatches = normalizedQuery.split(" ").filter(Boolean).reduce((count, term) => {
+          return count + (blob.includes(term) ? 1 : 0);
+        }, 0);
+        const priorityScore = getSearchPriorityScore(resource, normalizedQuery);
+        const score = (includesQuery ? 200 : 0) + (termMatches * 25) + priorityScore;
+        return { resource, score };
+      })
+      .filter((entry) => entry.score > 0)
+      .sort((left, right) => right.score - left.score)
+      .map((entry) => entry.resource)
+    : resources.slice().sort((left, right) => left.name.localeCompare(right.name)).slice(0, 8);
+
+  if (source.length === 0) {
+    resourceSearchResults.innerHTML = '<p class="text-sm text-slate-600">No resources matched that search.</p>';
+    return;
+  }
+
+  const helperText = normalizedQuery
+    ? `<p class="text-[0.7rem] uppercase tracking-[0.18em] text-forest/55">${source.length} matching resources</p>`
+    : '<p class="text-[0.7rem] uppercase tracking-[0.18em] text-forest/55">Browse a sample or start typing for all resources</p>';
+
+  const resultsMarkup = source.map((resource) => {
+    const encodedName = resource.name.replaceAll('"', "&quot;");
+    return [
+      '<button class="search-result" type="button" data-resource-name="',
+      encodedName,
+      '">',
+      '<div class="text-sm font-semibold text-forest">',
+      resource.name,
+      '</div>',
+      '<div class="mt-1 text-[0.68rem] uppercase tracking-[0.16em] text-forest/55">',
+      resource.category,
+      ' · ',
+      resource.focus,
+      '</div>',
+      '<div class="mt-2 text-sm text-slate-600">',
+      resource.description,
+      '</div>',
+      '</button>'
+    ].join("");
+  }).join("");
+
+  resourceSearchResults.innerHTML = helperText + resultsMarkup;
+
+  Array.from(resourceSearchResults.querySelectorAll(".search-result")).forEach((button) => {
+    button.addEventListener("click", () => {
+      const target = resources.find((resource) => resource.name === button.dataset.resourceName);
+      if (!target) return;
+      if (resourceSearchInput) {
+        resourceSearchInput.value = target.name;
+      }
+      if (onSelect) {
+        onSelect(target);
+      } else if (target.url) {
+        window.open(target.url, "_blank", "noopener noreferrer");
+      }
+    });
+  });
+}
+
+function initSearchBar(onSelect) {
+  if (!resourceSearchInput || !resourceSearchResults) return;
+  if (resourceSearchInput.dataset.searchBound) return;
+  resourceSearchInput.dataset.searchBound = "1";
+  renderSearchResults("", onSelect);
+  resourceSearchInput.addEventListener("input", (event) => {
+    renderSearchResults(event.target.value, onSelect);
+  });
+  resourceSearchInput.addEventListener("focus", () => {
+    renderSearchResults(resourceSearchInput.value, onSelect);
+  });
+}
+
 if (
   slices.length > 0 &&
   nodeLayer &&
@@ -518,71 +600,6 @@ if (
     activateSlice(resource.category);
     showResourceDetail(resource);
     hubStage.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  function renderSearchResults(query) {
-    if (!resourceSearchResults) return;
-
-    const normalizedQuery = normalizeSearchText(query);
-    const source = normalizedQuery
-      ? resources
-        .map((resource) => {
-          const blob = getResourceSearchBlob(resource);
-          const includesQuery = blob.includes(normalizedQuery);
-          const termMatches = normalizedQuery.split(" ").filter(Boolean).reduce((count, term) => {
-            return count + (blob.includes(term) ? 1 : 0);
-          }, 0);
-          const priorityScore = getSearchPriorityScore(resource, normalizedQuery);
-          const score = (includesQuery ? 200 : 0) + (termMatches * 25) + priorityScore;
-          return { resource, score };
-        })
-        .filter((entry) => entry.score > 0)
-        .sort((left, right) => right.score - left.score)
-        .map((entry) => entry.resource)
-      : resources.slice().sort((left, right) => left.name.localeCompare(right.name)).slice(0, 8);
-
-    if (source.length === 0) {
-      resourceSearchResults.innerHTML = '<p class="text-sm text-slate-600">No resources matched that search.</p>';
-      return;
-    }
-
-    const helperText = normalizedQuery
-      ? `<p class="text-[0.7rem] uppercase tracking-[0.18em] text-forest/55">${source.length} matching resources</p>`
-      : '<p class="text-[0.7rem] uppercase tracking-[0.18em] text-forest/55">Browse a sample or start typing for all resources</p>';
-
-    const resultsMarkup = source.map((resource) => {
-      const encodedName = resource.name.replaceAll('"', "&quot;");
-      return [
-        '<button class="search-result" type="button" data-resource-name="',
-        encodedName,
-        '">',
-        '<div class="text-sm font-semibold text-forest">',
-        resource.name,
-        '</div>',
-        '<div class="mt-1 text-[0.68rem] uppercase tracking-[0.16em] text-forest/55">',
-        resource.category,
-        ' · ',
-        resource.focus,
-        '</div>',
-        '<div class="mt-2 text-sm text-slate-600">',
-        resource.description,
-        '</div>',
-        '</button>'
-      ].join("");
-    }).join("");
-
-    resourceSearchResults.innerHTML = helperText + resultsMarkup;
-
-    Array.from(resourceSearchResults.querySelectorAll(".search-result")).forEach((button) => {
-      button.addEventListener("click", () => {
-        const target = resources.find((resource) => resource.name === button.dataset.resourceName);
-        if (!target) return;
-        if (resourceSearchInput) {
-          resourceSearchInput.value = target.name;
-        }
-        activateResource(target);
-      });
-    });
   }
 
   function showResourceListPane() {
@@ -887,15 +904,7 @@ if (
   }
   detailBackBtn.addEventListener("click", showResourceListPane);
 
-  if (resourceSearchInput && resourceSearchResults) {
-    renderSearchResults("");
-    resourceSearchInput.addEventListener("input", (event) => {
-      renderSearchResults(event.target.value);
-    });
-    resourceSearchInput.addEventListener("focus", () => {
-      renderSearchResults(resourceSearchInput.value);
-    });
-  }
+  initSearchBar((resource) => activateResource(resource));
 
   // Quick-access button handlers
   const quickAccessBtns = Array.from(document.querySelectorAll(".quick-access-btn[data-category], .quick-access-btn[data-search]"));
@@ -931,6 +940,9 @@ if (
 
   resetMap();
 }
+
+// Fallback: wire up search bar on pages where the navigator block didn't run
+initSearchBar(null);
 
 if (resourceSuggestionForm && formStatusMessage) {
   resourceSuggestionForm.addEventListener("submit", async (event) => {
