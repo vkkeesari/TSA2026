@@ -429,6 +429,7 @@ function getSearchPriorityScore(resource, normalizedQuery) {
 if (
   slices.length > 0 &&
   nodeLayer &&
+  resetMapBtn &&
   hubStage &&
   resourcePanel &&
   resourcePanelShell &&
@@ -882,9 +883,7 @@ if (
     });
   });
 
-  if (resetMapBtn) {
-    resetMapBtn.addEventListener("click", resetMap);
-  }
+  resetMapBtn.addEventListener("click", resetMap);
   detailBackBtn.addEventListener("click", showResourceListPane);
 
   if (resourceSearchInput && resourceSearchResults) {

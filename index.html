@@ -851,13 +851,6 @@
 
     @media (max-width: 768px) {
       .map-stage { min-height: auto; }
-      .map-column {
-        padding-top: 0;
-      }
-      .map-column > .absolute {
-        position: static;
-        margin-bottom: .7rem;
-      }
       .map-meta {
         position: static;
         margin-bottom: 1rem;
@@ -879,6 +872,7 @@
         margin-top: .8rem !important;
       }
       .chatbot-shell { width: min(360px, calc(100vw - 1rem)); }
+      .map-column { padding-top: 2rem; }
     }
   </style>
 </head>
@@ -914,6 +908,7 @@
               Use the map to open real organizations by category, with contact details and official links.
             </p>
             <div class="mt-7 flex flex-wrap gap-3 text-[0.72rem] uppercase tracking-[0.16em]">
+              <button id="resetMapBtn" class="px-5 py-3 rounded-full bg-forest text-white hover:bg-ember transition-colors">Reset Map</button>
               <a href="navigator.html" class="px-5 py-3 rounded-full border border-forest/14 bg-white/70 text-forest hover:bg-forest hover:text-white transition-colors">Open Local Navigator</a>
             </div>
           </div>
