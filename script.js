@@ -4,8 +4,8 @@ const resources = [
     category: "Health",
     focus: "24/7 crisis support and suicide prevention",
     description: "Free, confidential support for anyone experiencing suicidal thoughts, mental health crises, or emotional distress. Available 24/7, 365 days a year.",
-    contact: "Call or Text 988 | suicideandcrisislifeline.org",
-    url: "https://suicideandcrisislifeline.org"
+    contact: "Call or Text 988 | 988lifeline.org",
+    url: "https://988lifeline.org/"
   },
   {
     name: "Turning Point",
@@ -78,16 +78,16 @@ const resources = [
     category: "Health",
     focus: "Wellness and medication access",
     description: "Connects uninsured residents with medications and health education.",
-    contact: "704-226-2050 | healthquestuc.org",
-    url: "https://healthquestuc.org"
+    contact: "704-226-2050 | healthquestpharmacy.org",
+    url: "https://healthquestpharmacy.org/"
   },
   {
     name: "Thrive Counseling",
     category: "Health",
     focus: "Mental health counseling",
     description: "Provides therapy and counseling for children, teens, and adults.",
-    contact: "704-243-2615 | thrivewellnesstherapy.com",
-    url: "https://thrivewellnesstherapy.com"
+    contact: "704-243-2615 | thrivecounselingnc.com",
+    url: "https://www.thrivecounselingnc.com/"
   },
   {
     name: "Cane Creek Park",
