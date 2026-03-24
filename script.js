@@ -429,7 +429,6 @@ function getSearchPriorityScore(resource, normalizedQuery) {
 if (
   slices.length > 0 &&
   nodeLayer &&
-  resetMapBtn &&
   hubStage &&
   resourcePanel &&
   resourcePanelShell &&
@@ -762,6 +761,12 @@ if (
     );
 
     renderNodes(category);
+
+    if (globalThis.innerWidth <= 768) {
+      globalThis.requestAnimationFrame(() => {
+        resourcePanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
   }
 
   function resetMap() {
@@ -877,7 +882,9 @@ if (
     });
   });
 
-  resetMapBtn.addEventListener("click", resetMap);
+  if (resetMapBtn) {
+    resetMapBtn.addEventListener("click", resetMap);
+  }
   detailBackBtn.addEventListener("click", showResourceListPane);
 
   if (resourceSearchInput && resourceSearchResults) {
