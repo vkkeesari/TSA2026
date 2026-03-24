@@ -256,6 +256,13 @@
       pointer-events: none;
     }
 
+    /* Safari can render odd spacing on transformed SVG text. */
+    .slice-label-human {
+      text-transform: none;
+      letter-spacing: 0;
+      font-variant-ligatures: none;
+    }
+
     .map-meta {
       position: absolute;
       left: 1.6rem;
@@ -993,9 +1000,9 @@
 
                   <g id="group-human" class="slice-group" data-category="Human Services">
                     <path class="slice" id="slice-human" data-category="Human Services" d="M48,50 L65,88 L50,98 L35,94 L22,88 Z" clip-path="url(#shapeClip)" fill="#C96A4B" tabindex="0" role="button" aria-label="Filter Human Services" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"></path>
-                    <text class="slice-label" x="46" y="86" clip-path="url(#shapeClip)">
-                      <tspan x="46" dy="0">Human</tspan>
-                      <tspan x="46" dy="3.2">Services</tspan>
+                    <text class="slice-label slice-label-human" x="46" y="86" clip-path="url(#shapeClip)">
+                      <tspan x="46" dy="0">HUMAN</tspan>
+                      <tspan x="46" dy="3.2">SERVICES</tspan>
                     </text>
                   </g>
 
