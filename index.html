@@ -112,10 +112,11 @@
     .map-stage {
       position: relative;
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) 0px;
       gap: 1.5rem;
       align-items: start;
       min-height: 680px;
+      transition: grid-template-columns 650ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .map-stage.is-active {
@@ -130,6 +131,13 @@
       justify-content: center;
       padding-left: 0;
       padding-top: 3.5rem;
+      transform: translateX(0);
+      transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform;
+    }
+
+    .map-stage.is-active .map-column {
+      transform: translateX(-22px);
     }
 
     .map-wrap {
@@ -143,6 +151,13 @@
       border: 0;
       box-shadow: none;
       overflow: hidden;
+      transform: scale(1);
+      transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform;
+    }
+
+    .map-stage.is-active .map-wrap {
+      transform: scale(0.985);
     }
 
     .map-wrap::before,
@@ -189,6 +204,13 @@
       display: block;
       overflow: visible;
       filter: drop-shadow(0 24px 40px rgba(15, 23, 42, 0.16));
+      transform: translateX(0);
+      transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1), filter 300ms ease;
+      will-change: transform;
+    }
+
+    .map-stage.is-active #studyMap {
+      transform: translateX(-8px);
     }
 
     .slice-group {
@@ -260,18 +282,24 @@
     .resource-panel {
       position: relative;
       height: 100%;
-      display: none;
+      display: block;
       opacity: 0;
       pointer-events: none;
-      transform: translateX(18px);
-      transition: opacity 280ms ease, transform 360ms ease;
+      transform: translateX(40px);
+      max-width: 0;
+      overflow: hidden;
+      transition:
+        opacity 420ms ease,
+        transform 650ms cubic-bezier(0.22, 1, 0.36, 1),
+        max-width 650ms cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform, opacity, max-width;
     }
 
     .map-stage.is-active .resource-panel {
-      display: block;
       opacity: 1;
       pointer-events: auto;
       transform: translateX(0);
+      max-width: 420px;
     }
 
     .resource-panel-shell {
@@ -354,8 +382,6 @@
       opacity: 0;
       transform: translateX(100%);
       pointer-events: none;
-      overflow-y: auto;
-      overflow-x: hidden;
       background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(246,241,232,0.98));
       border-left: 1px solid rgba(23,58,46,0.1);
       transition: opacity 280ms ease, transform 340ms ease;
@@ -783,13 +809,39 @@
     @media (max-width: 1180px) {
       .hero-grid,
       .survey-grid,
-      .map-stage,
       .district-band {
+        grid-template-columns: 1fr;
+      }
+
+      .map-stage {
         grid-template-columns: 1fr;
       }
 
       .map-stage.is-active {
         grid-template-columns: 1fr;
+      }
+
+      .map-column,
+      .map-stage.is-active .map-column {
+        transform: none;
+      }
+
+      .map-wrap,
+      .map-stage.is-active .map-wrap {
+        transform: none;
+      }
+
+      #studyMap,
+      .map-stage.is-active #studyMap {
+        transform: none;
+      }
+
+      .resource-panel,
+      .map-stage.is-active .resource-panel {
+        max-width: 100%;
+        opacity: 1;
+        transform: none;
+        overflow: visible;
       }
 
       .resource-panel-shell {
@@ -799,63 +851,16 @@
 
     @media (max-width: 768px) {
       .map-stage { min-height: auto; }
-      .map-stage.is-active { grid-template-columns: 1fr; }
-
-      .map-column {
-        padding-top: 0;
-      }
-
-      .map-column > .absolute {
-        position: static;
-        margin-bottom: 1rem;
-      }
-
       .map-meta {
         position: static;
         margin-bottom: 1rem;
         flex-direction: column;
       }
-
-      .map-wrap {
-        aspect-ratio: auto;
-        max-width: 100%;
-      }
-
+      .map-wrap { aspect-ratio: auto; }
       .resource-panel-shell,
       .map-wrap { border-radius: 1.5rem; }
-
-      .resource-panel {
-        width: 100%;
-      }
-
-      .resource-panel-shell {
-        height: auto;
-        min-height: 0;
-      }
-
-      .resource-list-scroll {
-        max-height: min(52vh, 420px);
-      }
-
-      .resource-detail-pane {
-        padding: 1.15rem;
-      }
-
       .chatbot-shell { width: min(360px, calc(100vw - 1rem)); }
-    }
-
-    @media (max-width: 480px) {
-      .slice-label {
-        font-size: 2.55px;
-      }
-
-      .map-note {
-        max-width: none;
-      }
-
-      .resource-panel-shell {
-        border-radius: 1.2rem;
-      }
+      .map-column { padding-top: 2rem; }
     }
   </style>
 </head>
@@ -921,22 +926,15 @@
         </div>
       </div>
 
-      <!-- ESSENTIAL ACCESS SECTION -->
       <div class="essential-access-section mt-10 lg:mt-12 pt-8 border-t border-forest/10">
-        <!-- Top Label -->
-  
-
-        <!-- Main Heading -->
         <h2 class="display text-center text-4xl md:text-5xl lg:text-6xl leading-[1.1] text-forest max-w-4xl mx-auto">
           Find What You Need Fast
         </h2>
 
-        <!-- Supporting Sentence -->
         <p class="mt-4 text-center text-base md:text-lg text-slate-600 max-w-3xl mx-auto">
           Search local services, urgent help, and community programs across Weddington and Waxhaw.
         </p>
 
-        <!-- Search Bar -->
         <div class="mt-8 md:mt-10 max-w-3xl mx-auto">
           <div class="resource-search-shell">
             <label class="sr-only" for="resourceSearchInput">Search all resources</label>
@@ -947,7 +945,6 @@
 
         <div id="hubStage" class="map-stage max-w-6xl mx-auto mt-12 lg:mt-14">
           <div class="map-column">
-            <!-- Map Heading -->
             <div class="absolute -top-10 left-0 right-0 z-20">
               <h3 class="display text-3xl md:text-4xl text-forest">
                 Explore Resources Visually
@@ -1056,10 +1053,8 @@
           </aside>
         </div>
 
-        <!-- 3-Step Process Strip -->
         <div class="mt-12 lg:mt-14">
           <div class="grid md:grid-cols-3 gap-0 process-strip">
-            <!-- Step 1 -->
             <div class="step-item py-8 md:py-10 px-6 md:px-8 border-r border-forest/10 md:border-r">
               <h4 class="display text-xl md:text-2xl text-forest leading-tight">
                 Search or browse
@@ -1069,7 +1064,6 @@
               </p>
             </div>
 
-            <!-- Step 2 -->
             <div class="step-item py-8 md:py-10 px-6 md:px-8 border-r border-forest/10 md:border-r">
               <h4 class="display text-xl md:text-2xl text-forest leading-tight">
                 Explore trusted options
@@ -1079,7 +1073,6 @@
               </p>
             </div>
 
-            <!-- Step 3 -->
             <div class="step-item py-8 md:py-10 px-6 md:px-8">
               <h4 class="display text-xl md:text-2xl text-forest leading-tight">
                 Take the next step
@@ -1090,7 +1083,6 @@
             </div>
           </div>
 
-          <!-- Remove right border from last item on mobile -->
           <style>
             .step-item:last-child {
               border-right: none;
