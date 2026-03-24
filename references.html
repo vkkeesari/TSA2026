@@ -114,9 +114,11 @@
       color: rgba(23, 58, 46, 0.85);
     }
 
-    a {
+    a,
+    a.no-underline {
       color: var(--forest);
-      text-decoration: underline;
+      text-decoration: underline !important;
+      text-underline-offset: 0.12em;
       transition: color 180ms ease;
     }
 
@@ -228,6 +230,30 @@
         <span aria-current="page">References</span>
       </nav>
 
+      <div class="grid gap-4 md:grid-cols-2 mb-10">
+        <div class="p-5 bg-white/50 border border-forest/12 rounded-lg">
+          <h3 class="text-sm uppercase tracking-[0.14em] font-bold text-forest/80">Tools</h3>
+          <p class="mt-2 text-sm text-slate-700">Built with HTML, CSS, JavaScript, Tailwind CSS, and GSAP.</p>
+        </div>
+
+        <div class="p-5 bg-white/50 border border-forest/12 rounded-lg">
+          <h3 class="text-sm uppercase tracking-[0.14em] font-bold text-forest/80">Integrity Note</h3>
+          <p class="mt-2 text-sm text-slate-700">This website is designed to guide users to official organizations, public agencies, and verified service providers.</p>
+        </div>
+
+        <div class="p-5 bg-white/50 border border-forest/12 rounded-lg">
+          <h3 class="text-sm uppercase tracking-[0.14em] font-bold text-forest/80">Student Copyright Checklist</h3>
+          <p class="mt-2 text-sm text-slate-700">Review the official TSA student copyright checklist document.</p>
+          <a href="tsa_student_copyright_checklist.pdf" class="inline-flex mt-3 px-4 py-2 rounded-full bg-forest text-white text-xs uppercase tracking-[0.12em] hover:bg-ember transition-colors">Open PDF</a>
+        </div>
+
+        <div class="p-5 bg-white/50 border border-forest/12 rounded-lg">
+          <h3 class="text-sm uppercase tracking-[0.14em] font-bold text-forest/80">Work Log</h3>
+          <p class="mt-2 text-sm text-slate-700">Open the project work log PDF for process documentation.</p>
+          <a href="worklog.pdf" class="inline-flex mt-3 px-4 py-2 rounded-full bg-forest text-white text-xs uppercase tracking-[0.12em] hover:bg-ember transition-colors">Open PDF</a>
+        </div>
+      </div>
+
       <div class="pb-10 border-b-2 border-forest/15 mb-10">
         <h2 class="display text-3xl md:text-5xl text-forest">Source Table</h2>
         <p class="mt-3 text-sm md:text-base text-slate-600">Comprehensive reference list for all resources, citations, and tools used in this project.</p>
@@ -270,8 +296,6 @@
               <tr><td class="py-3 px-3">Developer Tool</td><td class="py-3 px-3">Visual Studio Code</td><td class="py-3 px-3">Primary IDE</td><td class="py-3 px-3"><a href="https://code.visualstudio.com">code.visualstudio.com</a></td></tr>
               <tr><td class="py-3 px-3">Developer Tool</td><td class="py-3 px-3">Tailwind CSS</td><td class="py-3 px-3">Utility-first CSS framework — loaded via CDN (cdn.tailwindcss.com). Used for all layout, spacing, and responsive design on this project.</td><td class="py-3 px-3"><a href="https://tailwindcss.com">tailwindcss.com</a></td></tr>
               <tr><td class="py-3 px-3">Developer Tool</td><td class="py-3 px-3">GSAP</td><td class="py-3 px-3">Animation engine</td><td class="py-3 px-3"><a href="https://gsap.com">gsap.com</a></td></tr>
-              <tr><td class="py-3 px-3">Document</td><td class="py-3 px-3">Student Copyright Checklist</td><td class="py-3 px-3">Technology Student Association (TSA) Competitive Events Guide</td><td class="py-3 px-3"><a href="tsa_student_copyright_checklist.pdf">View Document</a></td></tr>
-              <tr><td class="py-3 px-3">Document</td><td class="py-3 px-3">Work log</td><td class="py-3 px-3">Project Documentation</td><td class="py-3 px-3"><a href="worklog.pdf">View Document</a></td></tr>
               <tr><td class="py-3 px-3">Organization</td><td class="py-3 px-3">Union County Department of Social Services</td><td class="py-3 px-3">Human Services</td><td class="py-3 px-3"><a href="https://www.ncdhhs.gov/divisions/social-services/union-county-department-social-services">ncdhhs.gov</a></td></tr>
               <tr><td class="py-3 px-3">Organization</td><td class="py-3 px-3">Legal Aid of North Carolina</td><td class="py-3 px-3">Human Services</td><td class="py-3 px-3"><a href="https://legalaidnc.org/cta/legal-aid-helpline/">legalaidnc.org</a></td></tr>
               <tr><td class="py-3 px-3">Organization</td><td class="py-3 px-3">NC 211</td><td class="py-3 px-3">Human Services</td><td class="py-3 px-3"><a href="https://www.unitedwaync.org/nc-211">unitedwaync.org</a></td></tr>
@@ -327,27 +351,6 @@
           </p>
         </div>
 
-        <div class="mt-5 p-5 bg-white/50 border border-forest/12 rounded-lg">
-          <h3 class="text-sm uppercase tracking-[0.14em] font-bold text-forest/80">Tools</h3>
-          <p class="mt-2 text-sm text-slate-700">Built with HTML, CSS, JavaScript, Tailwind CSS, and GSAP.</p>
-        </div>
-
-        <div class="mt-4 p-5 bg-white/50 border border-forest/12 rounded-lg">
-          <h3 class="text-sm uppercase tracking-[0.14em] font-bold text-forest/80">Integrity Note</h3>
-          <p class="mt-2 text-sm text-slate-700">This website is designed to guide users to official organizations, public agencies, and verified service providers.</p>
-        </div>
-
-        <div class="mt-4 p-5 bg-white/50 border border-forest/12 rounded-lg">
-          <h3 class="text-sm uppercase tracking-[0.14em] font-bold text-forest/80">Student Copyright Checklist</h3>
-          <p class="mt-2 text-sm text-slate-700">Review the official TSA student copyright checklist document.</p>
-          <a href="tsa_student_copyright_checklist.pdf" class="inline-flex mt-3 px-4 py-2 rounded-full bg-forest text-white text-xs uppercase tracking-[0.12em] no-underline hover:bg-ember transition-colors">Open PDF</a>
-        </div>
-
-        <div class="mt-4 p-5 bg-white/50 border border-forest/12 rounded-lg">
-          <h3 class="text-sm uppercase tracking-[0.14em] font-bold text-forest/80">Work Log</h3>
-          <p class="mt-2 text-sm text-slate-700">Open the project work log PDF for process documentation.</p>
-          <a href="worklog.pdf" class="inline-flex mt-3 px-4 py-2 rounded-full bg-forest text-white text-xs uppercase tracking-[0.12em] no-underline hover:bg-ember transition-colors">Open PDF</a>
-        </div>
     </section>
   </main>
 
