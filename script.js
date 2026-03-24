@@ -210,6 +210,118 @@ const resources = [
     description: "Intimate Waxhaw theatre company producing high-quality plays, musicals, and new works. Performance space supports touring shows and emerging local talent.",
     contact: "thestorefronttheatre.org",
     url: "https://thestorefronttheatre.org"
+  },
+  {
+    name: "Union County Department of Social Services",
+    category: "Human Services",
+    focus: "Financial assistance, Medicaid, and food support",
+    description: "Provides access to financial assistance, Medicaid, food assistance, and crisis support services.",
+    contact: "704-296-4300 | ncdhhs.gov",
+    url: "https://www.ncdhhs.gov/divisions/social-services/union-county-department-social-services"
+  },
+  {
+    name: "Legal Aid of North Carolina",
+    category: "Human Services",
+    focus: "Free civil legal services for low-income residents",
+    description: "Provides free civil legal services and representation for eligible low-income individuals and families across the state.",
+    contact: "866-219-5262 | legalaidnc.org",
+    url: "https://legalaidnc.org/cta/legal-aid-helpline/"
+  },
+  {
+    name: "NC 211",
+    category: "Human Services",
+    focus: "Local health and human services referral service",
+    description: "Connects residents to local health and human services across North Carolina. Free, confidential referral service available 24/7.",
+    contact: "Dial 2-1-1 or 1-888-892-1162 | unitedwaync.org",
+    url: "https://www.unitedwaync.org/nc-211"
+  },
+  {
+    name: "Salvation Army of Greater Charlotte",
+    category: "Human Services",
+    focus: "Emergency assistance and disaster relief services",
+    description: "Provides emergency assistance, food support, and disaster relief services in the greater Charlotte region.",
+    contact: "704-334-4731 | salvationarmy.org",
+    url: "https://southernusa.salvationarmy.org/greater-charlotte/"
+  },
+  {
+    name: "Council on Aging in Union County",
+    category: "Human Services",
+    focus: "Services for older adults and seniors",
+    description: "Supports older adults through nutrition programs, social services, and community engagement opportunities.",
+    contact: "704-292-1797 | coaunion.org",
+    url: "https://coaunion.org/"
+  },
+  {
+    name: "Union County Public Health",
+    category: "Health",
+    focus: "Public health services and immunization clinics",
+    description: "Provides immunizations, public health services, clinics, and health programs for Union County residents. Check official site for current services and hours.",
+    contact: "704-296-4800 (general) | 704-296-4423 (appointments) | unioncountync.gov",
+    url: "https://www.unioncountync.gov/government/departments-f-p/public-health"
+  },
+  {
+    name: "Atrium Health Union",
+    category: "Health",
+    focus: "Full-service hospital with emergency and specialty care",
+    description: "Full-service hospital offering emergency care, specialty care, inpatient services, and comprehensive healthcare.",
+    contact: "980-993-3100 | atriumhealth.org",
+    url: "https://atriumhealth.org/locations/detail/atrium-health-union"
+  },
+  {
+    name: "Novant Health GoHealth Urgent Care Waxhaw",
+    category: "Health",
+    focus: "Urgent care for minor illnesses and injuries",
+    description: "Provides urgent care services for minor illnesses and injuries in Waxhaw. Walk-ins welcome.",
+    contact: "704-627-8365 | gohealthuc.com",
+    url: "https://www.gohealthuc.com/novant/locations/waxhaw"
+  },
+  {
+    name: "Daymark Recovery Services, Union Center",
+    category: "Health",
+    focus: "Mental health and substance use services",
+    description: "Provides mental health, substance use, and crisis support services for youth and adults. Check official site for current intake information.",
+    contact: "daymarkrecovery.org",
+    url: "https://www.daymarkrecovery.org/locations/union-center"
+  },
+  {
+    name: "Union County Public Schools",
+    category: "Education",
+    focus: "Public school district resource and enrollment services",
+    description: "Official district resource for school information, enrollment, student services, and educational programs in Union County.",
+    contact: "704-296-9898 | ucpsnc.org",
+    url: "https://www.ucpsnc.org/about/contact-us"
+  },
+  {
+    name: "South Piedmont Community College Small Business Center",
+    category: "Education",
+    focus: "Free small business counseling and training",
+    description: "Offers free small business counseling, workshops, and training resources for entrepreneurs and existing business owners.",
+    contact: "704-993-2424 | spcc.edu",
+    url: "https://spcc.edu/business-workforce-solutions/small-business-center/"
+  },
+  {
+    name: "NCWorks Career Center – Union County",
+    category: "Education",
+    focus: "Job search, career guidance, and workforce training",
+    description: "Helps with job searches, resume development, career guidance, and workforce training connections for Union County residents.",
+    contact: "704-283-7541 | nccareers.org",
+    url: "https://nccareers.org/ncworks-career-centers"
+  },
+  {
+    name: "Town of Waxhaw Parks and Recreation",
+    category: "Recreation",
+    focus: "Local parks, programs, and community events",
+    description: "Provides access to local parks, recreation programs, youth activities, and community events throughout Waxhaw.",
+    contact: "704-843-2195 | waxhaw.com",
+    url: "https://www.waxhaw.com/government/departments/parks-and-recreation"
+  },
+  {
+    name: "Beatty-Spruill Park",
+    category: "Recreation",
+    focus: "Public park with athletic fields and trails",
+    description: "Public park in Waxhaw featuring athletic fields, walking trails, picnic shelters, and a playground for community use.",
+    contact: "704-843-2195 | waxhaw.com",
+    url: "https://www.waxhaw.com/our-town/park-facilities"
   }
 ];
 
