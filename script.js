@@ -965,6 +965,8 @@ if (resourceSuggestionForm && formStatusMessage) {
 }
 
 if (chatbotToggle && chatbotShell && chatbotMessages && chatbotForm && chatbotInput) {
+  const OPENAI_CHAT_ENDPOINT = "/api/chat";
+
   function syncChatbotToggleState() {
     const isHidden = chatbotShell.hasAttribute("hidden");
     chatbotToggle.textContent = isHidden ? "Chat" : "Close";
@@ -983,6 +985,7 @@ if (chatbotToggle && chatbotShell && chatbotMessages && chatbotForm && chatbotIn
     item.textContent = text;
     chatbotMessages.appendChild(item);
     chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    return item;
   }
 
   function getCategorySummary(category) {
@@ -1014,6 +1017,51 @@ if (chatbotToggle && chatbotShell && chatbotMessages && chatbotForm && chatbotIn
     return terms.filter(Boolean).map(normalizeText);
   }
 
+  function getEditDistance(left, right) {
+    const a = String(left || "");
+    const b = String(right || "");
+    if (!a.length) return b.length;
+    if (!b.length) return a.length;
+
+    const rows = Array.from({ length: b.length + 1 }, (_, index) => index);
+
+    for (let i = 1; i <= a.length; i += 1) {
+      let previous = rows[0];
+      rows[0] = i;
+      for (let j = 1; j <= b.length; j += 1) {
+        const current = rows[j];
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        rows[j] = Math.min(
+          rows[j] + 1,
+          rows[j - 1] + 1,
+          previous + cost
+        );
+        previous = current;
+      }
+    }
+
+    return rows[b.length];
+  }
+
+  function isFuzzyMatch(input, term) {
+    if (!input || !term) return false;
+    if (input.includes(term) || term.includes(input)) return true;
+
+    const inputWords = input.split(" ").filter(Boolean);
+    const termWords = term.split(" ").filter(Boolean);
+    if (inputWords.length === 0 || termWords.length === 0) return false;
+
+    return termWords.some((termWord) => {
+      if (termWord.length < 4) return false;
+      return inputWords.some((inputWord) => {
+        if (inputWord.length < 4) return false;
+        const distance = getEditDistance(inputWord, termWord);
+        const allowance = Math.max(1, Math.floor(Math.min(inputWord.length, termWord.length) * 0.25));
+        return distance <= allowance;
+      });
+    });
+  }
+
   function findResourceMatch(input) {
     const normalizedInput = normalizeText(input);
     if (!normalizedInput) return null;
@@ -1024,7 +1072,7 @@ if (chatbotToggle && chatbotShell && chatbotMessages && chatbotForm && chatbotIn
     resources.forEach((resource) => {
       const terms = getResourceSearchTerms(resource);
       terms.forEach((term) => {
-        if (!term || !normalizedInput.includes(term)) return;
+        if (!term || !isFuzzyMatch(normalizedInput, term)) return;
         if (term.length > bestLength) {
           bestMatch = resource;
           bestLength = term.length;
@@ -1033,6 +1081,52 @@ if (chatbotToggle && chatbotShell && chatbotMessages && chatbotForm && chatbotIn
     });
 
     return bestMatch;
+  }
+
+  function buildChatContext() {
+    const categorySummaries = ["Human Services", "Health", "Arts/History", "Recreation", "Education"]
+      .map((category) => `${category}: ${getCategorySummary(category)}`)
+      .join("\n");
+
+    const topResources = resources
+      .slice(0, 16)
+      .map((resource) => `${resource.name} | ${resource.category} | ${resource.focus}`)
+      .join("\n");
+
+    return [
+      "Website: Weddington + Waxhaw Community Resource Hub",
+      `Page: ${globalThis.location?.pathname || "unknown"}`,
+      `Quick facts: ${quickFacts.sections} ${quickFacts.navigation}`,
+      "Category summaries:",
+      categorySummaries,
+      "Resource list sample:",
+      topResources
+    ].join("\n");
+  }
+
+  async function getOpenAiReply(input) {
+    const response = await fetch(OPENAI_CHAT_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: input,
+        context: buildChatContext()
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error("OpenAI endpoint unavailable");
+    }
+
+    const data = await response.json();
+    const answer = String(data?.answer || "").trim();
+    if (!answer) {
+      throw new Error("Empty OpenAI response");
+    }
+
+    return answer;
   }
 
   function buildDayPlan(userText) {
@@ -1103,7 +1197,7 @@ if (chatbotToggle && chatbotShell && chatbotMessages && chatbotForm && chatbotIn
     syncChatbotToggleState();
   });
 
-  chatbotForm.addEventListener("submit", (event) => {
+  chatbotForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const value = chatbotInput.value.trim();
     if (!value) return;
@@ -1111,10 +1205,19 @@ if (chatbotToggle && chatbotShell && chatbotMessages && chatbotForm && chatbotIn
     pushMessage(value, "user");
     chatbotInput.value = "";
 
-    const response = botReply(value);
-    globalThis.setTimeout(() => {
+    const typingMessage = pushMessage("Thinking...", "bot");
+
+    try {
+      const response = await getOpenAiReply(value);
+      typingMessage.remove();
       pushMessage(response, "bot");
-    }, 180);
+    } catch {
+      typingMessage.remove();
+      const fallback = botReply(value);
+      globalThis.setTimeout(() => {
+        pushMessage(fallback, "bot");
+      }, 120);
+    }
   });
 
   if (!chatbotMessages.children.length) {
