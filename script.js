@@ -453,6 +453,13 @@ if (
     spotlightResource: null
   };
 
+  const supportsHover = globalThis.matchMedia
+    ? globalThis.matchMedia("(hover: hover) and (pointer: fine)").matches
+    : false;
+  const isCoarsePointer = globalThis.matchMedia
+    ? globalThis.matchMedia("(pointer: coarse)").matches
+    : false;
+
   const basePanelTitle = "Choose a map fragment";
   const basePanelIntro = "Use the map to reveal organizations tied to each category.";
 
@@ -667,16 +674,20 @@ if (
         </div>
       `;
       node.addEventListener("click", () => showResourceDetail(resource));
-      node.addEventListener("mouseenter", () => {
-        if (resource.spotlight) {
-          showSpotlight(resource);
-        } else {
+
+      if (supportsHover) {
+        node.addEventListener("mouseenter", () => {
+          if (resource.spotlight) {
+            showSpotlight(resource);
+          } else {
+            hideSpotlight();
+          }
+        });
+        node.addEventListener("mouseleave", () => {
           hideSpotlight();
-        }
-      });
-      node.addEventListener("mouseleave", () => {
-        hideSpotlight();
-      });
+        });
+      }
+
       node.addEventListener("focus", () => {
         if (resource.spotlight) {
           showSpotlight(resource);
@@ -825,6 +836,9 @@ if (
     if (!category) return;
 
     if (state.activeCategory === category) {
+      if (isCoarsePointer) {
+        return;
+      }
       resetMap();
       return;
     }
@@ -835,23 +849,25 @@ if (
   slices.forEach((slice) => {
     slice.addEventListener("click", () => clickHandler(slice));
 
-    slice.addEventListener("mouseenter", () => {
-      if (state.activeCategory && state.activeCategory !== slice.dataset.category) {
-        animateTo(slice, { opacity: 0.36, scale: 1.015, duration: 0.14, overwrite: true });
-      } else {
-        animateTo(slice, { scale: 1.03, duration: 0.14, overwrite: true });
-      }
-    });
+    if (supportsHover) {
+      slice.addEventListener("mouseenter", () => {
+        if (state.activeCategory && state.activeCategory !== slice.dataset.category) {
+          animateTo(slice, { opacity: 0.36, scale: 1.015, duration: 0.14, overwrite: true });
+        } else {
+          animateTo(slice, { scale: 1.03, duration: 0.14, overwrite: true });
+        }
+      });
 
-    slice.addEventListener("mouseleave", () => {
-      if (state.activeCategory && state.activeCategory !== slice.dataset.category) {
-        animateTo(slice, { opacity: 0.22, scale: 1, duration: 0.14, overwrite: true });
-      } else if (state.activeCategory === slice.dataset.category) {
-        animateTo(slice, { opacity: 1, scale: 1.04, duration: 0.14, overwrite: true });
-      } else {
-        animateTo(slice, { opacity: 1, scale: 1, duration: 0.14, overwrite: true });
-      }
-    });
+      slice.addEventListener("mouseleave", () => {
+        if (state.activeCategory && state.activeCategory !== slice.dataset.category) {
+          animateTo(slice, { opacity: 0.22, scale: 1, duration: 0.14, overwrite: true });
+        } else if (state.activeCategory === slice.dataset.category) {
+          animateTo(slice, { opacity: 1, scale: 1.04, duration: 0.14, overwrite: true });
+        } else {
+          animateTo(slice, { opacity: 1, scale: 1, duration: 0.14, overwrite: true });
+        }
+      });
+    }
 
     slice.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
