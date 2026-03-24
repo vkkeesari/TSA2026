@@ -1084,13 +1084,88 @@ if (chatbotToggle && chatbotShell && chatbotMessages && chatbotForm && chatbotIn
     return bestMatch;
   }
 
+  function getResourceCandidates(input, limit = 3) {
+    const normalizedInput = normalizeText(input);
+    if (!normalizedInput) return [];
+
+    const inputWords = normalizedInput.split(" ").filter(Boolean);
+
+    const scored = resources.map((resource) => {
+      const terms = getResourceSearchTerms(resource);
+      let score = 0;
+
+      terms.forEach((term) => {
+        if (!term) return;
+
+        if (normalizedInput.includes(term)) {
+          score += 120 + term.length;
+          return;
+        }
+
+        if (isFuzzyMatch(normalizedInput, term)) {
+          score += 70 + Math.min(term.length, 20);
+        }
+
+        const termWords = term.split(" ").filter(Boolean);
+        let overlap = 0;
+        termWords.forEach((termWord) => {
+          if (inputWords.includes(termWord)) {
+            overlap += 1;
+          }
+        });
+
+        if (overlap > 0) {
+          score += overlap * 18;
+        }
+      });
+
+      return { resource, score };
+    });
+
+    return scored
+      .filter((entry) => entry.score > 0)
+      .sort((left, right) => right.score - left.score)
+      .slice(0, limit);
+  }
+
+  function getDeterministicResourceReply(input) {
+    const matches = getResourceCandidates(input, 3);
+    if (matches.length === 0) return "";
+
+    const top = matches[0];
+    const second = matches[1];
+
+    if (second && second.score >= top.score - 12) {
+      const options = matches
+        .map((entry) => entry.resource.name)
+        .join(", ");
+      return `I found a few close matches: ${options}. Tell me which one you want and I will give contact details.`;
+    }
+
+    const picked = top.resource;
+    return `Found a match: ${picked.name}. ${picked.focus}. Contact: ${picked.contact}. Learn more at ${picked.url}`;
+  }
+
+  function getDeterministicIntentReply(input) {
+    const text = String(input || "").toLowerCase();
+
+    if (text.includes("human") || text.includes("services")) return getCategorySummary("Human Services");
+    if (text.includes("health")) return getCategorySummary("Health");
+    if (text.includes("arts") || text.includes("history")) return getCategorySummary("Arts/History");
+    if (text.includes("recreation") || text.includes("park")) return getCategorySummary("Recreation");
+    if (text.includes("education") || text.includes("school")) return getCategorySummary("Education");
+    if (text.includes("page") || text.includes("section") || text.includes("how does this work")) return quickFacts.sections;
+    if (text.includes("navigator") || text.includes("references") || text.includes("where")) return quickFacts.navigation;
+
+    return "";
+  }
+
   function buildChatContext() {
     const categorySummaries = ["Human Services", "Health", "Arts/History", "Recreation", "Education"]
       .map((category) => `${category}: ${getCategorySummary(category)}`)
       .join("\n");
 
     const topResources = resources
-      .slice(0, 16)
       .map((resource) => `${resource.name} | ${resource.category} | ${resource.focus}`)
       .join("\n");
 
@@ -1205,6 +1280,18 @@ if (chatbotToggle && chatbotShell && chatbotMessages && chatbotForm && chatbotIn
 
     pushMessage(value, "user");
     chatbotInput.value = "";
+
+    const deterministicResource = getDeterministicResourceReply(value);
+    if (deterministicResource) {
+      pushMessage(deterministicResource, "bot");
+      return;
+    }
+
+    const deterministicIntent = getDeterministicIntentReply(value);
+    if (deterministicIntent) {
+      pushMessage(deterministicIntent, "bot");
+      return;
+    }
 
     const typingMessage = pushMessage("Thinking...", "bot");
 
